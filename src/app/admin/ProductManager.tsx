@@ -1,0 +1,511 @@
+"use client";
+
+import { useState } from "react";
+import { createProduct, deleteProduct, updateProduct } from "./actions";
+import { Product } from "@prisma/client";
+import {
+  FaPlus, FaEdit, FaTrash,
+  FaSave, FaTimes, FaBox,
+  FaTags, FaInfoCircle, FaDesktop, FaSearch
+} from "react-icons/fa";
+import Image from "next/image";
+
+interface Props {
+  initialProducts: Product[];
+}
+
+export default function ProductManager({ initialProducts }: Props) {
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState<number | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
+  const [formData, setFormData] = useState<Partial<Product>>({});
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const categories = [
+    "Leptop",
+    "PC",
+    "SmartPhone",
+    "Aksesoris",
+    "Lainnya",
+  ];
+
+  const handleOpenAdd = () => {
+    setEditingProduct(null);
+    setFormData({
+      name: "",
+      category: "Leptop",
+      description: "",
+      merk: "MDN Tech",
+      tipe: "",
+      prosesor: "",
+      kapasitas: "",
+      sistemOperasi: "",
+      berat: "",
+      dimensi: "",
+      masaGaransi: "2 Tahun",
+      stok: "Tersedia",
+      image: "",
+    });
+    setFile(null);
+    setPreview(null);
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEdit = (product: Product) => {
+    setEditingProduct(product);
+    setFormData(product);
+    setFile(null);
+    setPreview(product.image || null);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Apakah Anda yakin ingin menghapus produk ini?")) return;
+    setIsDeleting(id);
+    const result = await deleteProduct(id);
+    if (result.success) {
+      setProducts(products.filter((p) => p.id !== id));
+    } else {
+      alert(result.error);
+    }
+    setIsDeleting(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const dataToSend = {
+      ...formData,
+      id: editingProduct ? editingProduct.id : undefined,
+    } as any;
+
+    try {
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data?.error || "Gagal mengunggah gambar");
+        }
+        dataToSend.image = data.path;
+      }
+    } catch (err: any) {
+      alert(err.message || "Upload gambar gagal");
+      setLoading(false);
+      return;
+    }
+
+    const result = editingProduct
+      ? await updateProduct(dataToSend)
+      : await createProduct(dataToSend);
+
+    if (result.success && result.product) {
+      if (editingProduct) {
+        setProducts(products.map((p) => (p.id === result.product!.id ? result.product as Product : p)));
+      } else {
+        setProducts([result.product as Product, ...products]);
+      }
+      setIsModalOpen(false);
+    } else {
+      alert(result.error);
+    }
+    setLoading(false);
+  };
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0] || null;
+    setFile(f);
+    if (f) {
+      const url = URL.createObjectURL(f);
+      setPreview(url);
+    } else {
+      setPreview(formData.image || null);
+    }
+  };
+
+  const filteredProducts = products.filter((p) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      (p.tipe || "").toLowerCase().includes(q) ||
+      (p.name || "").toLowerCase().includes(q) ||
+      (p.merk || "").toLowerCase().includes(q)
+    );
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Katalog Produk</h1>
+          <p className="text-gray-500 mt-1">Manajemen data produk website MDN Tech</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <a
+            href="/api/products/template"
+            className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-gray-700 font-bold hover:bg-gray-50 transition-colors"
+          >
+            Download Template Excel
+          </a>
+          <label className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-gray-700 font-bold hover:bg-gray-50 transition-colors cursor-pointer">
+            Import Excel
+            <input
+              type="file"
+              accept=".xlsx"
+              className="hidden"
+              onChange={async (e) => {
+                const f = e.target.files?.[0];
+                if (!f) return;
+                const fd = new FormData();
+                fd.append("file", f);
+                const res = await fetch("/api/products/import", { method: "POST", body: fd });
+                const data = await res.json();
+                if (!res.ok) {
+                  alert(data?.error || "Import gagal");
+                  return;
+                }
+                setProducts((prev) => [...data.products, ...prev]);
+                alert(`Import berhasil: ${data.inserted} baris`);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          <button
+            onClick={handleOpenAdd}
+            className="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg flex items-center space-x-2 font-bold shadow-md transform hover:scale-105 transition-all active:scale-95"
+          >
+            <FaPlus size={14} />
+            <span>Tambah Produk Baru</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Search Bar */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1 max-w-md">
+          <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+          <input
+            type="text"
+            placeholder="Cari No. Seri, nama produk, atau merk..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <FaTimes size={12} />
+            </button>
+          )}
+        </div>
+        <p className="text-sm text-gray-400 whitespace-nowrap">
+          {searchQuery
+            ? <span><span className="font-bold text-gray-700">{filteredProducts.length}</span> dari {products.length} produk ditemukan</span>
+            : <span><span className="font-bold text-gray-700">{products.length}</span> produk total</span>
+          }
+        </p>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Produk</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">No. Seri</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider hidden sm:table-cell">Kategori</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider hidden md:table-cell">Spesifikasi</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider hidden sm:table-cell">Stok</th>
+              <th className="px-4 sm:px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-100">
+            {products.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="px-4 sm:px-6 py-12 text-center text-gray-400">
+                  <FaBox className="mx-auto text-4xl mb-4 opacity-20" />
+                  <p className="text-sm">Belum ada data produk di database.</p>
+                </td>
+              </tr>
+            ) : filteredProducts.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="px-4 sm:px-6 py-12 text-center text-gray-400">
+                  <FaSearch className="mx-auto text-4xl mb-4 opacity-20" />
+                  <p className="text-sm font-medium">Tidak ada produk dengan nomor seri &ldquo;{searchQuery}&rdquo;</p>
+                  <button onClick={() => setSearchQuery("")} className="mt-3 text-xs text-primary-600 hover:underline">Hapus pencarian</button>
+                </td>
+              </tr>
+            ) : (
+              filteredProducts.map((p) => (
+                <tr key={p.id} className="hover:bg-gray-50/50 transition-colors group">
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      {p.image ? (
+                        <Image
+                          src={p.image.startsWith("/") ? p.image : `/${p.image}`}
+                          alt={p.name}
+                          width={48}
+                          height={48}
+                          className="h-12 w-12 rounded-lg object-cover ring-1 ring-gray-200"
+                        />
+                      ) : (
+                        <div className="h-12 w-12 flex-shrink-0 bg-primary-50 rounded-lg flex items-center justify-center text-primary-600 group-hover:scale-110 transition-transform">
+                          <FaDesktop size={20} />
+                        </div>
+                      )}
+                      <div className="ml-4">
+                        <div className="text-sm font-bold text-gray-900">{p.name}</div>
+                        <div className="text-xs text-gray-500 truncate max-w-[200px]">{p.merk} - {p.tipe}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                    {p.tipe ? (
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wide ${searchQuery && p.tipe.toLowerCase().includes(searchQuery.toLowerCase())
+                        ? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
+                        : "bg-gray-100 text-gray-700"
+                        }`}>
+                        {p.tipe}
+                      </span>
+                    ) : (
+                      <span className="text-gray-300 text-xs">—</span>
+                    )}
+                  </td>
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                    <span className="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                      {p.category}
+                    </span>
+                  </td>
+                  <td className="px-4 sm:px-6 py-4 hidden md:table-cell">
+                    <div className="text-xs text-gray-600">
+                      <p className="truncate max-w-[250px]"><span className="font-medium">Processor:</span> {p.prosesor || '-'}</p>
+                      <p className="truncate max-w-[250px]"><span className="font-medium">OS:</span> {p.sistemOperasi || '-'}</p>
+                    </div>
+                  </td>
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                    <div className="text-sm text-gray-700 font-medium">{p.stok || '0'}</div>
+                  </td>
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div className="flex justify-end space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => handleOpenEdit(p)}
+                        className="text-primary-600 hover:text-primary-900 bg-primary-50 p-2 rounded-full transition-colors"
+                        title="Edit Produk"
+                      >
+                        <FaEdit size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(p.id)}
+                        disabled={isDeleting === p.id}
+                        className="text-red-600 hover:text-red-900 bg-red-50 p-2 rounded-full transition-colors disabled:opacity-50"
+                        title="Hapus Produk"
+                      >
+                        <FaTrash size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-[95%] sm:max-w-2xl shadow-2xl transform transition-all animate-in zoom-in-95 duration-200">
+            <div className="px-8 py-6 border-b border-gray-100 flex justify-between items-center">
+              <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
+                {editingProduct ? <FaEdit className="text-primary-600" /> : <FaPlus className="text-primary-600" />}
+                <span>{editingProduct ? "Edit Produk" : "Tambah Produk"}</span>
+              </h3>
+              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 transition-colors">
+                <FaTimes size={20} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center space-x-1">
+                    <FaInfoCircle /> <span>Informasi Dasar</span>
+                  </h4>
+                  <div>
+                    <label title="nama" className="block text-sm font-semibold text-gray-700 mb-1">Nama Produk *</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all outline-none"
+                      value={formData.name || ""}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Contoh: Maknum Saber Pro"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Gambar Produk</label>
+                    {preview || formData.image ? (
+                      <div className="mb-2">
+                        <Image
+                          src={(preview || formData.image)!.startsWith("/") ? (preview || formData.image)! : `/${preview || formData.image}`}
+                          alt="Preview"
+                          width={160}
+                          height={120}
+                          className="w-40 h-30 rounded-lg object-cover ring-1 ring-gray-200"
+                        />
+                      </div>
+                    ) : null}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={onFileChange}
+                      className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">Maksimal 5MB. PNG/JPG/WEBP</p>
+                  </div>
+                  <div>
+                    <label title="kategori" className="block text-sm font-semibold text-gray-700 mb-1">Kategori *</label>
+                    <select
+                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all outline-none"
+                      value={formData.category || ""}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    >
+                      {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label title="merk" className="block text-sm font-semibold text-gray-700 mb-1">Merk</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none"
+                      value={formData.merk || ""}
+                      onChange={(e) => setFormData({ ...formData, merk: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label title="tipe" className="block text-sm font-semibold text-gray-700 mb-1">Nomor Seri</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none font-mono"
+                      value={formData.tipe || ""}
+                      onChange={(e) => setFormData({ ...formData, tipe: e.target.value })}
+                      placeholder="Contoh: MDN-L5-PRO"
+                    />
+                  </div>
+                  <div>
+                    <label title="deskripsi" className="block text-sm font-semibold text-gray-700 mb-1">Deskripsi Singkat</label>
+                    <textarea
+                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none h-24 resize-none"
+                      value={formData.description || ""}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center space-x-1">
+                    <FaTags /> <span>Spesifikasi Teknikal</span>
+                  </h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label title="tipe" className="block text-xs font-semibold text-gray-500 mb-1 uppercase">Tipe</label>
+                      <input
+                        type="text"
+                        className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary-500 text-sm outline-none"
+                        value={formData.tipe || ""}
+                        onChange={(e) => setFormData({ ...formData, tipe: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label title="stok" className="block text-xs font-semibold text-gray-500 mb-1 uppercase">Stok</label>
+                      <input
+                        type="text"
+                        className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary-500 text-sm outline-none"
+                        value={formData.stok || ""}
+                        onChange={(e) => setFormData({ ...formData, stok: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label title="prosesor" className="block text-xs font-semibold text-gray-500 mb-1 uppercase">Prosesor</label>
+                    <input
+                      type="text"
+                      className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary-500 text-sm outline-none"
+                      value={formData.prosesor || ""}
+                      onChange={(e) => setFormData({ ...formData, prosesor: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label title="kapasitas" className="block text-xs font-semibold text-gray-500 mb-1 uppercase">RAM / Kapasitas</label>
+                    <input
+                      type="text"
+                      className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary-500 text-sm outline-none"
+                      value={formData.kapasitas || ""}
+                      onChange={(e) => setFormData({ ...formData, kapasitas: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label title="os" className="block text-xs font-semibold text-gray-500 mb-1 uppercase">Sistem Operasi</label>
+                    <input
+                      type="text"
+                      className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary-500 text-sm outline-none"
+                      value={formData.sistemOperasi || ""}
+                      onChange={(e) => setFormData({ ...formData, sistemOperasi: e.target.value })}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label title="garansi" className="block text-xs font-semibold text-gray-500 mb-1 uppercase">Masa Garansi</label>
+                      <input
+                        type="text"
+                        className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary-500 text-sm outline-none"
+                        value={formData.masaGaransi || ""}
+                        onChange={(e) => setFormData({ ...formData, masaGaransi: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label title="berat" className="block text-xs font-semibold text-gray-500 mb-1 uppercase">Berat</label>
+                      <input
+                        type="text"
+                        className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary-500 text-sm outline-none"
+                        value={formData.berat || ""}
+                        onChange={(e) => setFormData({ ...formData, berat: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-10 flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-6 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-800 transition-colors"
+                >
+                  Batalkan
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-8 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-lg shadow-lg hover:shadow-primary-500/20 flex items-center space-x-2 transition-all active:scale-95 disabled:opacity-50"
+                >
+                  {loading ? (
+                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                  ) : (
+                    <><FaSave /> <span>Simpan Perangkat</span></>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

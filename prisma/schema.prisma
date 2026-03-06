@@ -1,0 +1,50 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Laptop {
+  id             Int       @id @default(autoincrement())
+  serialNumber   String    @unique
+  modelName      String
+  productId      String?
+  purchaseDate   DateTime?
+  warrantyMonths Int       @default(24)
+  customerName   String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  name          String
+  category      String
+  description   String   @default("")
+  image         String   @default("")
+  merk          String   @default("")
+  tipe          String   @default("")
+  prosesor      String   @default("")
+  kapasitas     String   @default("")
+  sistemOperasi String   @default("")
+  berat         String   @default("")
+  dimensi       String   @default("")
+  masaGaransi   String   @default("")
+  stok          String   @default("")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

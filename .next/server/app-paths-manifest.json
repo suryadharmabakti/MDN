@@ -1,0 +1,8 @@
+{
+  "/(main)/produk/page": "app/(main)/produk/page.js",
+  "/(main)/tentang-kami/page": "app/(main)/tentang-kami/page.js",
+  "/(main)/download/page": "app/(main)/download/page.js",
+  "/(main)/laporan/page": "app/(main)/laporan/page.js",
+  "/(main)/page": "app/(main)/page.js",
+  "/admin/page": "app/admin/page.js"
+}
