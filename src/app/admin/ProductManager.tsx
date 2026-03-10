@@ -49,6 +49,13 @@ export default function ProductManager({ initialProducts }: Props) {
       masaGaransi: "2 Tahun",
       stok: "Tersedia",
       image: "",
+      price: 0,
+      oldPrice: 0,
+      isFlashSale: false,
+      isBestSeller: false,
+      isNew: false,
+      rating: 0,
+      reviewCount: 0,
     });
     setFile(null);
     setPreview(null);
@@ -405,6 +412,57 @@ export default function ProductManager({ initialProducts }: Props) {
                       value={formData.description || ""}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Harga (Rp)</label>
+                      <input
+                        type="number"
+                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none"
+                        value={formData.price || 0}
+                        onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
+                        placeholder="0"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Harga Coret (Rp)</label>
+                      <input
+                        type="number"
+                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none"
+                        value={formData.oldPrice || 0}
+                        onChange={(e) => setFormData({ ...formData, oldPrice: parseFloat(e.target.value) || 0 })}
+                        placeholder="0"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.isFlashSale || false}
+                        onChange={(e) => setFormData({ ...formData, isFlashSale: e.target.checked })}
+                        className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                      />
+                      <span className="text-sm font-semibold text-gray-700">Flash Sale</span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.isBestSeller || false}
+                        onChange={(e) => setFormData({ ...formData, isBestSeller: e.target.checked })}
+                        className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                      />
+                      <span className="text-sm font-semibold text-gray-700">Best Seller</span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.isNew || false}
+                        onChange={(e) => setFormData({ ...formData, isNew: e.target.checked })}
+                        className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                      />
+                      <span className="text-sm font-semibold text-gray-700">Produk Baru</span>
+                    </label>
                   </div>
                 </div>
 

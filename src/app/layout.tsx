@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-montserrat",
+});
 
 export const metadata: Metadata = {
   title: "MDN Tech - Inovasi Lokal Kualitas Global",
@@ -15,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+      <body className={`${montserrat.variable} bg-gray-50 text-gray-900 min-h-screen flex flex-col font-sans`}>
         <Providers>{children}</Providers>
       </body>
     </html>

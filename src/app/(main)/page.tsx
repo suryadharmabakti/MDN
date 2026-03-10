@@ -1,269 +1,319 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
-import {
-  FaUsers,
-  FaSmile,
-  FaTag,
-  FaLightbulb,
-  FaLeaf,
-  FaTrophy,
-  FaLaptop,
-} from "react-icons/fa";
-import SerialSearch from "@/components/SerialSearch";
+import { FaLaptop, FaMobileAlt, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaStar, FaChevronRight } from "react-icons/fa";
+import ProductCard from "@/components/ProductCard";
+import { ProductWithMeta } from "@/types";
 
 export const dynamic = "force-dynamic";
 
+const categories = [
+  { name: "Laptop", icon: FaLaptop, href: "/produk?category=Leptop", color: "bg-blue-500" },
+  { name: "PC", icon: FaDesktop, href: "/produk?category=PC", color: "bg-green-500" },
+  { name: "Smartphone", icon: FaMobileAlt, href: "/produk?category=SmartPhone", color: "bg-purple-500" },
+  { name: "Aksesoris", icon: FaHeadphones, href: "/produk?category=Aksesoris", color: "bg-orange-500" },
+];
+
+const benefits = [
+  { icon: FaShippingFast, title: "Free Shipping", desc: "On orders over Rp 500.000" },
+  { icon: FaShieldAlt, title: "Secure Payment", desc: "100% protected transactions" },
+  { icon: FaUndo, title: "Easy Returns", desc: "30-day return policy" },
+  { icon: FaHeadset, title: "24/7 Support", desc: "Dedicated customer service" },
+];
+
 export default async function HomePage() {
-  const products = await prisma.product.findMany({
-    take: 6,
+  const rawProducts = await prisma.product.findMany({
+    take: 12,
     orderBy: { createdAt: "desc" },
   });
 
+  const products = rawProducts.map(p => ({
+    ...p,
+    price: (p as any).price || 0,
+    oldPrice: (p as any).oldPrice || 0,
+    rating: (p as any).rating || 0,
+    reviewCount: (p as any).reviewCount || 0,
+    isFlashSale: (p as any).isFlashSale || false,
+    isBestSeller: (p as any).isBestSeller || false,
+    isNew: (p as any).isNew || false,
+  })) as ProductWithMeta[];
+
+  const flashSaleProducts = products.filter(p => p.isFlashSale).slice(0, 4);
+  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
+  const newProducts = products.filter(p => p.isNew).slice(0, 4);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col justify-center bg-gradient-to-br from-dark-900 via-dark-800 to-primary-900 text-white overflow-hidden">
-        {/* Background Logo Pattern */}
-        <div className="absolute inset-0 bg-[url('/uploads/17.jpg')] opacity-10 bg-center bg-no-repeat bg-cover pointer-events-none" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-            {/* Left Column */}
-            <div className="space-y-8 text-left z-10">
-              <div className="inline-block px-4 py-2 bg-primary-200/10 border border-primary-500/20 rounded-full backdrop-blur-sm">
-                <p className="text-primary-400 font-bold text-xs uppercase tracking-[0.3em]">
-                  PT. MDN Industry Power Indonesia Corp
-                </p>
+      <section className="relative bg-gradient-to-r from-primary-700 to-primary-900 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/uploads/17.jpg')] opacity-10 bg-center bg-no-repeat bg-cover" />
+        
+        <div className="max-w-7xl mx-auto px-4 py-16 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-sm font-medium">New Collection 2024 Available</span>
               </div>
-
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight">
-                Inovasi <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-200">Lokal</span>
-                <br />
-                <span className="text-white">Kualitas Global!</span>
+              
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
+                Premium <span className="text-primary-300">Technology</span>
+                <br />For Your Life
               </h1>
-
-              <p className="text-xl text-gray-300 max-w-xl leading-relaxed font-medium">
-                Menghadirkan teknologi terdepan dengan performa tinggi untuk mendukung produktivitas harian Anda di era digital.
+              
+              <p className="text-lg text-primary-100 max-w-lg">
+                Discover the latest gadgets and electronics at unbeatable prices. Quality guaranteed with official warranty.
               </p>
-
-              <div className="pt-4 max-w-xl">
-                <SerialSearch />
-              </div>
-
-              <div className="flex flex-wrap gap-4 pt-6">
+              
+              <div className="flex flex-wrap gap-4 pt-4">
                 <Link
                   href="/produk"
-                  className="inline-flex items-center px-10 py-4 bg-primary-600 hover:bg-primary-700 text-white font-black rounded-2xl transition-all shadow-2xl shadow-primary-500/30 transform hover:-translate-y-1 active:scale-95 text-lg"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-100 transition-colors"
                 >
-                  Jelajahi Katalog
+                  Shop Now <FaChevronRight />
                 </Link>
                 <Link
                   href="/tentang-kami"
-                  className="inline-flex items-center px-10 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-2xl transition-all border border-white/10 backdrop-blur-sm text-lg"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-xl hover:bg-white/20 transition-colors"
                 >
-                  Tentang Kami
+                  Learn More
                 </Link>
               </div>
             </div>
 
-            {/* ── RIGHT COLUMN — Simplified Laptop Showcase ── */}
-            <div className="hidden lg:flex justify-center items-center relative h-[520px]">
-              {/* Subtle background glow */}
-              <div className="absolute inset-0 bg-gradient-to-b from-primary-600/20 via-transparent to-transparent blur-2xl pointer-events-none" />
+            <div className="hidden lg:flex justify-center">
+              <div className="relative w-full max-w-md">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary-400/20 to-transparent rounded-full blur-3xl" />
+                <Image
+                  src="/uploads/21.png"
+                  alt="MDN Tech Products"
+                  width={500}
+                  height={500}
+                  className="relative w-full h-auto object-contain"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              {/* Clean card with minimal frame */}
-              <div className="relative w-[200%] h-[200%]">
-                <div className="shadow-[0_20px_60px_rgba(0,0,0,0.35)]" />
-                <div className="relative w-full h-full p-6 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/uploads/21.png"
-                      alt="MDN Laptop"
-                      fill
-                      className="object-contain"
-                      style={{ filter: "drop-shadow(0 16px 40px rgba(0,0,0,0.45))" }}
-                      priority
-                    />
-                  </div>
+      {/* Categories */}
+      <section className="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {categories.map((cat) => (
+            <Link
+              key={cat.name}
+              href={cat.href}
+              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center gap-3"
+            >
+              <div className={`w-16 h-16 ${cat.color} rounded-2xl flex items-center justify-center`}>
+                <cat.icon className="text-2xl text-white" />
+              </div>
+              <span className="font-bold text-gray-900">{cat.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="max-w-7xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {benefits.map((benefit, idx) => (
+            <div key={idx} className="bg-white rounded-xl p-5 shadow-sm flex items-center gap-4">
+              <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <benefit.icon className="text-xl text-primary-600" />
+              </div>
+              <div>
+                <h4 className="font-bold text-gray-900 text-sm">{benefit.title}</h4>
+                <p className="text-xs text-gray-500">{benefit.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Flash Sale */}
+      {flashSaleProducts.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 py-8">
+          <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-3xl p-6 md:p-8 text-white">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <h2 className="text-2xl md:text-3xl font-black">Flash Sale</h2>
+                <div className="flex gap-2">
+                  <span className="px-3 py-1 bg-white text-red-600 font-bold rounded-lg text-sm">02</span>
+                  <span className="px-3 py-1 bg-white text-red-600 font-bold rounded-lg text-sm">15</span>
+                  <span className="px-3 py-1 bg-white text-red-600 font-bold rounded-lg text-sm">30</span>
                 </div>
               </div>
-
-              {/* Ground shadow */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-1/3 h-8 rounded-full bg-primary-600/40 blur-2xl opacity-40" />
+              <Link href="/produk?filter=flashsale" className="text-white font-semibold hover:underline">
+                View All →
+              </Link>
             </div>
-            {/* ── END RIGHT COLUMN ── */}
-
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {flashSaleProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  oldPrice={product.oldPrice}
+                  image={product.image}
+                  category={product.category}
+                  merk={product.merk}
+                  tipe={product.tipe}
+                  rating={product.rating}
+                  reviewCount={product.reviewCount}
+                  isFlashSale={true}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
+      )}
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-10 hidden lg:block animate-bounce opacity-50">
-          <div className="w-1 h-12 bg-gradient-to-b from-primary-400 to-transparent rounded-full"></div>
+      {/* Best Sellers */}
+      {bestSellers.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-8 bg-orange-500 rounded-full" />
+              <h2 className="text-2xl md:text-3xl font-black text-gray-900">Best Sellers</h2>
+            </div>
+            <Link href="/produk?filter=bestseller" className="text-primary-600 font-semibold hover:underline">
+              View All →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {bestSellers.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                oldPrice={product.oldPrice}
+                image={product.image}
+                category={product.category}
+                merk={product.merk}
+                tipe={product.tipe}
+                rating={product.rating}
+                reviewCount={product.reviewCount}
+                isBestSeller={true}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Promo Banner */}
+      <section className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-8 text-white relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-1/2 h-full opacity-10">
+              <Image src="/uploads/21.png" alt="" fill className="object-contain" />
+            </div>
+            <div className="relative z-10">
+              <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">Limited Offer</span>
+              <h3 className="text-3xl font-black mt-4 mb-2">Up to 30% Off</h3>
+              <p className="text-primary-100 mb-6">On all laptop purchases this month</p>
+              <Link href="/produk?category=Leptop" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-100 transition-colors">
+                Shop Now
+              </Link>
+            </div>
+          </div>
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 text-white relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-1/2 h-full opacity-10">
+              <Image src="/uploads/21.png" alt="" fill className="object-contain" />
+            </div>
+            <div className="relative z-10">
+              <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">Free Shipping</span>
+              <h3 className="text-3xl font-black mt-4 mb-2">Free Delivery</h3>
+              <p className="text-gray-300 mb-6">On orders above Rp 500.000</p>
+              <Link href="/produk" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition-colors">
+                Shop Now
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="relative z-20 px-4 py-12 md:py-16 bg-white">
-        <div className="max-w-6xl mx-auto bg-white rounded-[40px] shadow-2xl shadow-gray-200/50 border border-gray-100 p-2 sm:p-4 overflow-hidden">
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
-            <div className="flex items-center gap-6 p-10 justify-center hover:bg-gray-50 transition-colors group">
-              <div className="w-16 h-16 bg-primary-50 rounded-[20px] flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
-                <FaUsers className="text-3xl text-primary-600" />
-              </div>
-              <div>
-                <p className="text-4xl font-black text-gray-900 tracking-tight">10.000+</p>
-                <p className="text-xs font-extrabold text-gray-400 uppercase tracking-widest mt-1">Unit Terjual</p>
-              </div>
+      {/* New Products */}
+      {newProducts.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-8 bg-green-500 rounded-full" />
+              <h2 className="text-2xl md:text-3xl font-black text-gray-900">New Arrivals</h2>
             </div>
-
-            <div className="flex items-center gap-6 p-10 justify-center hover:bg-gray-50 transition-colors group">
-              <div className="w-16 h-16 bg-blue-50 rounded-[20px] flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
-                <FaSmile className="text-3xl text-primary-600" />
-              </div>
-              <div>
-                <p className="text-4xl font-black text-gray-900 tracking-tight">95%</p>
-                <p className="text-xs font-extrabold text-gray-400 uppercase tracking-widest mt-1">Indeks Kepuasan</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-6 p-10 justify-center hover:bg-gray-50 transition-colors group">
-              <div className="w-16 h-16 bg-indigo-50 rounded-[20px] flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
-                <FaTag className="text-3xl text-primary-600" />
-              </div>
-              <div>
-                <p className="text-4xl font-black text-gray-900 tracking-tight">30%</p>
-                <p className="text-xs font-extrabold text-gray-400 uppercase tracking-widest mt-1">Lebih Hemat</p>
-              </div>
-            </div>
+            <Link href="/produk?filter=new" className="text-primary-600 font-semibold hover:underline">
+              View All →
+            </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Products Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 bg-white flex flex-col justify-center">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-[2px] bg-primary-600"></div>
-              <p className="text-primary-600 font-black text-sm uppercase tracking-[0.3em]">
-                Katalog Terbaru
-              </p>
-            </div>
-            <h2 className="text-4xl sm:text-6xl font-black text-gray-900 leading-tight">
-              Teknologi <br /> Untuk Masa Depan
-            </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {newProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                oldPrice={product.oldPrice}
+                image={product.image}
+                category={product.category}
+                merk={product.merk}
+                tipe={product.tipe}
+                rating={product.rating}
+                reviewCount={product.reviewCount}
+                isNew={true}
+              />
+            ))}
           </div>
-          <Link href="/produk" className="inline-flex items-center gap-3 text-gray-900 font-extrabold hover:text-primary-600 transition-all group">
-            <span className="text-lg">Lihat Semua Katalog</span>
-            <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:border-primary-600 group-hover:translate-x-2 transition-all">
-              <span className="text-xl">→</span>
-            </div>
+        </section>
+      )}
+
+      {/* All Products */}
+      <section className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-8 bg-primary-500 rounded-full" />
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900">All Products</h2>
+          </div>
+          <Link href="/produk" className="text-primary-600 font-semibold hover:underline">
+            View All →
           </Link>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-          {products.length > 0 ? (
-            products.map((product) => (
-              <Link
-                key={product.id}
-                href={`/produk/detail?id=${product.id}`}
-                className="group bg-white rounded-3xl shadow-xl shadow-gray-200/40 overflow-hidden hover:shadow-2xl hover:shadow-primary-600/10 transition-all duration-700 border border-gray-100/50 flex flex-col h-full"
-              >
-                <div className="h-64 bg-gray-50 flex items-center justify-center relative overflow-hidden p-8">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-gray-200/30 to-transparent z-10"></div>
-                  {product.image ? (
-                    <div className="relative w-full h-full transform group-hover:scale-105 transition-transform duration-700">
-                      <Image
-                        src={product.image.startsWith("/") ? product.image : `/${product.image}`}
-                        alt={product.name}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  ) : (
-                    <FaLaptop className="text-7xl text-gray-200 group-hover:text-primary-300 transition-all duration-700 transform group-hover:scale-105 group-hover:rotate-1" />
-                  )}
-                  <div className="absolute top-6 left-6 z-20">
-                    <span className="px-3 py-1.5 backdrop-blur-md bg-white/80 text-[10px] font-black text-primary-700 rounded-full shadow-sm uppercase tracking-wider border border-white/50">
-                      {product.category}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-8 flex flex-col flex-1">
-                  <h3 className="font-extrabold text-2xl text-gray-900 group-hover:text-primary-600 transition-colors mb-3 line-clamp-1">
-                    {product.name}
-                  </h3>
-                  {product.description && (
-                    <p className="text-gray-500 line-clamp-2 leading-relaxed mb-6 flex-1 min-h-[48px]">
-                      {product.description}
-                    </p>
-                  )}
-                  <div className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] pt-4 border-t border-gray-50">
-                    <span className="bg-gray-100 px-3 py-1 rounded-full">{product.merk}</span>
-                    <span className="mx-3 opacity-30">•</span>
-                    <span>{product.tipe}</span>
-                  </div>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <div className="col-span-full py-32 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 text-center">
-              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <FaLaptop className="text-3xl text-gray-300" />
-              </div>
-              <p className="text-gray-500 font-bold text-xl">Katalog sedang diperbarui.</p>
-              <p className="text-gray-400 mt-2">Nantikan produk terbaru dari kami segera!</p>
-            </div>
-          )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products.slice(0, 8).map((product) => (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              price={product.price}
+              oldPrice={product.oldPrice}
+              image={product.image}
+              category={product.category}
+              merk={product.merk}
+              tipe={product.tipe}
+              rating={product.rating}
+              reviewCount={product.reviewCount}
+            />
+          ))}
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="bg-dark-900 text-white py-24 md:py-32 relative overflow-hidden min-h-screen flex items-center">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-600/10 rounded-full blur-[150px] pointer-events-none"></div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-24">
-            <p className="text-primary-400 font-black text-sm uppercase tracking-[0.4em] mb-6">
-              Core Values
-            </p>
-            <h2 className="text-5xl sm:text-7xl font-black tracking-tight">
-              Kualitas <span className="text-primary-500">Tanpa</span> Kompromi
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="bg-white/5 backdrop-blur-xl rounded-[40px] p-12 border border-white/10 hover:bg-white/10 transition-all group">
-              <div className="w-20 h-20 bg-primary-500/10 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                <FaLightbulb className="text-4xl text-primary-400" />
-              </div>
-              <h3 className="text-3xl font-black mb-6">Inovasi Lokal</h3>
-              <p className="text-gray-400 leading-relaxed text-lg">
-                Riset mendalam untuk menghadirkan teknologi yang paling relevan dengan gaya hidup masyarakat Indonesia.
-              </p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-xl rounded-[40px] p-12 border border-white/10 hover:bg-white/10 transition-all group">
-              <div className="w-20 h-20 bg-green-500/10 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                <FaLeaf className="text-4xl text-green-400" />
-              </div>
-              <h3 className="text-3xl font-black mb-6">Berkelanjutan</h3>
-              <p className="text-gray-400 leading-relaxed text-lg">
-                Fokus pada efisiensi energi dan penggunaan material berkualitas untuk masa depan bumi yang lebih baik.
-              </p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-xl rounded-[40px] p-12 border border-white/10 hover:bg-white/10 transition-all group">
-              <div className="w-20 h-20 bg-yellow-500/10 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                <FaTrophy className="text-4xl text-yellow-500" />
-              </div>
-              <h3 className="text-3xl font-black mb-6">Standar Dunia</h3>
-              <p className="text-gray-400 leading-relaxed text-lg">
-                Setiap komponen melewati uji ketahanan ekstrem untuk memastikan performa stabil di segala kondisi.
-              </p>
-            </div>
+      {/* CTA Section */}
+      <section className="bg-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-black mb-4">Ready to Upgrade Your Tech?</h2>
+          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            Join thousands of satisfied customers who trust MDN Tech for their technology needs.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/produk" className="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-colors">
+              Browse Products
+            </Link>
+            <Link href="/hubungi-kami" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-colors">
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>

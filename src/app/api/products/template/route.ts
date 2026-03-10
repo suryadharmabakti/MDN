@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 
 export async function GET() {
   const headers = [

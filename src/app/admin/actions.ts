@@ -19,6 +19,13 @@ const ProductSchema = z.object({
   masaGaransi: z.string().default(""),
   stok: z.string().default(""),
   image: z.string().default(""),
+  price: z.number().default(0),
+  oldPrice: z.number().default(0),
+  isFlashSale: z.boolean().default(false),
+  isBestSeller: z.boolean().default(false),
+  isNew: z.boolean().default(false),
+  rating: z.number().default(0),
+  reviewCount: z.number().default(0),
 });
 
 export async function createProduct(data: z.infer<typeof ProductSchema>) {
