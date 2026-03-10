@@ -105,7 +105,7 @@ export default async function HomePage() {
       </section>
 
       {/* Stats Bar */}
-      <section className="relative z-20 px-4 min-h-screen flex items-center">
+      <section className="relative z-20 px-4 py-12 md:py-16 bg-white">
         <div className="max-w-6xl mx-auto bg-white rounded-[40px] shadow-2xl shadow-gray-200/50 border border-gray-100 p-2 sm:p-4 overflow-hidden">
           <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
             <div className="flex items-center gap-6 p-10 justify-center hover:bg-gray-50 transition-colors group">
@@ -142,7 +142,7 @@ export default async function HomePage() {
       </section>
 
       {/* Products Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 bg-white min-h-screen flex items-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 bg-white flex flex-col justify-center">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
