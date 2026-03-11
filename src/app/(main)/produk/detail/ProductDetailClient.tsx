@@ -45,8 +45,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
         const item: CartItem = {
             id: product.id,
             name: product.name,
-            price: product.price || 0,
-            oldPrice: product.oldPrice || undefined,
+            price: (product as any).price || 0,
+            oldPrice: (product as any).oldPrice || undefined,
             image: product.image || "",
             quantity: quantity,
             merk: product.merk || "",
@@ -63,8 +63,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
             addToWishlist({
                 id: product.id,
                 name: product.name,
-                price: product.price || 0,
-                oldPrice: product.oldPrice || undefined,
+                price: (product as any).price || 0,
+                oldPrice: (product as any).oldPrice || undefined,
                 image: product.image || "",
                 quantity: 1,
                 merk: product.merk || "",
@@ -89,8 +89,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
         return stars;
     };
 
-    const productPrice = product.price != null ? Number(product.price) : 0;
-    const productOldPrice = product.oldPrice != null ? Number(product.oldPrice) : undefined;
+    const productPrice = (product as any).price != null ? Number((product as any).price) : 0;
+    const productOldPrice = (product as any).oldPrice != null ? Number((product as any).oldPrice) : undefined;
 
     const discount = productOldPrice && productOldPrice > productPrice
         ? Math.round(((productOldPrice - productPrice) / productOldPrice) * 100)
@@ -209,8 +209,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                 <button
                                     onClick={handleAddToCart}
                                     className={`flex-1 flex items-center justify-center gap-3 px-8 py-4 font-medium rounded-xl transition-all ${isAdding
-                                            ? "bg-green-500 text-white"
-                                            : "bg-primary-600 hover:bg-primary-700 text-white shadow-lg shadow-primary-200"
+                                        ? "bg-green-500 text-white"
+                                        : "bg-primary-600 hover:bg-primary-700 text-white shadow-lg shadow-primary-200"
                                         }`}
                                 >
                                     <FaShoppingCart />
@@ -255,8 +255,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                             <button
                                 onClick={() => setActiveTab("specs")}
                                 className={`px-8 py-4 font-medium transition-colors ${activeTab === "specs"
-                                        ? "text-primary-600 border-b-2 border-primary-600"
-                                        : "text-gray-500 hover:text-gray-700"
+                                    ? "text-primary-600 border-b-2 border-primary-600"
+                                    : "text-gray-500 hover:text-gray-700"
                                     }`}
                             >
                                 Specifications
@@ -264,8 +264,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                             <button
                                 onClick={() => setActiveTab("shipping")}
                                 className={`px-8 py-4 font-medium transition-colors ${activeTab === "shipping"
-                                        ? "text-primary-600 border-b-2 border-primary-600"
-                                        : "text-gray-500 hover:text-gray-700"
+                                    ? "text-primary-600 border-b-2 border-primary-600"
+                                    : "text-gray-500 hover:text-gray-700"
                                     }`}
                             >
                                 Shipping Info
@@ -325,8 +325,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                     key={item.id}
                                     id={item.id}
                                     name={item.name}
-                                    price={Number(item.price) || 0}
-                                    oldPrice={item.oldPrice ? Number(item.oldPrice) : undefined}
+                                    price={Number((item as any).price) || 0}
+                                    oldPrice={(item as any).oldPrice ? Number((item as any).oldPrice) : undefined}
                                     image={item.image || ""}
                                     category={item.category || ""}
                                     merk={item.merk || ""}

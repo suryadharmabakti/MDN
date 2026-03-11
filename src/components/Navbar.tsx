@@ -16,9 +16,8 @@ import { useCartStore, useWishlistStore } from "@/lib/store";
 import CartDrawer from "@/components/CartDrawer";
 
 const categories = [
-  { name: "Laptop", href: "/produk?category=Leptop" },
+  { name: "Laptop", href: "/produk?category=Laptop" },
   { name: "PC", href: "/produk?category=PC" },
-  { name: "Smartphone", href: "/produk?category=SmartPhone" },
   { name: "Aksesoris", href: "/produk?category=Aksesoris" },
   { name: "Lainnya", href: "/produk?category=Lainnya" },
 ];
@@ -43,8 +42,14 @@ export default function Navbar() {
   const { getTotalItems, openCart } = useCartStore();
   const wishlistItems = useWishlistStore((state) => state.items);
 
-  const cartCount = getTotalItems();
-  const wishlistCount = wishlistItems.length;
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const cartCount = isMounted ? getTotalItems() : 0;
+  const wishlistCount = isMounted ? wishlistItems.length : 0;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -245,8 +250,8 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`px-4 py-3 text-sm font-semibold transition-colors ${pathname === link.href
-                      ? "text-primary-600 border-b-2 border-primary-600"
-                      : "text-gray-600 hover:text-primary-600"
+                    ? "text-primary-600 border-b-2 border-primary-600"
+                    : "text-gray-600 hover:text-primary-600"
                     }`}
                 >
                   {link.label}
@@ -274,8 +279,8 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
                   className={`block px-4 py-3 rounded-lg font-medium transition-colors ${pathname === link.href
-                      ? "bg-primary-50 text-primary-600"
-                      : "text-gray-700 hover:bg-gray-50"
+                    ? "bg-primary-50 text-primary-600"
+                    : "text-gray-700 hover:bg-gray-50"
                     }`}
                 >
                   {link.label}

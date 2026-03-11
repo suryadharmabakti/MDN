@@ -59,7 +59,7 @@ export default function Footer() {
             </Link>
             <p className="text-gray-400 mb-6 leading-relaxed">
               PT. MDN Industry Power Indonesia Corp — Your trusted technology
-              partner for laptops, computers, smartphones, and industrial
+              partner for laptops, computers, and industrial
               solutions.
             </p>
             <div className="flex gap-4">

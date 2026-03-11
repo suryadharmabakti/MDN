@@ -52,20 +52,14 @@ export default function HubungiKamiPage() {
           </div>
 
           {/* Service Center */}
-          <div className="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FaMapMarkerAlt className="text-2xl text-red-500" />
-            </div>
-            <h3 className="font-medium text-gray-900 mb-2">Service Center</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Jl. Cempaka Putih Tengah XVII No.F33,
-              <br />
-              Cemp. Putih Tim., Kec. Cemp. Putih,
-              <br />
-              Central Jakarta,
-              <br />
-              Special Capital Region of Jakarta 10510
-            </p>
+          <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow h-full min-h-[300px]">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4896.365745857295!2d106.86554557585326!3d-6.174107993813293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f53c7c13a50d%3A0x325b1492c9f2bda5!2sJaxer%20Indonesia!5e1!3m2!1sen!2sid!4v1773204783227!5m2!1sen!2sid"
+              className="w-full h-full border-0 min-h-[300px]"
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </div>
       </section>

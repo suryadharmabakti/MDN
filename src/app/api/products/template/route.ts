@@ -21,7 +21,7 @@ export async function GET() {
   const sample = [
     [
       "MDN 155 PRO",
-      "Leptop",
+      "Laptop",
       "Laptop performa tinggi dengan desain modern",
       "MDN Tech",
       "155 PRO",

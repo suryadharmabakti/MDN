@@ -26,7 +26,7 @@ export default function ProductManager({ initialProducts }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const categories = [
-    "Leptop",
+    "Laptop",
     "PC",
     "SmartPhone",
     "Aksesoris",
@@ -37,7 +37,7 @@ export default function ProductManager({ initialProducts }: Props) {
     setEditingProduct(null);
     setFormData({
       name: "",
-      category: "Leptop",
+      category: "Laptop",
       description: "",
       merk: "MDN Tech",
       tipe: "",

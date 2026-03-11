@@ -7,9 +7,8 @@ export const dynamic = "force-dynamic";
 
 const categories = [
   "Semua Produk",
-  "Leptop",
+  "Laptop",
   "PC",
-  "SmartPhone",
   "Aksesoris",
   "Lainnya",
 ];
@@ -29,16 +28,16 @@ export default async function ProdukPage() {
             Temukan Inovasi <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-200">Teknologi</span>
           </h1>
           <p className="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
-            Perangkat berkualitas tinggi dengan performa andal, desain modern, 
+            Perangkat berkualitas tinggi dengan performa andal, desain modern,
             dan fitur yang dirancang untuk mendukung produktivitas Anda setiap hari.
           </p>
         </div>
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <ProductListing 
-          initialProducts={JSON.parse(JSON.stringify(products))} 
-          categories={categories} 
+        <ProductListing
+          initialProducts={JSON.parse(JSON.stringify(products))}
+          categories={categories}
         />
       </section>
     </>

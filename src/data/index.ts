@@ -28,7 +28,7 @@ export const products: Product[] = [
   {
     id: "l5",
     name: "Maknum Saber",
-    category: "Leptop",
+    category: "Laptop",
     description: "Laptop performa tinggi dengan desain modern untuk kebutuhan profesional dan gaming.",
     image: "/images/laptop-placeholder.png",
     specs: {
@@ -92,9 +92,8 @@ export const downloads: Download[] = [
 
 export const categories = [
   "Semua Produk",
-  "Leptop",
+  "Laptop",
   "PC",
-  "SmartPhone",
   "Aksesoris",
   "Lainnya",
 ];

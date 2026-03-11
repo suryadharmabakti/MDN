@@ -1092,6 +1092,9 @@ video {
 .max-h-\[80vh\] {
   max-height: 80vh;
 }
+.min-h-\[300px\] {
+  min-height: 300px;
+}
 .min-h-\[80vh\] {
   min-height: 80vh;
 }
@@ -1151,9 +1154,6 @@ video {
 }
 .w-8 {
   width: 2rem;
-}
-.w-auto {
-  width: auto;
 }
 .w-full {
   width: 100%;
@@ -1434,8 +1434,8 @@ video {
 .rounded-3xl {
   border-radius: 1.5rem;
 }
-.rounded-\[40px\] {
-  border-radius: 40px;
+.rounded-\[30px\] {
+  border-radius: 30px;
 }
 .rounded-full {
   border-radius: 9999px;
@@ -1451,12 +1451,6 @@ video {
 }
 .rounded-xl {
   border-radius: 0.75rem;
-}
-.rounded-\[20px\] {
-  border-radius: 20px;
-}
-.rounded-\[30px\] {
-  border-radius: 30px;
 }
 .rounded-b-lg {
   border-bottom-right-radius: 0.5rem;
@@ -1480,6 +1474,9 @@ video {
 }
 .border {
   border-width: 1px;
+}
+.border-0 {
+  border-width: 0px;
 }
 .border-2 {
   border-width: 2px;
@@ -1580,7 +1577,7 @@ video {
 }
 .bg-dark-900 {
   --tw-bg-opacity: 1;
-  background-color: rgb(30 58 138 / var(--tw-bg-opacity, 1));
+  background-color: rgb(30 55 124 / var(--tw-bg-opacity, 1));
 }
 .bg-gray-100 {
   --tw-bg-opacity: 1;
@@ -1658,10 +1655,6 @@ video {
 .bg-primary-600\/20 {
   background-color: rgb(37 99 235 / 0.2);
 }
-.bg-purple-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(168 85 247 / var(--tw-bg-opacity, 1));
-}
 .bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1));
@@ -1708,8 +1701,8 @@ video {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
 .from-dark-900 {
-  --tw-gradient-from: #1e3a8a var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(30 58 138 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-from: #1e377c var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(30 55 124 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 .from-gray-800 {
@@ -1985,9 +1978,6 @@ video {
 }
 .font-bold {
   font-weight: 700;
-}
-.font-extrabold {
-  font-weight: 800;
 }
 .font-medium {
   font-weight: 500;
@@ -2690,6 +2680,15 @@ body {
     flex-direction: row;
   }
 
+  .sm\:gap-6 {
+    gap: 1.5rem;
+  }
+
+  .sm\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -2795,11 +2794,6 @@ body {
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
-  }
-
-  .md\:text-5xl {
-    font-size: 3rem;
-    line-height: 1;
   }
 }
 

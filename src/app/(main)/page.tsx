@@ -1,16 +1,15 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
-import { FaLaptop, FaMobileAlt, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaStar, FaChevronRight } from "react-icons/fa";
+import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaStar, FaChevronRight } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import { ProductWithMeta } from "@/types";
 
 export const dynamic = "force-dynamic";
 
 const categories = [
-  { name: "Laptop", icon: FaLaptop, href: "/produk?category=Leptop", color: "bg-blue-500" },
+  { name: "Laptop", icon: FaLaptop, href: "/produk?category=Laptop", color: "bg-blue-500" },
   { name: "PC", icon: FaDesktop, href: "/produk?category=PC", color: "bg-green-500" },
-  { name: "Smartphone", icon: FaMobileAlt, href: "/produk?category=SmartPhone", color: "bg-purple-500" },
   { name: "Aksesoris", icon: FaHeadphones, href: "/produk?category=Aksesoris", color: "bg-orange-500" },
 ];
 
@@ -47,24 +46,24 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-primary-700 to-primary-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('/uploads/17.jpg')] opacity-10 bg-center bg-no-repeat bg-cover" />
-        
+
         <div className="max-w-7xl mx-auto px-4 py-16 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-sm font-medium">New Collection 2024 Available</span>
+                <span className="text-sm font-medium">New Collection 2026 Available</span>
               </div>
-              
+
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
                 Premium <span className="text-primary-300">Technology</span>
                 <br />For Your Life
               </h1>
-              
+
               <p className="text-lg text-primary-100 max-w-lg">
                 Discover the latest gadgets and electronics at unbeatable prices. Quality guaranteed with official warranty.
               </p>
-              
+
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link
                   href="/produk"
@@ -100,7 +99,7 @@ export default async function HomePage() {
 
       {/* Categories */}
       <section className="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {categories.map((cat) => (
             <Link
               key={cat.name}
@@ -206,9 +205,9 @@ export default async function HomePage() {
       )}
 
       {/* Promo Banner */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-8 text-white relative overflow-hidden">
+      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-8">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="w-full bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-8 text-white relative overflow-hidden">
             <div className="absolute right-0 top-0 w-1/2 h-full opacity-10">
               <Image src="/uploads/21.png" alt="" fill className="object-contain" />
             </div>
@@ -216,12 +215,12 @@ export default async function HomePage() {
               <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">Limited Offer</span>
               <h3 className="text-3xl font-medium mt-4 mb-2">Up to 30% Off</h3>
               <p className="text-primary-100 mb-6">On all laptop purchases this month</p>
-              <Link href="/produk?category=Leptop" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 font-medium rounded-xl hover:bg-gray-100 transition-colors">
+              <Link href="/produk?category=Laptop" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 font-medium rounded-xl hover:bg-gray-100 transition-colors">
                 Shop Now
               </Link>
             </div>
           </div>
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 text-white relative overflow-hidden">
+          <div className="w-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 text-white relative overflow-hidden">
             <div className="absolute right-0 top-0 w-1/2 h-full opacity-10">
               <Image src="/uploads/21.png" alt="" fill className="object-contain" />
             </div>
@@ -271,8 +270,8 @@ export default async function HomePage() {
       )}
 
       {/* All Products */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-6">
+      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-8">
+        <div className="w-full flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="w-1 h-8 bg-primary-500 rounded-full" />
             <h2 className="text-2xl md:text-3xl font-medium text-gray-900">All Products</h2>
@@ -281,7 +280,7 @@ export default async function HomePage() {
             View All →
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {products.slice(0, 8).map((product) => (
             <ProductCard
               key={product.id}
