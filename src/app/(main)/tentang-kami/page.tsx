@@ -73,7 +73,7 @@ export default function TentangKamiPage() {
       {/* Header */}
       <section className="bg-gradient-to-br from-dark-900 via-dark-800 to-primary-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
+          <h1 className="text-4xl sm:text-5xl font-medium mb-4">
             Tentang Kami
           </h1>
           <p className="text-gray-300 max-w-2xl mx-auto">
@@ -88,7 +88,7 @@ export default function TentangKamiPage() {
           <p className="text-primary-600 font-semibold text-sm uppercase tracking-widest mb-2">
             PT. MDN Industry Power Indonesia Corp
           </p>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 mb-6">
             Perusahaan Teknologi Terdepan di Indonesia
           </h2>
           <p className="text-gray-600 leading-relaxed mb-4">
@@ -106,12 +106,12 @@ export default function TentangKamiPage() {
       {/* Vision & Mission */}
       <section className="bg-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 text-center mb-12">
             Visi dan Misi
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white rounded-xl shadow-md p-8">
-              <h3 className="text-lg font-bold text-primary-600 mb-4">Visi</h3>
+              <h3 className="text-lg font-medium text-primary-600 mb-4">Visi</h3>
               <p className="text-gray-600 leading-relaxed">
                 Menjadi perusahaan teknologi terdepan di Indonesia yang
                 menghadirkan inovasi kelas dunia untuk mendorong industri
@@ -119,7 +119,7 @@ export default function TentangKamiPage() {
               </p>
             </div>
             <div className="bg-white rounded-xl shadow-md p-8">
-              <h3 className="text-lg font-bold text-primary-600 mb-4">Misi</h3>
+              <h3 className="text-lg font-medium text-primary-600 mb-4">Misi</h3>
               <ul className="space-y-3 text-gray-600">
                 <li className="flex items-start gap-2">
                   <span className="text-primary-500 mt-1">•</span>
@@ -150,7 +150,7 @@ export default function TentangKamiPage() {
       {/* Company Values */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900">
             Nilai-Nilai Perusahaan
           </h2>
           <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
@@ -165,7 +165,7 @@ export default function TentangKamiPage() {
               className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
             >
               <v.icon className={`text-3xl ${v.color} mb-4`} />
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
                 {v.title}
               </h3>
               <p className="text-gray-500 text-sm">{v.description}</p>
@@ -177,7 +177,7 @@ export default function TentangKamiPage() {
       {/* Services */}
       <section className="bg-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 text-center mb-12">
             Layanan Terbaik untuk Anda
           </h2>
           <p className="text-center text-gray-500 -mt-8 mb-12">
@@ -191,7 +191,7 @@ export default function TentangKamiPage() {
                 className="bg-white rounded-xl shadow-md p-8 text-center"
               >
                 <s.icon className="text-4xl text-primary-600 mx-auto mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
                   {s.title}
                 </h3>
                 <p className="text-gray-500 text-sm">{s.description}</p>
@@ -204,7 +204,7 @@ export default function TentangKamiPage() {
       {/* Corporate CTA */}
       <section className="bg-primary-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl font-medium mb-4">
             Solusi Korporat untuk Bisnis Anda
           </h2>
           <p className="text-primary-100 mb-8 max-w-2xl mx-auto">

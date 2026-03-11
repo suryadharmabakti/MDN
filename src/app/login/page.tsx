@@ -41,14 +41,15 @@ export default function LoginPage() {
         <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 p-4">
             <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
                 <div className="text-center">
-                    <Image
-                        src="/uploads/mdn-logo.png"
-                        alt="MDN Logo"
-                        width={64}
-                        height={64}
-                        className="mx-auto h-16 w-auto"
-                    />
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 tracking-tight">
+                    <div className="relative h-16 w-16 mx-auto">
+                        <Image
+                            src="/uploads/mdn-logo.png"
+                            alt="MDN Logo"
+                            fill
+                            className="object-contain"
+                        />
+                    </div>
+                    <h2 className="mt-2 text-center text-2xl font-medium text-gray-900 tracking-tight">
                         Admin Login
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
@@ -103,7 +104,7 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white ${loading ? "bg-primary-400" : "bg-primary-600 hover:bg-primary-700"
+                            className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white ${loading ? "bg-primary-400" : "bg-primary-600 hover:bg-primary-700"
                                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 transform hover:scale-[1.02]`}
                         >
                             {loading ? "Memproses..." : "Masuk Sekarang"}

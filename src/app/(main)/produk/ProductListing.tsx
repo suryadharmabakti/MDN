@@ -158,7 +158,7 @@ export default function ProductListing({ initialProducts, categories }: Props) {
         {/* Sidebar Filters (Desktop) */}
         <aside className="hidden md:block w-64 flex-shrink-0">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
-            <h3 className="font-bold text-lg text-gray-900 mb-4">Filters</h3>
+            <h3 className="font-medium text-lg text-gray-900 mb-4">Filters</h3>
             
             {/* Categories */}
             <div className="mb-6">
@@ -243,7 +243,7 @@ export default function ProductListing({ initialProducts, categories }: Props) {
               <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FaSearch className="text-4xl text-gray-400" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-700 mb-2">No products found</h3>
+              <h3 className="text-2xl font-medium text-gray-700 mb-2">No products found</h3>
               <p className="text-gray-500 mb-6">Try adjusting your filters or search terms</p>
               <button
                 onClick={() => {
@@ -265,7 +265,7 @@ export default function ProductListing({ initialProducts, categories }: Props) {
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm md:hidden">
           <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
-              <h3 className="font-bold text-lg">Filters</h3>
+              <h3 className="font-medium text-lg">Filters</h3>
               <button
                 onClick={() => setShowMobileFilters(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg"
@@ -317,7 +317,7 @@ export default function ProductListing({ initialProducts, categories }: Props) {
             <div className="p-4 border-t border-gray-100">
               <button
                 onClick={() => setShowMobileFilters(false)}
-                className="w-full py-4 bg-primary-600 text-white font-bold rounded-xl"
+                className="w-full py-4 bg-primary-600 text-white font-medium rounded-xl"
               >
                 Apply Filters
               </button>

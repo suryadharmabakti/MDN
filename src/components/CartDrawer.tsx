@@ -24,8 +24,8 @@ export default function CartDrawer() {
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <FaShoppingCart className="text-primary-600 text-xl" />
-            <h2 className="text-xl font-bold text-gray-900">Shopping Cart</h2>
-            <span className="bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <h2 className="text-xl font-medium text-gray-900">Shopping Cart</h2>
+            <span className="bg-primary-600 text-white text-xs font-medium px-2 py-1 rounded-full">
               {items.length}
             </span>
           </div>
@@ -55,7 +55,7 @@ export default function CartDrawer() {
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FaShoppingCart className="text-4xl text-gray-300" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl font-medium text-gray-900 mb-2">
                 Your cart is empty
               </h3>
               <p className="text-gray-500 mb-6">
@@ -114,7 +114,7 @@ export default function CartDrawer() {
                           +
                         </button>
                       </div>
-                      <span className="font-bold text-primary-600">
+                      <span className="font-medium text-primary-600">
                         Rp {(item.price * item.quantity).toLocaleString("id-ID")}
                       </span>
                     </div>
@@ -136,7 +136,7 @@ export default function CartDrawer() {
           <div className="border-t border-gray-100 p-6 bg-white">
             <div className="flex items-center justify-between mb-4">
               <span className="text-gray-600">Subtotal</span>
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-medium text-gray-900">
                 Rp {total.toLocaleString("id-ID")}
               </span>
             </div>
@@ -146,7 +146,7 @@ export default function CartDrawer() {
             <Link
               href="/cart"
               onClick={closeCart}
-              className="flex items-center justify-center gap-2 w-full py-4 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+              className="flex items-center justify-center gap-2 w-full py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
             >
               Checkout <FaArrowRight />
             </Link>

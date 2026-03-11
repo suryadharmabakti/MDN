@@ -44,7 +44,7 @@ export default async function AdminLayout({
         </nav>
         <div className="p-4 border-t border-dark-700">
           <div className="flex items-center space-x-3 px-4 py-2">
-            <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-xs font-medium">
               {session?.user?.name?.[0] || "A"}
             </div>
             <div className="overflow-hidden">

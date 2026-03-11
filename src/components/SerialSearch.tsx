@@ -55,19 +55,19 @@ export default function SerialSearch() {
         >
           {result.ok ? (
             <div>
-              <p className="font-bold mb-1">Serial ditemukan: {result.data.serialNumber}</p>
+              <p className="font-medium mb-1">Serial ditemukan: {result.data.serialNumber}</p>
               <div className="text-sm space-y-0.5">
                 <p>Model: {result.data.modelName}</p>
                 {result.data.warrantyUntil && (
                   <p>
                     Garansi berlaku hingga:{" "}
-                    <span className="font-bold">
+                    <span className="font-medium">
                       {new Date(result.data.warrantyUntil).toLocaleDateString("id-ID")}
                     </span>
                     {" "}({result.data.warrantyValid ? (
-                      <span className="text-green-600 font-bold">MASIH BERLAKU</span>
+                      <span className="text-green-600 font-medium">MASIH BERLAKU</span>
                     ) : (
-                      <span className="text-red-600 font-bold">KADALUARSA</span>
+                      <span className="text-red-600 font-medium">KADALUARSA</span>
                     )})
                   </p>
                 )}

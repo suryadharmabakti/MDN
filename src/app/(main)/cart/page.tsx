@@ -19,13 +19,13 @@ export default function CartPage() {
           <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaShoppingBag className="text-5xl text-gray-400" />
           </div>
-          <h2 className="text-3xl font-black text-gray-900 mb-4">Your Cart is Empty</h2>
+          <h2 className="text-3xl font-medium text-gray-900 mb-4">Your Cart is Empty</h2>
           <p className="text-gray-500 mb-8 max-w-md">
             Looks like you haven&apos;t added any products to your cart yet. Start shopping to fill it up!
           </p>
           <Link
             href="/produk"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
           >
             Start Shopping <FaArrowRight />
           </Link>
@@ -63,7 +63,7 @@ export default function CartPage() {
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="font-bold text-lg text-gray-900 mb-1">{item.name}</h3>
+                        <h3 className="font-medium text-lg text-gray-900 mb-1">{item.name}</h3>
                         <p className="text-sm text-gray-500">{item.merk}</p>
                       </div>
                       <button
@@ -92,7 +92,7 @@ export default function CartPage() {
                       </div>
 
                       <div className="text-right">
-                        <p className="text-xl font-bold text-primary-600">
+                        <p className="text-xl font-medium text-primary-600">
                           Rp {(item.price * item.quantity).toLocaleString("id-ID")}
                         </p>
                         {item.oldPrice && (
@@ -141,7 +141,7 @@ export default function CartPage() {
                   </p>
                 )}
                 <div className="border-t pt-4 flex justify-between">
-                  <span className="font-bold text-gray-900">Total</span>
+                  <span className="font-medium text-gray-900">Total</span>
                   <span className="text-2xl font-black text-primary-600">
                     Rp {grandTotal.toLocaleString("id-ID")}
                   </span>
@@ -150,7 +150,7 @@ export default function CartPage() {
 
               <Link
                 href="/checkout"
-                className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
               >
                 Proceed to Checkout <FaArrowRight />
               </Link>

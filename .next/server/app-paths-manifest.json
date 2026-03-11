@@ -1,8 +1,9 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/login/page": "app/login/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/(main)/tentang-kami/page": "app/(main)/tentang-kami/page.js",
   "/(main)/page": "app/(main)/page.js",
   "/(main)/produk/page": "app/(main)/produk/page.js",
-  "/(main)/checkout/page": "app/(main)/checkout/page.js"
+  "/(main)/cart/page": "app/(main)/cart/page.js",
+  "/(main)/laporan/page": "app/(main)/laporan/page.js",
+  "/(main)/hubungi-kami/page": "app/(main)/hubungi-kami/page.js"
 }

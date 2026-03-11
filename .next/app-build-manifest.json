@@ -16,30 +16,55 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/(main)/cek-garansi/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/cek-garansi/page.js"
+    ],
     "/(main)/produk/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/produk/page.js"
+    ],
+    "/admin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/page.js"
+    ],
+    "/admin/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/layout.js"
+    ],
+    "/admin/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/login/page.js"
     ],
     "/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/login/page.js"
     ],
-    "/(main)/wishlist/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/wishlist/page.js"
-    ],
     "/(main)/cart/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/cart/page.js"
     ],
-    "/(main)/checkout/page": [
+    "/(main)/tentang-kami/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/checkout/page.js"
+      "static/chunks/app/(main)/tentang-kami/page.js"
+    ],
+    "/(main)/hubungi-kami/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/hubungi-kami/page.js"
+    ],
+    "/(main)/laporan/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/laporan/page.js"
     ],
     "/_not-found/page": [
       "static/chunks/webpack.js",

@@ -27,7 +27,7 @@ export default function WishlistPage() {
           </p>
           <Link
             href="/produk"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
           >
             Browse Products <FaArrowRight />
           </Link>
@@ -72,13 +72,13 @@ export default function WishlistPage() {
                 </button>
               </div>
               <div className="p-4">
-                <h3 className="font-bold text-gray-900 line-clamp-2 mb-2">{item.name}</h3>
+                <h3 className="font-medium text-gray-900 line-clamp-2 mb-2">{item.name}</h3>
                 <p className="text-xl font-black text-primary-600 mb-4">
                   Rp {(item.price || 0).toLocaleString("id-ID")}
                 </p>
                 <button
                   onClick={() => handleAddToCart(item)}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
                 >
                   <FaShoppingCart /> Add to Cart
                 </button>

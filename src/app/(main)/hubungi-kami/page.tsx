@@ -6,7 +6,7 @@ export default function HubungiKamiPage() {
       {/* Header */}
       <section className="bg-gradient-to-br from-dark-900 via-dark-800 to-primary-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
+          <h1 className="text-4xl sm:text-5xl font-medium mb-4">
             Hubungi Kami
           </h1>
           <p className="text-gray-300 max-w-2xl mx-auto">
@@ -22,7 +22,7 @@ export default function HubungiKamiPage() {
             <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaEnvelope className="text-2xl text-primary-600" />
             </div>
-            <h3 className="font-bold text-gray-900 mb-2">
+            <h3 className="font-medium text-gray-900 mb-2">
               Hubungi kami melalui email
             </h3>
             <a
@@ -38,7 +38,7 @@ export default function HubungiKamiPage() {
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaWhatsapp className="text-2xl text-green-600" />
             </div>
-            <h3 className="font-bold text-gray-900 mb-2">
+            <h3 className="font-medium text-gray-900 mb-2">
               Hubungi kami melalui WhatsApp
             </h3>
             <a
@@ -56,7 +56,7 @@ export default function HubungiKamiPage() {
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaMapMarkerAlt className="text-2xl text-red-500" />
             </div>
-            <h3 className="font-bold text-gray-900 mb-2">Service Center</h3>
+            <h3 className="font-medium text-gray-900 mb-2">Service Center</h3>
             <p className="text-gray-600 text-sm leading-relaxed">
               Jl. Cempaka Putih Tengah XVII No.F33,
               <br />

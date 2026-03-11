@@ -30,6 +30,7 @@ const navLinks = [
   { href: "/tentang-kami", label: "About" },
   { href: "/hubungi-kami", label: "Contact" },
   { href: "/laporan", label: "Reports" },
+  { href: "/cek-garansi", label: "Check Warranty" },
 ];
 
 export default function Navbar() {
@@ -107,9 +108,8 @@ export default function Navbar() {
                 <HiMenu className="text-lg" />
                 Categories
                 <FaChevronDown
-                  className={`text-xs transition-transform ${
-                    categoryOpen ? "rotate-180" : ""
-                  }`}
+                  className={`text-xs transition-transform ${categoryOpen ? "rotate-180" : ""
+                    }`}
                 />
               </button>
               {categoryOpen && (
@@ -146,7 +146,7 @@ export default function Navbar() {
                 </div>
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-r-xl transition-colors"
+                  className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-r-xl transition-colors"
                 >
                   Search
                 </button>
@@ -163,7 +163,7 @@ export default function Navbar() {
                 <div className="relative">
                   <FaHeart className="text-xl text-gray-600" />
                   {wishlistCount > 0 && (
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs font-medium rounded-full flex items-center justify-center">
                       {wishlistCount}
                     </span>
                   )}
@@ -192,7 +192,7 @@ export default function Navbar() {
                 <div className="relative">
                   <FaShoppingCart className="text-xl text-gray-600" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs font-medium rounded-full flex items-center justify-center">
                       {cartCount}
                     </span>
                   )}
@@ -228,7 +228,7 @@ export default function Navbar() {
               />
               <button
                 type="submit"
-                className="px-5 py-2.5 bg-primary-600 text-white font-bold rounded-r-xl"
+                className="px-5 py-2.5 bg-primary-600 text-white font-medium rounded-r-xl"
               >
                 <HiSearch />
               </button>
@@ -244,11 +244,10 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-4 py-3 text-sm font-semibold transition-colors ${
-                    pathname === link.href
+                  className={`px-4 py-3 text-sm font-semibold transition-colors ${pathname === link.href
                       ? "text-primary-600 border-b-2 border-primary-600"
                       : "text-gray-600 hover:text-primary-600"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -274,11 +273,10 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
-                    pathname === link.href
+                  className={`block px-4 py-3 rounded-lg font-medium transition-colors ${pathname === link.href
                       ? "bg-primary-50 text-primary-600"
                       : "text-gray-700 hover:bg-gray-50"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>

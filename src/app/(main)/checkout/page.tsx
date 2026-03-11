@@ -43,13 +43,13 @@ export default function CheckoutPage() {
           <div className="space-y-3">
             <Link
               href="/"
-              className="block w-full px-6 py-4 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+              className="block w-full px-6 py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
             >
               Back to Home
             </Link>
             <Link
               href="/produk"
-              className="block w-full px-6 py-4 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors"
+              className="block w-full px-6 py-4 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors"
             >
               Continue Shopping
             </Link>
@@ -63,7 +63,7 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
+          <h2 className="text-2xl font-medium text-gray-900 mb-4">Your cart is empty</h2>
           <Link href="/produk" className="text-primary-600 hover:underline">
             Continue Shopping
           </Link>
@@ -89,7 +89,7 @@ export default function CheckoutPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Contact Info */}
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                <h2 className="text-xl font-medium text-gray-900 mb-6">Contact Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
@@ -129,7 +129,7 @@ export default function CheckoutPage() {
 
               {/* Shipping Address */}
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Shipping Address</h2>
+                <h2 className="text-xl font-medium text-gray-900 mb-6">Shipping Address</h2>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
@@ -171,7 +171,7 @@ export default function CheckoutPage() {
 
               {/* Payment Method */}
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Payment Method</h2>
+                <h2 className="text-xl font-medium text-gray-900 mb-6">Payment Method</h2>
                 <div className="space-y-3">
                   <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${
                     formData.paymentMethod === "transfer" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
@@ -186,7 +186,7 @@ export default function CheckoutPage() {
                     />
                     <FaCreditCard className="text-2xl text-gray-600" />
                     <div>
-                      <p className="font-bold text-gray-900">Bank Transfer</p>
+                      <p className="font-medium text-gray-900">Bank Transfer</p>
                       <p className="text-sm text-gray-500">Transfer via BCA, Mandiri, BRI, or BNI</p>
                     </div>
                   </label>
@@ -203,7 +203,7 @@ export default function CheckoutPage() {
                     />
                     <FaMoneyBillWave className="text-2xl text-gray-600" />
                     <div>
-                      <p className="font-bold text-gray-900">Credit/Debit Card</p>
+                      <p className="font-medium text-gray-900">Credit/Debit Card</p>
                       <p className="text-sm text-gray-500">Pay with Visa, Mastercard, or JCB</p>
                     </div>
                   </label>
@@ -220,7 +220,7 @@ export default function CheckoutPage() {
                     />
                     <FaUniversity className="text-2xl text-gray-600" />
                     <div>
-                      <p className="font-bold text-gray-900">E-Wallet</p>
+                      <p className="font-medium text-gray-900">E-Wallet</p>
                       <p className="text-sm text-gray-500">Pay with Gopay, OVO, or DANA</p>
                     </div>
                   </label>
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 sticky top-24">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+              <h2 className="text-xl font-medium text-gray-900 mb-6">Order Summary</h2>
               
               <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
                 {items.map((item) => (
@@ -275,7 +275,7 @@ export default function CheckoutPage() {
 
               <button
                 onClick={handleSubmit}
-                className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+                className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
               >
                 <FaLock /> Place Order
               </button>

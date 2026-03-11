@@ -150,17 +150,17 @@ export default function ProductManager({ initialProducts }: Props) {
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Katalog Produk</h1>
+          <h1 className="text-3xl font-medium text-gray-900 tracking-tight">Katalog Produk</h1>
           <p className="text-gray-500 mt-1">Manajemen data produk website MDN Tech</p>
         </div>
         <div className="flex items-center gap-3">
           <a
             href="/api/products/template"
-            className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-gray-700 font-bold hover:bg-gray-50 transition-colors"
+            className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
           >
             Download Template Excel
           </a>
-          <label className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-gray-700 font-bold hover:bg-gray-50 transition-colors cursor-pointer">
+          <label className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors cursor-pointer">
             Import Excel
             <input
               type="file"
@@ -185,7 +185,7 @@ export default function ProductManager({ initialProducts }: Props) {
           </label>
           <button
             onClick={handleOpenAdd}
-            className="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg flex items-center space-x-2 font-bold shadow-md transform hover:scale-105 transition-all active:scale-95"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg flex items-center space-x-2 font-medium shadow-md transform hover:scale-105 transition-all active:scale-95"
           >
             <FaPlus size={14} />
             <span>Tambah Produk Baru</span>
@@ -215,8 +215,8 @@ export default function ProductManager({ initialProducts }: Props) {
         </div>
         <p className="text-sm text-gray-400 whitespace-nowrap">
           {searchQuery
-            ? <span><span className="font-bold text-gray-700">{filteredProducts.length}</span> dari {products.length} produk ditemukan</span>
-            : <span><span className="font-bold text-gray-700">{products.length}</span> produk total</span>
+            ? <span><span className="font-medium text-gray-700">{filteredProducts.length}</span> dari {products.length} produk ditemukan</span>
+            : <span><span className="font-medium text-gray-700">{products.length}</span> produk total</span>
           }
         </p>
       </div>
@@ -225,12 +225,12 @@ export default function ProductManager({ initialProducts }: Props) {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Produk</th>
-              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">No. Seri</th>
-              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider hidden sm:table-cell">Kategori</th>
-              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider hidden md:table-cell">Spesifikasi</th>
-              <th className="px-4 sm:px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider hidden sm:table-cell">Stok</th>
-              <th className="px-4 sm:px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produk</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. Seri</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Kategori</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Spesifikasi</th>
+              <th className="px-4 sm:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Stok</th>
+              <th className="px-4 sm:px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
@@ -268,14 +268,14 @@ export default function ProductManager({ initialProducts }: Props) {
                         </div>
                       )}
                       <div className="ml-4">
-                        <div className="text-sm font-bold text-gray-900">{p.name}</div>
+                        <div className="text-sm font-medium text-gray-900">{p.name}</div>
                         <div className="text-xs text-gray-500 truncate max-w-[200px]">{p.merk} - {p.tipe}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     {p.tipe ? (
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wide ${searchQuery && p.tipe.toLowerCase().includes(searchQuery.toLowerCase())
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-medium tracking-wide ${searchQuery && p.tipe.toLowerCase().includes(searchQuery.toLowerCase())
                         ? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
                         : "bg-gray-100 text-gray-700"
                         }`}>
@@ -329,7 +329,7 @@ export default function ProductManager({ initialProducts }: Props) {
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl w-full max-w-[95%] sm:max-w-2xl shadow-2xl transform transition-all animate-in zoom-in-95 duration-200">
             <div className="px-8 py-6 border-b border-gray-100 flex justify-between items-center">
-              <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
+              <h3 className="text-xl font-medium text-gray-900 flex items-center space-x-2">
                 {editingProduct ? <FaEdit className="text-primary-600" /> : <FaPlus className="text-primary-600" />}
                 <span>{editingProduct ? "Edit Produk" : "Tambah Produk"}</span>
               </h3>
@@ -341,7 +341,7 @@ export default function ProductManager({ initialProducts }: Props) {
             <form onSubmit={handleSubmit} className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center space-x-1">
+                  <h4 className="text-xs font-medium text-gray-400 uppercase tracking-widest flex items-center space-x-1">
                     <FaInfoCircle /> <span>Informasi Dasar</span>
                   </h4>
                   <div>
@@ -467,7 +467,7 @@ export default function ProductManager({ initialProducts }: Props) {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center space-x-1">
+                  <h4 className="text-xs font-medium text-gray-400 uppercase tracking-widest flex items-center space-x-1">
                     <FaTags /> <span>Spesifikasi Teknikal</span>
                   </h4>
                   <div className="grid grid-cols-2 gap-3">
@@ -544,14 +544,14 @@ export default function ProductManager({ initialProducts }: Props) {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-6 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-800 transition-colors"
+                  className="px-6 py-2.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors"
                 >
                   Batalkan
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-lg shadow-lg hover:shadow-primary-500/20 flex items-center space-x-2 transition-all active:scale-95 disabled:opacity-50"
+                  className="px-8 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg shadow-lg hover:shadow-primary-500/20 flex items-center space-x-2 transition-all active:scale-95 disabled:opacity-50"
                 >
                   {loading ? (
                     <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>

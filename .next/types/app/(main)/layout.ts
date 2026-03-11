@@ -1,4 +1,4 @@
-// File: C:\PROJECT JAXER\MDN\src\app\(main)\layout.tsx
+// File: C:\Users\USER\Documents\MDN Indonesia\src\app\(main)\layout.tsx
 import * as entry from '../../../../src/app/(main)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

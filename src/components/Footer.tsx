@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
-              <h3 className="text-2xl font-bold mb-2">
+              <h3 className="text-2xl font-medium mb-2">
                 Subscribe to our newsletter
               </h3>
               <p className="text-primary-100">
@@ -34,7 +34,7 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="px-6 py-3.5 bg-gray-900 hover:bg-gray-800 font-bold rounded-r-xl transition-colors"
+                className="px-6 py-3.5 bg-gray-900 hover:bg-gray-800 font-medium rounded-r-xl transition-colors"
               >
                 Subscribe
               </button>
@@ -98,7 +98,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-bold mb-6">Quick Links</h4>
+            <h4 className="text-white font-medium mb-6">Quick Links</h4>
             <ul className="space-y-3">
               <li>
                 <Link
@@ -145,7 +145,7 @@ export default function Footer() {
 
           {/* Customer Service */}
           <div>
-            <h4 className="text-white font-bold mb-6">Customer Service</h4>
+            <h4 className="text-white font-medium mb-6">Customer Service</h4>
             <ul className="space-y-3">
               <li>
                 <Link
@@ -192,7 +192,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-bold mb-6">Contact Us</h4>
+            <h4 className="text-white font-medium mb-6">Contact Us</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <FaMapMarkerAlt className="text-primary-500 mt-1 flex-shrink-0" />
@@ -230,31 +230,31 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-gray-500">Payment Methods:</p>
             <div className="flex items-center gap-3">
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 VISA
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 Mastercard
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 BCA
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 BNI
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 BRI
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 Mandiri
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 Gopay
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 OVO
               </div>
-              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-bold">
+              <div className="px-3 py-2 bg-gray-800 rounded text-xs font-medium">
                 DANA
               </div>
             </div>

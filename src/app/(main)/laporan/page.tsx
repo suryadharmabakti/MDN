@@ -54,13 +54,13 @@ export default function LaporanPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center py-20 px-4">
-            <div className="max-w-3xl w-full bg-white rounded-[40px] shadow-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:shadow-primary-600/10">
+            <div className="max-w-3xl w-full bg-white rounded-[30px] shadow-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:shadow-primary-600/10">
                 {/* Header Section */}
                 <div className="bg-gradient-to-br from-dark-900 via-dark-800 to-primary-900 text-white p-12 text-center relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-400/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
 
-                    <h1 className="text-4xl font-black mb-4 relative z-10">Laporan Isu</h1>
+                    <h1 className="text-4xl font-medium mb-4 relative z-10">Laporan Isu</h1>
                     <p className="text-gray-300 relative z-10">
                         Berikan masukan atau laporkan masalah Anda. Kami siap membantu dengan sepenuh hati.
                     </p>
@@ -71,7 +71,7 @@ export default function LaporanPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Nama */}
                         <div className="space-y-2 group">
-                            <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
+                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
                                 Nama Lengkap
                             </label>
                             <div className="relative">
@@ -85,14 +85,14 @@ export default function LaporanPage() {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan nama lengkap Anda"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 font-medium"
+                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
                                 />
                             </div>
                         </div>
 
                         {/* Email */}
                         <div className="space-y-2 group">
-                            <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
+                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
                                 Email
                             </label>
                             <div className="relative">
@@ -106,14 +106,14 @@ export default function LaporanPage() {
                                     onChange={handleChange}
                                     required
                                     placeholder="email@contoh.com"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 font-medium"
+                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
                                 />
                             </div>
                         </div>
 
                         {/* Lokasi */}
                         <div className="space-y-2 group">
-                            <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
+                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
                                 Lokasi
                             </label>
                             <div className="relative">
@@ -127,14 +127,14 @@ export default function LaporanPage() {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan lokasi Anda"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 font-medium"
+                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
                                 />
                             </div>
                         </div>
 
                         {/* Nomor HP */}
                         <div className="space-y-2 group">
-                            <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
+                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
                                 Nomor HP
                             </label>
                             <div className="relative">
@@ -148,14 +148,14 @@ export default function LaporanPage() {
                                     onChange={handleChange}
                                     required
                                     placeholder="Contoh: 081234567890"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 font-medium"
+                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
                                 />
                             </div>
                         </div>
 
                         {/* Serial Number */}
                         <div className="space-y-2 group">
-                            <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
+                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
                                 Serial Number
                             </label>
                             <div className="relative">
@@ -169,7 +169,7 @@ export default function LaporanPage() {
                                     onChange={handleChange}
                                     required
                                     placeholder="Contoh: MDN-123456"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 font-medium"
+                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
                                 />
                             </div>
                         </div>
@@ -177,7 +177,7 @@ export default function LaporanPage() {
 
                     {/* Isu Laporan */}
                     <div className="space-y-2 group">
-                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
+                        <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
                             Isi Laporan / Isu
                         </label>
                         <div className="relative">
@@ -191,7 +191,7 @@ export default function LaporanPage() {
                                 required
                                 rows={5}
                                 placeholder="Ceritakan detail masalah atau laporan Anda di sini..."
-                                className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 font-medium resize-none"
+                                className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 resize-none"
                             ></textarea>
                         </div>
                     </div>
@@ -210,7 +210,7 @@ export default function LaporanPage() {
                             >
                                 {message.type === "success" ? "✓" : "!"}
                             </div>
-                            <p className="font-bold">{message.text}</p>
+                            <p className="font-medium">{message.text}</p>
                         </div>
                     )}
 
@@ -218,7 +218,7 @@ export default function LaporanPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-5 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white font-black rounded-2xl transition-all shadow-xl shadow-primary-500/20 transform hover:-translate-y-1 active:scale-[0.98] flex items-center justify-center gap-3 text-lg"
+                        className="w-full py-5 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white font-medium rounded-2xl transition-all shadow-xl shadow-primary-500/20 transform hover:-translate-y-1 active:scale-[0.98] flex items-center justify-center gap-3 text-lg"
                     >
                         {loading ? (
                             <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
