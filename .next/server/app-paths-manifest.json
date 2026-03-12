@@ -1,6 +1,23 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/products/import/route": "app/api/products/import/route.js",
+  "/api/report/route": "app/api/report/route.js",
+  "/api/serial/route": "app/api/serial/route.js",
+  "/api/products/template/route": "app/api/products/template/route.js",
+  "/api/upload/route": "app/api/upload/route.js",
+  "/login/page": "app/login/page.js",
+  "/(main)/checkout/page": "app/(main)/checkout/page.js",
+  "/(main)/cek-garansi/page": "app/(main)/cek-garansi/page.js",
+  "/(main)/download/page": "app/(main)/download/page.js",
+  "/(main)/cart/page": "app/(main)/cart/page.js",
+  "/(main)/laporan/page": "app/(main)/laporan/page.js",
+  "/(main)/produk/detail/page": "app/(main)/produk/detail/page.js",
   "/(main)/hubungi-kami/page": "app/(main)/hubungi-kami/page.js",
-  "/(main)/page": "app/(main)/page.js"
+  "/(main)/tentang-kami/page": "app/(main)/tentang-kami/page.js",
+  "/(main)/wishlist/page": "app/(main)/wishlist/page.js",
+  "/(main)/produk/page": "app/(main)/produk/page.js",
+  "/(main)/page": "app/(main)/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/admin/page": "app/admin/page.js"
 }

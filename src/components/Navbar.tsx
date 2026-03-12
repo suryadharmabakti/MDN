@@ -80,12 +80,9 @@ export default function Navbar() {
           <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
             <p>Welcome to MDN Tech - Your Trusted Technology Partner</p>
             <div className="flex items-center gap-4">
-              <a href="#" className="hover:underline">
+              <Link href="/hubungi-kami" className="hover:underline">
                 Help
-              </a>
-              <a href="#" className="hover:underline">
-                Track Order
-              </a>
+              </Link>
             </div>
           </div>
         </div>
