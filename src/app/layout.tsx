@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "MDN Tech - Inovasi Lokal Kualitas Global",
   description:
     "PT. MDN Industry Power Indonesia Corp — Teknologi terdepan dengan performa tinggi untuk kebutuhan harian Anda.",
+  icons: {
+    icon: "/uploads/mdn-logo.png",
+  },
 };
 
 export default function RootLayout({
