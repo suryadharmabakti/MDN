@@ -10,6 +10,63 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 
+// Utilitas untuk mengkompresi gambar di client secara native
+const compressImage = async (file: File): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    // Jika file sudah kecil, tidak perlu dikompres, langsung return (opsional)
+    if (file.size < 800 * 1024 && file.type === "image/jpeg") {
+       return resolve(file);
+    }
+    
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 800; // Pengecilan ekstrim agar sangat kecil
+        const MAX_HEIGHT = 800;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height && width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        } else if (height > MAX_HEIGHT) { // BUG FIX: Before it compared against MAX_WIDTH instead of MAX_HEIGHT
+          width = Math.round((width * MAX_HEIGHT) / height);
+          height = MAX_HEIGHT;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                resolve(new File([blob], file.name.replace(/\.[^/.]+$/, ".jpg"), {
+                  type: "image/jpeg",
+                  lastModified: Date.now(),
+                }));
+              } else {
+                reject(new Error("Gagal membuat blob dari gambar"));
+              }
+            },
+            "image/jpeg",
+            0.6 // 60% Kualitas - menjamin ukuran < 500KB
+          );
+        } else {
+           reject(new Error("Canvas context tidak tersedia"));
+        }
+      };
+      img.onerror = () => reject(new Error("Gagal meload gambar untuk kompresi"));
+    };
+    reader.onerror = () => reject(new Error("Gagal membaca file gambar"));
+  });
+};
+
 interface Props {
   initialProducts: Product[];
 }
@@ -145,7 +202,7 @@ export default function ProductManager({ initialProducts }: Props) {
     setLoading(false);
   };
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
     if (imagesList.length + selectedFiles.length > 10) {
       alert("Maksimal 10 foto yang diperbolehkan");
@@ -155,16 +212,29 @@ export default function ProductManager({ initialProducts }: Props) {
     const validFiles: File[] = [];
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
     
+    // Tampilkan loading state atau peringatan kompresi jika perlu
+    let overSizeDetected = false;
+
     for (const f of selectedFiles) {
       if (!allowedTypes.includes(f.type)) {
         alert(`File "${f.name}" ditolak. Hanya diperbolehkan format PNG, JPG, dan WEBP.`);
         continue;
       }
-      if (f.size > 10 * 1024 * 1024) { // 10MB Max Size Validation
+      if (f.size > 10 * 1024 * 1024) { // 10MB Max Size Validation (Murni dari client)
         alert(`File "${f.name}" terlalu besar. Maksimal ukuran file adalah 10MB.`);
         continue;
       }
-      validFiles.push(f);
+      if (f.size > 1024 * 1024) { // Tandai jika ada file yang lebih dari 1MB untuk dikompress (opsional indikatornya)
+        overSizeDetected = true;
+      }
+      
+      // Kompres secara otomatis semua gambar yang dipilih
+      try {
+        const compressedFile = await compressImage(f);
+        validFiles.push(compressedFile);
+      } catch (err: any) {
+        alert(`Gagal memproses gambar ${f.name}: ` + (err.message || "Error saat kompresi"));
+      }
     }
 
     const newItems = validFiles.map(f => ({ url: URL.createObjectURL(f), file: f }));
