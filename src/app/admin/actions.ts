@@ -19,6 +19,7 @@ const ProductSchema = z.object({
   masaGaransi: z.string().default(""),
   stok: z.string().default(""),
   image: z.string().default(""),
+  images: z.array(z.string()).default([]),
   price: z.number().default(0),
   oldPrice: z.number().default(0),
   isFlashSale: z.boolean().default(false),

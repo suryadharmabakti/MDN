@@ -25,6 +25,7 @@ model Product {
   category      String
   description   String    @default("")
   image         String    @default("")
+  images        String[]  @default([])
   merk          String    @default("")
   tipe          String    @default("")
   prosesor      String    @default("")

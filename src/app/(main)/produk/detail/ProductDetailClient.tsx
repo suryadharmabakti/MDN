@@ -16,6 +16,7 @@ import {
     FaShoppingCart,
     FaCheck,
     FaChevronRight,
+    FaChevronLeft,
 } from "react-icons/fa";
 import Image from "next/image";
 import { useCartStore, useWishlistStore, CartItem } from "@/lib/store";
@@ -31,6 +32,26 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
     const [quantity, setQuantity] = useState(1);
     const [isAdding, setIsAdding] = useState(false);
     const [activeTab, setActiveTab] = useState("specs");
+    const [selectedImage, setSelectedImage] = useState<string>("");
+
+    const images: string[] = (product as any).images && (product as any).images.length > 0 
+        ? (product as any).images 
+        : (product.image ? [product.image] : []);
+        
+    const currentDisplayImage = selectedImage || (images.length > 0 ? images[0] : "");
+    const currentImageIndex = images.indexOf(currentDisplayImage);
+
+    const handlePrevImage = () => {
+        if (images.length <= 1) return;
+        const newIndex = currentImageIndex <= 0 ? images.length - 1 : currentImageIndex - 1;
+        setSelectedImage(images[newIndex]);
+    };
+
+    const handleNextImage = () => {
+        if (images.length <= 1) return;
+        const newIndex = currentImageIndex >= images.length - 1 ? 0 : currentImageIndex + 1;
+        setSelectedImage(images[newIndex]);
+    };
 
     const addItem = useCartStore((state) => state.addItem);
     const wishlistItems = useWishlistStore((state) => state.items);
@@ -119,11 +140,11 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                         {/* Image Section */}
-                        <div className="p-8 bg-gray-50">
-                            <div className="relative aspect-square bg-white rounded-2xl overflow-hidden shadow-inner">
-                                {product.image ? (
+                        <div className="p-8 bg-gray-50 flex flex-col gap-4">
+                            <div className="relative aspect-square w-full bg-white rounded-2xl overflow-hidden shadow-inner group">
+                                {currentDisplayImage ? (
                                     <Image
-                                        src={product.image.startsWith("/") ? product.image : `/${product.image}`}
+                                        src={currentDisplayImage.startsWith("/") ? currentDisplayImage : `/${currentDisplayImage}`}
                                         alt={product.name}
                                         fill
                                         className="object-contain"
@@ -133,17 +154,56 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                         <span className="text-gray-400">No Image</span>
                                     </div>
                                 )}
+                                
+                                {/* Navigation Arrows */}
+                                {images.length > 1 && (
+                                    <>
+                                        <button
+                                            onClick={handlePrevImage}
+                                            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white text-gray-800 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-10"
+                                        >
+                                            <FaChevronLeft className="text-sm" />
+                                        </button>
+                                        <button
+                                            onClick={handleNextImage}
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white text-gray-800 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-10"
+                                        >
+                                            <FaChevronRight className="text-sm" />
+                                        </button>
+                                    </>
+                                )}
+
                                 <div className="absolute top-4 left-4 flex flex-col gap-2">
                                     {/* Could be dynamic in future */}
                                 </div>
                                 <button
                                     onClick={handleWishlist}
-                                    className={`absolute top-4 right-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all hover:scale-110 ${isInWishlist ? "text-red-500" : "text-gray-400 hover:text-red-500"
+                                    className={`absolute top-4 right-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all hover:scale-110 z-10 ${isInWishlist ? "text-red-500" : "text-gray-400 hover:text-red-500"
                                         }`}
                                 >
                                     {isInWishlist ? <FaHeart /> : <FaRegHeart />}
                                 </button>
                             </div>
+                            
+                            {/* Thumbnails */}
+                            {images.length > 1 && (
+                                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-200">
+                                    {images.map((img: string, idx: number) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setSelectedImage(img)}
+                                            className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${currentDisplayImage === img ? "border-primary-600 opacity-100" : "border-transparent opacity-60 hover:opacity-100"}`}
+                                        >
+                                            <Image
+                                                src={img.startsWith("/") ? img : `/${img}`}
+                                                alt={`${product.name} ${idx + 1}`}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Info Section */}

@@ -105,11 +105,9 @@ export default function ProductCard({
   };
 
   return (
-    <Link
-      href={`/produk/detail?id=${id}`}
-      className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full"
-    >
-      <div className="relative aspect-square bg-gray-50 overflow-hidden">
+    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full relative">
+      <Link href={`/produk/detail?id=${id}`} className="absolute inset-0 z-0" aria-label={`View detail for ${name}`} />
+      <div className="relative aspect-square bg-gray-50 overflow-hidden z-10">
         {image ? (
           <Image
             src={image.startsWith("/") ? image : `/${image}`}
@@ -146,7 +144,7 @@ export default function ProductCard({
           )}
         </div>
 
-        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
           <button
             onClick={handleWishlist}
             className={`w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center transition-all hover:scale-110 ${isInWishlist ? "text-red-500" : "text-gray-400 hover:text-red-500"
@@ -154,14 +152,15 @@ export default function ProductCard({
           >
             {isInWishlist ? <FaHeart /> : <FaRegHeart />}
           </button>
-          <div
+          <Link
+            href={`/produk/detail?id=${id}`}
             className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-400 hover:text-primary-600 transition-all hover:scale-110"
           >
             <FaEye />
-          </div>
+          </Link>
         </div>
 
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-20">
           <button
             onClick={handleAddToCart}
             disabled={isAdding}
@@ -174,7 +173,7 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-4 flex flex-col flex-1 z-10">
         <p className="text-xs text-gray-500 font-medium mb-1">{category}</p>
         <h3 className="font-medium text-gray-900 text-lg line-clamp-2 mb-2 group-hover:text-primary-600 transition-colors">
           {name}
@@ -199,8 +198,26 @@ export default function ProductCard({
           <p className="text-xs text-gray-500 mt-1">
             {merk} {tipe}
           </p>
+
+          <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gray-100 relative z-20">
+            <Link
+              href={`/produk/detail?id=${id}`}
+              className="flex items-center justify-center gap-2 py-2.5 bg-gray-100 text-gray-700 text-xs font-semibold rounded-xl hover:bg-gray-200 transition-colors"
+            >
+              Lihat Detail
+            </Link>
+            <button
+              onClick={handleAddToCart}
+              disabled={isAdding}
+              className={`flex items-center justify-center gap-2 py-2.5 ${isAdding ? "bg-green-500" : "bg-primary-600 hover:bg-primary-700"
+                } text-white text-xs font-semibold rounded-xl transition-colors`}
+            >
+              <FaShoppingCart />
+              {isAdding ? "Selesai" : "Beli"}
+            </button>
+          </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

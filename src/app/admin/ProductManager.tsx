@@ -18,11 +18,10 @@ export default function ProductManager({ initialProducts }: Props) {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
-  const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
-  const [formData, setFormData] = useState<Partial<Product>>({});
+  const [editingProduct, setEditingProduct] = useState<(Partial<Product> & { images?: string[] }) | null>(null);
+  const [formData, setFormData] = useState<Partial<Product> & { images?: string[] }>({});
   const [loading, setLoading] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [imagesList, setImagesList] = useState<{ url: string, file: File | null }[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const categories = [
@@ -49,6 +48,7 @@ export default function ProductManager({ initialProducts }: Props) {
       masaGaransi: "2 Tahun",
       stok: "Tersedia",
       image: "",
+      images: [],
       price: 0,
       oldPrice: 0,
       isFlashSale: false,
@@ -57,16 +57,15 @@ export default function ProductManager({ initialProducts }: Props) {
       rating: 0,
       reviewCount: 0,
     });
-    setFile(null);
-    setPreview(null);
+    setImagesList([]);
     setIsModalOpen(true);
   };
 
   const handleOpenEdit = (product: Product) => {
     setEditingProduct(product);
     setFormData(product);
-    setFile(null);
-    setPreview(product.image || null);
+    const existingImages = (product as any).images && (product as any).images.length > 0 ? (product as any).images : (product.image ? [product.image] : []);
+    setImagesList(existingImages.map((url: string) => ({ url, file: null })));
     setIsModalOpen(true);
   };
 
@@ -92,15 +91,27 @@ export default function ProductManager({ initialProducts }: Props) {
     } as any;
 
     try {
-      if (file) {
-        const fd = new FormData();
-        fd.append("file", file);
-        const res = await fetch("/api/upload", { method: "POST", body: fd });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data?.error || "Gagal mengunggah gambar");
+      if (imagesList.length > 0) {
+        const uploadedPaths: string[] = [];
+        for (const item of imagesList) {
+          if (item.file) {
+            const fd = new FormData();
+            fd.append("file", item.file);
+            const res = await fetch("/api/upload", { method: "POST", body: fd });
+            const data = await res.json();
+            if (!res.ok) {
+              throw new Error(data?.error || "Gagal mengunggah gambar");
+            }
+            uploadedPaths.push(data.path);
+          } else {
+            uploadedPaths.push(item.url);
+          }
         }
-        dataToSend.image = data.path;
+        dataToSend.images = uploadedPaths;
+        dataToSend.image = uploadedPaths[0]; // Set the main thumbnail
+      } else {
+        dataToSend.images = [];
+        dataToSend.image = "";
       }
     } catch (err: any) {
       alert(err.message || "Upload gambar gagal");
@@ -126,14 +137,19 @@ export default function ProductManager({ initialProducts }: Props) {
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0] || null;
-    setFile(f);
-    if (f) {
-      const url = URL.createObjectURL(f);
-      setPreview(url);
-    } else {
-      setPreview(formData.image || null);
+    const selectedFiles = Array.from(e.target.files || []);
+    if (imagesList.length + selectedFiles.length > 10) {
+      alert("Maksimal 10 foto yang diperbolehkan");
+      return;
     }
+    const newItems = selectedFiles.map(f => ({ url: URL.createObjectURL(f), file: f }));
+    setImagesList([...imagesList, ...newItems]);
+    // Reset file input target value so the same file could be picked again if needed
+    e.target.value = '';
+  };
+
+  const removeImage = (index: number) => {
+    setImagesList(imagesList.filter((_, i) => i !== index));
   };
 
   const filteredProducts = products.filter((p) => {
@@ -355,26 +371,47 @@ export default function ProductManager({ initialProducts }: Props) {
                       placeholder="Contoh: Maknum Saber Pro"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Gambar Produk</label>
-                    {preview || formData.image ? (
-                      <div className="mb-2">
-                        <Image
-                          src={(preview || formData.image)!.startsWith("/") ? (preview || formData.image)! : `/${preview || formData.image}`}
-                          alt="Preview"
-                          width={160}
-                          height={120}
-                          className="w-40 h-30 rounded-lg object-cover ring-1 ring-gray-200"
-                        />
+                  <div className="col-span-1 md:col-span-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Gambar Produk ({imagesList.length}/10)
+                    </label>
+                    {imagesList.length > 0 ? (
+                      <div className="mb-3 flex flex-wrap gap-3">
+                        {imagesList.map((p, i) => (
+                          <div key={i} className="relative group w-24 h-24 rounded-lg overflow-hidden ring-1 ring-gray-200">
+                            <Image
+                              src={p.url.startsWith("blob:") || p.url.startsWith("/") ? p.url : `/${p.url}`}
+                              alt={`Preview ${i + 1}`}
+                              fill
+                              className="object-cover"
+                            />
+                            {/* Number badge */}
+                            <span className="absolute top-1 right-1 bg-black/60 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm z-10">
+                              {i + 1}
+                            </span>
+                            {/* Remove button */}
+                            <button
+                              type="button"
+                              title="Hapus gambar"
+                              onClick={() => removeImage(i)}
+                              className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                            >
+                              <FaTimes className="text-white text-xl drop-shadow-md" />
+                            </button>
+                          </div>
+                        ))}
                       </div>
                     ) : null}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={onFileChange}
-                      className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
-                    />
-                    <p className="text-xs text-gray-400 mt-1">Maksimal 5MB. PNG/JPG/WEBP</p>
+                    {imagesList.length < 10 && (
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={onFileChange}
+                        className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                      />
+                    )}
+                    <p className="text-xs text-gray-400 mt-2">Maksimal 5MB per file. PNG/JPG/WEBP. Bisa pilih lebih dari satu file berulang-kali.</p>
                   </div>
                   <div>
                     <label title="kategori" className="block text-sm font-semibold text-gray-700 mb-1">Kategori *</label>

@@ -21,25 +21,15 @@ const benefits = [
 ];
 
 export default async function HomePage() {
-  const rawProducts = await prisma.product.findMany({
-    take: 12,
+  const products = await prisma.product.findMany({
     orderBy: { createdAt: "desc" },
+    take: 50, // Increase take to ensure we have enough products to filter
   });
-
-  const products = rawProducts.map(p => ({
-    ...p,
-    price: (p as any).price || 0,
-    oldPrice: (p as any).oldPrice || 0,
-    rating: (p as any).rating || 0,
-    reviewCount: (p as any).reviewCount || 0,
-    isFlashSale: (p as any).isFlashSale || false,
-    isBestSeller: (p as any).isBestSeller || false,
-    isNew: (p as any).isNew || false,
-  })) as ProductWithMeta[];
 
   const flashSaleProducts = products.filter(p => p.isFlashSale).slice(0, 4);
   const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
   const newProducts = products.filter(p => p.isNew).slice(0, 4);
+  const allProducts = products.slice(0, 8);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -281,7 +271,7 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {products.slice(0, 8).map((product) => (
+          {allProducts.map((product) => (
             <ProductCard
               key={product.id}
               id={product.id}

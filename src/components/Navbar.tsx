@@ -255,13 +255,6 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="flex-1" />
-              <Link
-                href="/admin"
-                className="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-gray-600 hover:text-primary-600 transition-colors"
-              >
-                <FaBox />
-                Seller Central
-              </Link>
             </div>
           </div>
         </div>
