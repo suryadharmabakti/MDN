@@ -7,7 +7,7 @@ import { useCartStore } from "@/lib/store";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotalPrice, clearCart } = useCartStore();
-  
+
   const total = getTotalPrice();
   const shipping = total > 500000 ? 0 : 25000;
   const grandTotal = total + shipping;
@@ -48,7 +48,7 @@ export default function CartPage() {
                   <div className="relative w-28 h-28 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0">
                     {item.image ? (
                       <Image
-                        src={item.image.startsWith("/") ? item.image : `/${item.image}`}
+                        src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
                         alt={item.name}
                         fill
                         className="object-cover"

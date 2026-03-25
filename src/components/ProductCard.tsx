@@ -110,7 +110,7 @@ export default function ProductCard({
       <div className="relative aspect-square bg-gray-50 overflow-hidden z-10">
         {image ? (
           <Image
-            src={image.startsWith("/") ? image : `/${image}`}
+            src={image.startsWith("data:") || image.startsWith("/") ? image : `/${image}`}
             alt={name}
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-500"

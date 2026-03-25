@@ -34,10 +34,10 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
     const [activeTab, setActiveTab] = useState("specs");
     const [selectedImage, setSelectedImage] = useState<string>("");
 
-    const images: string[] = (product as any).images && (product as any).images.length > 0 
-        ? (product as any).images 
+    const images: string[] = (product as any).images && (product as any).images.length > 0
+        ? (product as any).images
         : (product.image ? [product.image] : []);
-        
+
     const currentDisplayImage = selectedImage || (images.length > 0 ? images[0] : "");
     const currentImageIndex = images.indexOf(currentDisplayImage);
 
@@ -144,7 +144,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                             <div className="relative aspect-square w-full bg-white rounded-2xl overflow-hidden shadow-inner group">
                                 {currentDisplayImage ? (
                                     <Image
-                                        src={currentDisplayImage.startsWith("/") ? currentDisplayImage : `/${currentDisplayImage}`}
+                                        src={currentDisplayImage.startsWith("data:") || currentDisplayImage.startsWith("/") ? currentDisplayImage : `/${currentDisplayImage}`}
                                         alt={product.name}
                                         fill
                                         className="object-contain"
@@ -154,7 +154,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                         <span className="text-gray-400">No Image</span>
                                     </div>
                                 )}
-                                
+
                                 {/* Navigation Arrows */}
                                 {images.length > 1 && (
                                     <>
@@ -184,7 +184,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                     {isInWishlist ? <FaHeart /> : <FaRegHeart />}
                                 </button>
                             </div>
-                            
+
                             {/* Thumbnails */}
                             {images.length > 1 && (
                                 <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-200">
@@ -195,7 +195,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                             className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${currentDisplayImage === img ? "border-primary-600 opacity-100" : "border-transparent opacity-60 hover:opacity-100"}`}
                                         >
                                             <Image
-                                                src={img.startsWith("/") ? img : `/${img}`}
+                                                src={img.startsWith("data:") || img.startsWith("/") ? img : `/${img}`}
                                                 alt={`${product.name} ${idx + 1}`}
                                                 fill
                                                 className="object-cover"

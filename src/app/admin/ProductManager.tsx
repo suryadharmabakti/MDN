@@ -15,9 +15,9 @@ const compressImage = async (file: File): Promise<File> => {
   return new Promise((resolve, reject) => {
     // Jika file sudah kecil, tidak perlu dikompres, langsung return (opsional)
     if (file.size < 800 * 1024 && file.type === "image/jpeg") {
-       return resolve(file);
+      return resolve(file);
     }
-    
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event) => {
@@ -58,7 +58,7 @@ const compressImage = async (file: File): Promise<File> => {
             0.6 // 60% Kualitas - menjamin ukuran < 500KB
           );
         } else {
-           reject(new Error("Canvas context tidak tersedia"));
+          reject(new Error("Canvas context tidak tersedia"));
         }
       };
       img.onerror = () => reject(new Error("Gagal meload gambar untuk kompresi"));
@@ -211,7 +211,7 @@ export default function ProductManager({ initialProducts }: Props) {
 
     const validFiles: File[] = [];
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
-    
+
     // Tampilkan loading state atau peringatan kompresi jika perlu
     let overSizeDetected = false;
 
@@ -227,7 +227,7 @@ export default function ProductManager({ initialProducts }: Props) {
       if (f.size > 1024 * 1024) { // Tandai jika ada file yang lebih dari 1MB untuk dikompress (opsional indikatornya)
         overSizeDetected = true;
       }
-      
+
       // Kompres secara otomatis semua gambar yang dipilih
       try {
         const compressedFile = await compressImage(f);
@@ -280,7 +280,7 @@ export default function ProductManager({ initialProducts }: Props) {
               onChange={async (e) => {
                 const f = e.target.files?.[0];
                 if (!f) return;
-                
+
                 // Validate size for excel 10MB
                 if (f.size > 10 * 1024 * 1024) {
                   alert("File Excel terlalu besar. Ukuran maksimal adalah 10MB.");
@@ -382,7 +382,7 @@ export default function ProductManager({ initialProducts }: Props) {
                     <div className="flex items-center">
                       {p.image ? (
                         <Image
-                          src={p.image.startsWith("/") ? p.image : `/${p.image}`}
+                          src={p.image.startsWith("data:") || p.image.startsWith("/") ? p.image : `/${p.image}`}
                           alt={p.name}
                           width={48}
                           height={48}
@@ -490,7 +490,7 @@ export default function ProductManager({ initialProducts }: Props) {
                         {imagesList.map((p, i) => (
                           <div key={i} className="relative group w-24 h-24 rounded-lg overflow-hidden ring-1 ring-gray-200">
                             <Image
-                              src={p.url.startsWith("blob:") || p.url.startsWith("/") ? p.url : `/${p.url}`}
+                              src={p.url.startsWith("data:") || p.url.startsWith("blob:") || p.url.startsWith("/") ? p.url : `/${p.url}`}
                               alt={`Preview ${i + 1}`}
                               fill
                               className="object-cover"

@@ -25,18 +25,12 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await fs.mkdir(uploadsDir, { recursive: true });
+    // Convert image buffer to base64 Data URI ensuring persistence on serverless providers
+    const base64Data = buffer.toString("base64");
+    const mimeType = file.type || "image/jpeg";
+    const dataUri = `data:${mimeType};base64,${base64Data}`;
 
-    const ext = file.type.split("/")[1] || "png";
-    const safeBase = (file.name || "image").replace(/[^a-zA-Z0-9_-]/g, "");
-    const filename = `${Date.now()}_${safeBase}.${ext}`;
-    const filepath = path.join(uploadsDir, filename);
-
-    await fs.writeFile(filepath, buffer);
-
-    const publicPath = `/uploads/${filename}`;
-    return NextResponse.json({ path: publicPath }, { status: 201 });
+    return NextResponse.json({ path: dataUri }, { status: 201 });
   } catch (e) {
     return NextResponse.json({ error: "Gagal mengunggah file" }, { status: 500 });
   }

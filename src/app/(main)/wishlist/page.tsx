@@ -55,7 +55,7 @@ export default function WishlistPage() {
               <div className="relative aspect-square bg-gray-50">
                 {item.image ? (
                   <img
-                    src={item.image.startsWith("/") ? item.image : `/${item.image}`}
+                    src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
                     alt={item.name}
                     className="w-full h-full object-cover"
                   />

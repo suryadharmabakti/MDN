@@ -173,9 +173,8 @@ export default function CheckoutPage() {
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                 <h2 className="text-xl font-medium text-gray-900 mb-6">Payment Method</h2>
                 <div className="space-y-3">
-                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-                    formData.paymentMethod === "transfer" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
-                  }`}>
+                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${formData.paymentMethod === "transfer" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
+                    }`}>
                     <input
                       type="radio"
                       name="paymentMethod"
@@ -190,9 +189,8 @@ export default function CheckoutPage() {
                       <p className="text-sm text-gray-500">Transfer via BCA, Mandiri, BRI, or BNI</p>
                     </div>
                   </label>
-                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-                    formData.paymentMethod === "credit" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
-                  }`}>
+                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${formData.paymentMethod === "credit" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
+                    }`}>
                     <input
                       type="radio"
                       name="paymentMethod"
@@ -207,9 +205,8 @@ export default function CheckoutPage() {
                       <p className="text-sm text-gray-500">Pay with Visa, Mastercard, or JCB</p>
                     </div>
                   </label>
-                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-                    formData.paymentMethod === "ewallet" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
-                  }`}>
+                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${formData.paymentMethod === "ewallet" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
+                    }`}>
                     <input
                       type="radio"
                       name="paymentMethod"
@@ -233,14 +230,14 @@ export default function CheckoutPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 sticky top-24">
               <h2 className="text-xl font-medium text-gray-900 mb-6">Order Summary</h2>
-              
+
               <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4">
                     <div className="relative w-16 h-16 bg-gray-50 rounded-lg overflow-hidden flex-shrink-0">
                       {item.image && (
                         <Image
-                          src={item.image.startsWith("/") ? item.image : `/${item.image}`}
+                          src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
                           alt={item.name}
                           fill
                           className="object-cover"
