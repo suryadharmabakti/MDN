@@ -151,7 +151,23 @@ export default function ProductManager({ initialProducts }: Props) {
       alert("Maksimal 10 foto yang diperbolehkan");
       return;
     }
-    const newItems = selectedFiles.map(f => ({ url: URL.createObjectURL(f), file: f }));
+
+    const validFiles: File[] = [];
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    
+    for (const f of selectedFiles) {
+      if (!allowedTypes.includes(f.type)) {
+        alert(`File "${f.name}" ditolak. Hanya diperbolehkan format PNG, JPG, dan WEBP.`);
+        continue;
+      }
+      if (f.size > 10 * 1024 * 1024) { // 10MB Max Size Validation
+        alert(`File "${f.name}" terlalu besar. Maksimal ukuran file adalah 10MB.`);
+        continue;
+      }
+      validFiles.push(f);
+    }
+
+    const newItems = validFiles.map(f => ({ url: URL.createObjectURL(f), file: f }));
     setImagesList([...imagesList, ...newItems]);
     // Reset file input target value so the same file could be picked again if needed
     e.target.value = '';
@@ -194,6 +210,14 @@ export default function ProductManager({ initialProducts }: Props) {
               onChange={async (e) => {
                 const f = e.target.files?.[0];
                 if (!f) return;
+                
+                // Validate size for excel 10MB
+                if (f.size > 10 * 1024 * 1024) {
+                  alert("File Excel terlalu besar. Ukuran maksimal adalah 10MB.");
+                  e.target.value = "";
+                  return;
+                }
+
                 const fd = new FormData();
                 fd.append("file", f);
                 const res = await fetch("/api/products/import", { method: "POST", body: fd });
@@ -427,7 +451,7 @@ export default function ProductManager({ initialProducts }: Props) {
                         className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
                       />
                     )}
-                    <p className="text-xs text-gray-400 mt-2">Maksimal 5MB per file. PNG/JPG/WEBP. Bisa pilih lebih dari satu file berulang-kali.</p>
+                    <p className="text-xs text-gray-400 mt-2">Maksimal 10MB per file. Format PNG, JPG, dan WEBP diperbolehkan.</p>
                   </div>
                   <div>
                     <label title="kategori" className="block text-sm font-semibold text-gray-700 mb-1">Kategori *</label>
