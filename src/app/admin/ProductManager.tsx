@@ -98,9 +98,18 @@ export default function ProductManager({ initialProducts }: Props) {
             const fd = new FormData();
             fd.append("file", item.file);
             const res = await fetch("/api/upload", { method: "POST", body: fd });
-            const data = await res.json();
+            let data: any = {};
+            const isJson = res.headers.get("content-type")?.includes("application/json");
+
+            if (isJson) {
+              data = await res.json();
+            } else {
+              const text = await res.text();
+              console.error("Non-JSON response from server:", text.substring(0, 200));
+            }
+
             if (!res.ok) {
-              throw new Error(data?.error || "Gagal mengunggah gambar");
+              throw new Error(data?.error || `Upload gagal (${res.status} ${res.statusText}). Cek batas ukuran upload server Anda.`);
             }
             uploadedPaths.push(data.path);
           } else {
@@ -188,9 +197,16 @@ export default function ProductManager({ initialProducts }: Props) {
                 const fd = new FormData();
                 fd.append("file", f);
                 const res = await fetch("/api/products/import", { method: "POST", body: fd });
-                const data = await res.json();
+                let data: any = {};
+                const isJson = res.headers.get("content-type")?.includes("application/json");
+                if (isJson) {
+                  data = await res.json();
+                } else {
+                  console.error("Non-JSON response (import):", await res.text().catch(() => ""));
+                }
+
                 if (!res.ok) {
-                  alert(data?.error || "Import gagal");
+                  alert(data?.error || `Import gagal (${res.status} ${res.statusText}). Cek file dan batas ukuran server.`);
                   return;
                 }
                 setProducts((prev) => [...data.products, ...prev]);
@@ -343,18 +359,18 @@ export default function ProductManager({ initialProducts }: Props) {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-[95%] sm:max-w-2xl shadow-2xl transform transition-all animate-in zoom-in-95 duration-200">
-            <div className="px-8 py-6 border-b border-gray-100 flex justify-between items-center">
+          <div className="bg-white rounded-2xl w-full max-w-[95%] sm:max-w-2xl shadow-2xl transform transition-all animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-gray-100 flex justify-between items-center shrink-0">
               <h3 className="text-xl font-medium text-gray-900 flex items-center space-x-2">
                 {editingProduct ? <FaEdit className="text-primary-600" /> : <FaPlus className="text-primary-600" />}
                 <span>{editingProduct ? "Edit Produk" : "Tambah Produk"}</span>
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 transition-colors">
+              <button type="button" onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 transition-colors">
                 <FaTimes size={20} />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-8">
+            <form onSubmit={handleSubmit} className="p-8 overflow-y-auto flex-1">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <h4 className="text-xs font-medium text-gray-400 uppercase tracking-widest flex items-center space-x-1">
