@@ -209,7 +209,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-primary-400 transition-colors"
                 >
-                  0821-2890-7619
+                  08131536969
                 </a>
               </li>
               <li className="flex items-center gap-3">
