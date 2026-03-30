@@ -101,34 +101,7 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Category Dropdown */}
-            <div className="relative hidden md:block" ref={categoryRef}>
-              <button
-                onClick={() => setCategoryOpen(!categoryOpen)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg font-semibold text-gray-700 transition-colors"
-              >
-                <HiMenu className="text-lg" />
-                Categories
-                <FaChevronDown
-                  className={`text-xs transition-transform ${categoryOpen ? "rotate-180" : ""
-                    }`}
-                />
-              </button>
-              {categoryOpen && (
-                <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
-                  {categories.map((cat) => (
-                    <Link
-                      key={cat.name}
-                      href={cat.href}
-                      onClick={() => setCategoryOpen(false)}
-                      className="block px-4 py-2.5 hover:bg-gray-50 text-gray-700 font-medium transition-colors"
-                    >
-                      {cat.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+          
 
             {/* Search Bar */}
             <form

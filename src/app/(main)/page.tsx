@@ -21,15 +21,27 @@ const benefits = [
 ];
 
 export default async function HomePage() {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 50, // Increase take to ensure we have enough products to filter
-  });
-
-  const flashSaleProducts = products.filter(p => p.isFlashSale).slice(0, 4);
-  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
-  const newProducts = products.filter(p => p.isNew).slice(0, 4);
-  const allProducts = products.slice(0, 8);
+  const [flashSaleProducts, bestSellers, newProducts, allProducts] = await Promise.all([
+    prisma.product.findMany({
+      where: { isFlashSale: true },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+    }),
+    prisma.product.findMany({
+      where: { isBestSeller: true },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+    }),
+    prisma.product.findMany({
+      where: { isNew: true },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+    }),
+    prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 8,
+    }),
+  ]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
