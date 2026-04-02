@@ -10,6 +10,7 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 import Image from "next/image";
+import FooterCredits from "./FooterCredits";
 
 export default function Footer() {
   return (
@@ -267,6 +268,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} MDN Tech. All rights reserved. |
             Powered by PT. MDN Industry Power Indonesia Corp
           </p>
+          <FooterCredits />
         </div>
       </div>
     </footer>
