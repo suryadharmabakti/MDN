@@ -71,12 +71,15 @@ interface Props {
   initialProducts: Product[];
 }
 
+// Extended Product type to support extra fields not yet in Prisma schema
+type ExtendedProduct = Product & { nomorSeri?: string };
+
 export default function ProductManager({ initialProducts }: Props) {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<ExtendedProduct[]>(initialProducts as ExtendedProduct[]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
-  const [editingProduct, setEditingProduct] = useState<(Partial<Product> & { images?: string[] }) | null>(null);
-  const [formData, setFormData] = useState<Partial<Product> & { images?: string[] }>({});
+  const [editingProduct, setEditingProduct] = useState<(Partial<ExtendedProduct> & { images?: string[] }) | null>(null);
+  const [formData, setFormData] = useState<Partial<ExtendedProduct> & { images?: string[] }>({});
   const [loading, setLoading] = useState(false);
   const [imagesList, setImagesList] = useState<{ url: string, file: File | null }[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -549,8 +552,8 @@ export default function ProductManager({ initialProducts }: Props) {
                     <input
                       type="text"
                       className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none font-mono"
-                      value={(formData as any).nomorSeri || ""}
-                      onChange={(e) => setFormData({ ...formData, nomorSeri: e.target.value } as any)}
+                      value={formData.nomorSeri || ""}
+                      onChange={(e) => setFormData({ ...formData, nomorSeri: e.target.value })}
                       placeholder="Contoh: MDN-L5-PRO-001"
                     />
                   </div>
