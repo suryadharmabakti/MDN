@@ -99,6 +99,7 @@ export default function ProductManager({ initialProducts }: Props) {
       tipe: "",
       prosesor: "",
       kapasitas: "",
+      nomorSeri: "",
       sistemOperasi: "",
       berat: "",
       dimensi: "",
@@ -252,6 +253,7 @@ export default function ProductManager({ initialProducts }: Props) {
     const q = searchQuery.toLowerCase();
     return (
       (p.tipe || "").toLowerCase().includes(q) ||
+      (p.nomorSeri || "").toLowerCase().includes(q) ||
       (p.name || "").toLowerCase().includes(q) ||
       (p.merk || "").toLowerCase().includes(q)
     );
@@ -400,12 +402,12 @@ export default function ProductManager({ initialProducts }: Props) {
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    {p.tipe ? (
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-medium tracking-wide ${searchQuery && p.tipe.toLowerCase().includes(searchQuery.toLowerCase())
+                    {p.nomorSeri ? (
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-medium tracking-wide ${searchQuery && p.nomorSeri.toLowerCase().includes(searchQuery.toLowerCase())
                         ? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
                         : "bg-gray-100 text-gray-700"
                         }`}>
-                        {p.tipe}
+                        {p.nomorSeri}
                       </span>
                     ) : (
                       <span className="text-gray-300 text-xs">—</span>
@@ -543,13 +545,13 @@ export default function ProductManager({ initialProducts }: Props) {
                     />
                   </div>
                   <div>
-                    <label title="tipe" className="block text-sm font-semibold text-gray-700 mb-1">Nomor Seri</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Nomor Seri</label>
                     <input
                       type="text"
                       className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none font-mono"
-                      value={formData.tipe || ""}
-                      onChange={(e) => setFormData({ ...formData, tipe: e.target.value })}
-                      placeholder="Contoh: MDN-L5-PRO"
+                      value={(formData as any).nomorSeri || ""}
+                      onChange={(e) => setFormData({ ...formData, nomorSeri: e.target.value } as any)}
+                      placeholder="Contoh: MDN-L5-PRO-001"
                     />
                   </div>
                   <div>

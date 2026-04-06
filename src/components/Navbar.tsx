@@ -101,7 +101,7 @@ export default function Navbar() {
               />
             </Link>
 
-          
+
 
             {/* Search Bar */}
             <form
@@ -149,15 +149,7 @@ export default function Navbar() {
               </Link>
 
               {/* Account */}
-              <Link
-                href="/login"
-                className="hidden lg:flex flex-col items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"
-              >
-                <FaUser className="text-xl text-gray-600" />
-                <span className="text-xs font-medium text-gray-600 mt-1">
-                  Account
-                </span>
-              </Link>
+
 
               {/* Cart */}
               <button
