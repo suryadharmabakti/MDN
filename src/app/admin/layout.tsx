@@ -18,7 +18,7 @@ export default async function AdminLayout({
         <div className="p-6">
           <Link href="/" className="flex items-center space-x-2">
         <Image
-          src="/mdn-logo.png"
+          src="/uploads/mdn-logo.png"
           alt="MDN Logo"
           width={64}
           height={64}
