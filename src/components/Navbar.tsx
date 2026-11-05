@@ -75,26 +75,28 @@ export default function Navbar() {
     <>
       <CartDrawer />
       <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl backdrop-saturate-150 border-b border-line">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-12 md:h-14 gap-8">
-            {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
-              <Image
-                src="/uploads/mdn-logo.png"
-                alt="MDN Tech Logo"
-                width={40}
-                height={40}
-                className="h-8 w-8 object-contain opacity-90 hover:opacity-100 transition-opacity"
-              />
-            </Link>
+        <div className="max-w-7xl mx-auto px-4 relative">
+          <div className="flex items-center justify-between h-12 md:h-14">
+            {/* Logo - Left aligned */}
+            <div className="flex-shrink-0 z-10">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/uploads/mdn-logo.png"
+                  alt="MDN Tech Logo"
+                  width={40}
+                  height={40}
+                  className="h-8 w-8 object-contain opacity-90 hover:opacity-100 transition-opacity"
+                />
+              </Link>
+            </div>
 
-            {/* Desktop Links - Centered */}
-            <div className="hidden md:flex items-center justify-center flex-1 gap-1 lg:gap-2">
+            {/* Desktop Links - Absolutely Centered */}
+            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center gap-1 lg:gap-2 w-full max-w-fit">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-1 text-[12px] font-medium tracking-tight transition-colors ${
+                  className={`px-3 py-1 text-[12px] font-medium tracking-tight transition-colors whitespace-nowrap ${
                     pathname === link.href
                       ? "text-ink"
                       : "text-ink-secondary hover:text-ink"
@@ -105,8 +107,8 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Icons & Search */}
-            <div className="flex items-center gap-2 md:gap-4">
+            {/* Icons & Search - Right aligned */}
+            <div className="flex items-center gap-2 md:gap-4 z-10">
               {/* Search (Slim on Desktop) */}
               <form
                 onSubmit={handleSearch}
