@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import Image from "next/image";
+import { headers } from "next/headers";
 
 export default async function AdminLayout({
   children,
@@ -31,15 +32,21 @@ export default async function AdminLayout({
         <nav className="flex-1 px-4 space-y-2">
           <Link
             href="/admin"
-            className="block px-4 py-2 rounded-lg bg-primary-600 text-white font-medium"
+            className="block px-4 py-2 rounded-lg hover:bg-dark-700 text-gray-300 transition-colors font-medium"
           >
-            Manajemen Produk
+            📦 Manajemen Produk
+          </Link>
+          <Link
+            href="/admin/flash-sale"
+            className="block px-4 py-2 rounded-lg hover:bg-dark-700 text-gray-300 transition-colors font-medium"
+          >
+            ⚡ Flash Sale
           </Link>
           <Link
             href="/"
             className="block px-4 py-2 rounded-lg hover:bg-dark-700 text-gray-300 transition-colors"
           >
-            Lihat Website
+            🌐 Lihat Website
           </Link>
         </nav>
         <div className="p-4 border-t border-dark-700">

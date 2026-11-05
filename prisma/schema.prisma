@@ -37,7 +37,8 @@ model Product {
   stok          String    @default("")
   price         Float     @default(0)
   oldPrice      Float     @default(0)
-  isFlashSale   Boolean   @default(false)
+  isFlashSale      Boolean   @default(false)
+  flashSaleEndTime DateTime?
   isBestSeller  Boolean   @default(false)
   isNew         Boolean   @default(false)
   rating        Float     @default(0)

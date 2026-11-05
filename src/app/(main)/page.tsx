@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaStar, FaChevronRight } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import { ProductWithMeta } from "@/types";
+import FlashSaleCountdown from "@/components/FlashSaleCountdown";
 
 export const dynamic = "force-dynamic";
 
@@ -140,12 +141,15 @@ export default async function HomePage() {
           <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-3xl p-6 md:p-8 text-white">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
-                <h2 className="text-2xl md:text-3xl font-medium">Flash Sale</h2>
-                <div className="flex gap-2">
-                  <span className="px-3 py-1 bg-white text-red-600 font-medium rounded-lg text-sm">02</span>
-                  <span className="px-3 py-1 bg-white text-red-600 font-medium rounded-lg text-sm">15</span>
-                  <span className="px-3 py-1 bg-white text-red-600 font-medium rounded-lg text-sm">30</span>
-                </div>
+                <h2 className="text-2xl md:text-3xl font-medium">⚡ Flash Sale</h2>
+                <FlashSaleCountdown
+                  endTime={
+                    (() => {
+                      const p = flashSaleProducts.find((p: any) => p.flashSaleEndTime);
+                      return p ? (p as any).flashSaleEndTime?.toISOString() ?? null : null;
+                    })()
+                  }
+                />
               </div>
               <Link href="/produk?filter=flashsale" className="text-white font-medium hover:underline">
                 View All →
