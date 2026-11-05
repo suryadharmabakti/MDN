@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+
 import Image from "next/image";
-import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaBolt, FaChevronRight } from "react-icons/fa";
+import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaChevronRight } from "react-icons/fa";
+import { FiZap } from "react-icons/fi";
 import ProductCard from "@/components/ProductCard";
 import { ProductWithMeta } from "@/types";
 import FlashSaleCountdown from "@/components/FlashSaleCountdown";
@@ -121,13 +123,13 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {benefits.map((benefit, idx) => (
               <div key={idx} className="bg-white rounded-2xl p-5 border border-line flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <benefit.icon className="text-xl text-primary-600" />
-                </div>
-                <div>
-                  <h4 className="font-medium text-ink text-sm">{benefit.title}</h4>
-                  <p className="text-xs text-ink-secondary">{benefit.desc}</p>
-                </div>
+              <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <benefit.icon className="text-xl text-primary-600" />
+              </div>
+              <div>
+                <h4 className="font-medium text-ink text-sm">{benefit.title}</h4>
+                <p className="text-xs text-ink-secondary">{benefit.desc}</p>
+              </div>
               </div>
             ))}
           </div>
@@ -136,29 +138,63 @@ export default async function HomePage() {
 
       {/* Flash Sale */}
       {flashSaleProducts.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 section-y">
-          <div className="bg-red-600 rounded-panel p-6 md:p-8 text-white">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <h2 className="flex items-center gap-2 text-2xl md:text-3xl font-semibold">
-                  <FaBolt aria-hidden="true" />
-                  Flash Sale
-                </h2>
-                <FlashSaleCountdown
-                  endTime={
-                    (() => {
-                      const p = flashSaleProducts.find((p: any) => p.flashSaleEndTime);
-                      return p ? (p as any).flashSaleEndTime?.toISOString() ?? null : null;
-                    })()
-                  }
-                />
+        <section className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 section-y">
+            <div className="bg-red-600 rounded-panel p-6 md:p-8 text-white">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <h2 className="flex items-center gap-2 text-2xl md:text-3xl font-semibold">
+                    <FiZap aria-hidden="true" />
+                    Flash Sale
+                  </h2>
+                  <FlashSaleCountdown
+                    endTime={
+                      (() => {
+                        const p = flashSaleProducts.find((p: any) => p.flashSaleEndTime);
+                        return p ? (p as any).flashSaleEndTime?.toISOString() ?? null : null;
+                      })()
+                    }
+                  />
+                </div>
+                <Link href="/produk?filter=flashsale" className="text-white font-medium hover:underline">
+                  View All →
+                </Link>
               </div>
-              <Link href="/produk?filter=flashsale" className="text-white font-medium hover:underline">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {flashSaleProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    price={product.price}
+                    oldPrice={product.oldPrice}
+                    image={product.image}
+                    category={product.category}
+                    merk={product.merk}
+                    tipe={product.tipe}
+                    rating={product.rating}
+                    reviewCount={product.reviewCount}
+                    isFlashSale={true}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Best Sellers */}
+      {bestSellers.length > 0 && (
+        <section className="bg-surface">
+          <div className="max-w-7xl mx-auto px-4 section-y">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl md:text-3xl font-semibold text-ink">Best Sellers</h2>
+              <Link href="/produk?filter=bestseller" className="text-sm font-medium text-primary-600 hover:underline">
                 View All →
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {flashSaleProducts.map((product) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {bestSellers.map((product) => (
                 <ProductCard
                   key={product.id}
                   id={product.id}
@@ -171,43 +207,10 @@ export default async function HomePage() {
                   tipe={product.tipe}
                   rating={product.rating}
                   reviewCount={product.reviewCount}
-                  isFlashSale={true}
+                  isBestSeller={true}
                 />
               ))}
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Best Sellers */}
-      {bestSellers.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 section-y">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-1 h-8 bg-primary-600 rounded-full" />
-              <h2 className="text-2xl md:text-3xl font-semibold text-ink">Best Sellers</h2>
-            </div>
-            <Link href="/produk?filter=bestseller" className="text-primary-600 font-medium hover:underline">
-              View All →
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {bestSellers.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                oldPrice={product.oldPrice}
-                image={product.image}
-                category={product.category}
-                merk={product.merk}
-                tipe={product.tipe}
-                rating={product.rating}
-                reviewCount={product.reviewCount}
-                isBestSeller={true}
-              />
-            ))}
           </div>
         </section>
       )}
@@ -236,18 +239,47 @@ export default async function HomePage() {
 
       {/* New Products */}
       {newProducts.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 section-y">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-1 h-8 bg-primary-600 rounded-full" />
+        <section className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 section-y">
+            <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl md:text-3xl font-semibold text-ink">New Arrivals</h2>
+              <Link href="/produk?filter=new" className="text-sm font-medium text-primary-600 hover:underline">
+                View All →
+              </Link>
             </div>
-            <Link href="/produk?filter=new" className="text-primary-600 font-medium hover:underline">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {newProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  oldPrice={product.oldPrice}
+                  image={product.image}
+                  category={product.category}
+                  merk={product.merk}
+                  tipe={product.tipe}
+                  rating={product.rating}
+                  reviewCount={product.reviewCount}
+                  isNew={true}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* All Products */}
+      <section className="bg-surface">
+        <div className="max-w-7xl mx-auto px-4 section-y">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl md:text-3xl font-semibold text-ink">All Products</h2>
+            <Link href="/produk" className="text-sm font-medium text-primary-600 hover:underline">
               View All →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {newProducts.map((product) => (
+            {allProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 id={product.id}
@@ -260,40 +292,9 @@ export default async function HomePage() {
                 tipe={product.tipe}
                 rating={product.rating}
                 reviewCount={product.reviewCount}
-                isNew={true}
               />
             ))}
           </div>
-        </section>
-      )}
-
-      {/* All Products */}
-      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 section-y">
-        <div className="w-full flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-1 h-8 bg-primary-600 rounded-full" />
-            <h2 className="text-2xl md:text-3xl font-semibold text-ink">All Products</h2>
-          </div>
-          <Link href="/produk" className="text-primary-600 font-medium hover:underline">
-            View All →
-          </Link>
-        </div>
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {allProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              price={product.price}
-              oldPrice={product.oldPrice}
-              image={product.image}
-              category={product.category}
-              merk={product.merk}
-              tipe={product.tipe}
-              rating={product.rating}
-              reviewCount={product.reviewCount}
-            />
-          ))}
         </div>
       </section>
 
