@@ -45,7 +45,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative bg-primary-800 text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 py-24 lg:py-32">
@@ -93,37 +93,44 @@ export default async function HomePage() {
       </section>
 
       {/* Categories */}
-      <section className="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {categories.map((cat) => (
-            <Link
-              key={cat.name}
-              href={cat.href}
-              className="bg-white rounded-2xl p-6 border border-line hover:border-primary-200 hover:shadow-sm transition-all flex flex-col items-center gap-3"
-            >
-              <div className="w-14 h-14 bg-surface rounded-xl flex items-center justify-center">
-                <cat.icon className="text-xl text-primary-600" />
-              </div>
-              <span className="font-medium text-ink">{cat.name}</span>
-            </Link>
-          ))}
+      <section className="bg-white">
+        <div className="max-w-7xl mx-auto px-4 section-y">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.map((cat, idx) => (
+              <Link
+                key={cat.name}
+                href={cat.href}
+                className={`group ${idx === 0 ? "md:col-span-2" : ""} bg-surface rounded-panel p-8 flex items-center justify-between gap-6 hover:bg-line transition-colors`}
+              >
+                <div>
+                  <h3 className="text-xl md:text-2xl font-semibold text-ink">{cat.name}</h3>
+                  <span className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary-600">
+                    Lihat <FaChevronRight className="text-[10px]" />
+                  </span>
+                </div>
+                <cat.icon className="text-4xl text-primary-600/80" aria-hidden="true" />
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Benefits */}
-      <section className="max-w-7xl mx-auto px-4 py-12 lg:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {benefits.map((benefit, idx) => (
-            <div key={idx} className="bg-white rounded-2xl p-5 border border-line flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <benefit.icon className="text-xl text-primary-600" />
+      <section className="bg-surface">
+        <div className="max-w-7xl mx-auto px-4 py-12 lg:py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {benefits.map((benefit, idx) => (
+              <div key={idx} className="bg-white rounded-2xl p-5 border border-line flex items-center gap-4">
+                <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <benefit.icon className="text-xl text-primary-600" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-ink text-sm">{benefit.title}</h4>
+                  <p className="text-xs text-ink-secondary">{benefit.desc}</p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-medium text-ink text-sm">{benefit.title}</h4>
-                <p className="text-xs text-ink-secondary">{benefit.desc}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
