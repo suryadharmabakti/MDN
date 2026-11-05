@@ -48,50 +48,46 @@ export default async function HomePage() {
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section className="relative bg-primary-800 text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <p className="text-sm font-medium uppercase tracking-[0.18em] text-white/60">
-                New Collection 2026 Available
-              </p>
+        <div className="max-w-7xl mx-auto px-4 py-24 lg:py-32">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/60">
+              New Collection 2026 Available
+            </p>
 
-              <h1 className="text-[clamp(2.25rem,6vw,5rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
-                Premium Technology
-                <br />For Your Life
-              </h1>
+            <h1 className="text-[clamp(2.5rem,7vw,5.5rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
+              Premium Technology
+              <br />For Your Life
+            </h1>
 
-              <p className="text-[17px] leading-relaxed text-white/70 max-w-lg">
-                Discover the latest gadgets and electronics at unbeatable prices. Quality guaranteed with official warranty.
-              </p>
+            <p className="text-lg lg:text-xl leading-relaxed text-white/70 max-w-2xl mx-auto">
+              Discover the latest gadgets and electronics at unbeatable prices. Quality guaranteed with official warranty.
+            </p>
 
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Link
-                  href="/produk"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-700 font-medium rounded-full hover:bg-gray-100 transition-colors"
-                >
-                  Shop Now <FaChevronRight />
-                </Link>
-                <Link
-                  href="/tentang-kami"
-                  className="inline-flex items-center gap-2 px-8 py-4 text-white font-medium rounded-full ring-1 ring-inset ring-white/30 hover:bg-white/10 transition-colors"
-                >
-                  Learn More
-                </Link>
-              </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-2">
+              <Link
+                href="/produk"
+                className="inline-flex items-center px-8 py-4 bg-white text-primary-700 font-medium rounded-full hover:bg-gray-100 transition-colors"
+              >
+                Shop Now
+              </Link>
+              <Link
+                href="/tentang-kami"
+                className="inline-flex items-center gap-1.5 text-white font-medium hover:text-white/80 transition-colors"
+              >
+                Learn More <FaChevronRight className="text-xs" />
+              </Link>
             </div>
+          </div>
 
-            <div className="hidden lg:flex justify-center">
-              <div className="relative w-full max-w-md">
-                <Image
-                  src="/uploads/21.png"
-                  alt="MDN Tech Products"
-                  width={500}
-                  height={500}
-                  className="relative w-full h-auto object-contain"
-                  priority
-                />
-              </div>
-            </div>
+          <div className="mt-16 lg:mt-20 flex justify-center">
+            <Image
+              src="/uploads/21.png"
+              alt="MDN Tech Products"
+              width={500}
+              height={500}
+              className="w-full max-w-2xl h-auto object-contain"
+              priority
+            />
           </div>
         </div>
       </section>

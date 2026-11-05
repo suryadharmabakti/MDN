@@ -74,21 +74,19 @@ export default function Navbar() {
   return (
     <>
       <CartDrawer />
-      <nav className="sticky top-0 z-40 bg-white shadow-md">
+      <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl backdrop-saturate-150 border-b border-line">
         {/* Top Bar */}
-        <div className="bg-primary-600 text-white text-xs py-2">
-          <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <div className="bg-primary-700 text-white/90 text-[11px]">
+          <div className="max-w-7xl mx-auto px-4 py-1.5 flex justify-between items-center">
             <p>Welcome to MDN Tech - Your Trusted Technology Partner</p>
-            <div className="flex items-center gap-4">
-              <Link href="/hubungi-kami" className="hover:underline">
-                Help
-              </Link>
-            </div>
+            <Link href="/hubungi-kami" className="hover:text-white transition-colors">
+              Help
+            </Link>
           </div>
         </div>
 
         {/* Main Navbar */}
-        <div className="max-w-7xl mx-auto px-4 py-3">
+        <div className="max-w-7xl mx-auto px-4 py-2.5">
           <div className="flex items-center justify-between gap-4">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 flex-shrink-0">
@@ -97,7 +95,7 @@ export default function Navbar() {
                 alt="MDN Tech Logo"
                 width={70}
                 height={700}
-                className="h-18 w-18 object-contain"
+                className="h-10 w-10 object-contain"
               />
             </Link>
 
@@ -115,13 +113,13 @@ export default function Navbar() {
                     placeholder="Search for products, brands and more..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-4 py-3 pl-12 border-2 border-gray-200 rounded-l-xl focus:border-primary-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-2.5 pl-11 bg-surface border border-line rounded-l-full focus:border-primary-500 focus:outline-none transition-colors"
                   />
                   <HiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
                 </div>
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-r-xl transition-colors"
+                  className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-r-full transition-colors"
                 >
                   Search
                 </button>
@@ -133,7 +131,7 @@ export default function Navbar() {
               {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="hidden lg:flex flex-col items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                className="hidden lg:flex flex-col items-center p-2 hover:bg-surface rounded-lg transition-colors"
               >
                 <div className="relative">
                   <FaHeart className="text-xl text-gray-600" />
@@ -154,7 +152,7 @@ export default function Navbar() {
               {/* Cart */}
               <button
                 onClick={openCart}
-                className="flex flex-col items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                className="flex flex-col items-center p-2 hover:bg-surface rounded-lg transition-colors"
               >
                 <div className="relative">
                   <FaShoppingCart className="text-xl text-gray-600" />
@@ -172,7 +170,7 @@ export default function Navbar() {
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden p-2 hover:bg-gray-50 rounded-lg"
+                className="md:hidden p-2 hover:bg-surface rounded-lg"
               >
                 {menuOpen ? (
                   <HiX className="w-6 h-6 text-gray-700" />
@@ -191,11 +189,11 @@ export default function Navbar() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2.5 border-2 border-gray-200 rounded-l-xl focus:border-primary-500 focus:outline-none"
+                className="flex-1 px-4 py-2.5 bg-surface border border-line rounded-l-full focus:border-primary-500 focus:outline-none"
               />
               <button
                 type="submit"
-                className="px-5 py-2.5 bg-primary-600 text-white font-medium rounded-r-xl"
+                className="px-5 py-2.5 bg-primary-600 text-white font-medium rounded-r-full"
               >
                 <HiSearch />
               </button>
@@ -204,14 +202,14 @@ export default function Navbar() {
         </div>
 
         {/* Bottom Nav (Desktop) */}
-        <div className="hidden md:block border-t border-gray-100">
+        <div className="hidden md:block border-t border-line">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-4 py-3 text-sm font-semibold transition-colors ${pathname === link.href
+                  className={`px-4 py-2.5 text-[13px] font-medium transition-colors ${pathname === link.href
                     ? "text-primary-600 border-b-2 border-primary-600"
                     : "text-gray-600 hover:text-primary-600"
                     }`}
@@ -226,7 +224,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 animate-in slide-in-from-top duration-300">
+          <div className="md:hidden bg-white border-t border-line animate-in slide-in-from-top duration-300">
             <div className="px-4 py-3 space-y-1">
               {navLinks.map((link) => (
                 <Link
@@ -235,24 +233,24 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   className={`block px-4 py-3 rounded-lg font-medium transition-colors ${pathname === link.href
                     ? "bg-primary-50 text-primary-600"
-                    : "text-gray-700 hover:bg-gray-50"
+                    : "text-gray-700 hover:bg-surface"
                     }`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-3 border-t border-gray-100">
+              <div className="pt-3 border-t border-line">
                 <Link
                   href="/login"
                   onClick={() => setMenuOpen(false)}
-                  className="block px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
+                  className="block px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-surface"
                 >
                   My Account
                 </Link>
                 <Link
                   href="/wishlist"
                   onClick={() => setMenuOpen(false)}
-                  className="block px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
+                  className="block px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-surface"
                 >
                   Wishlist ({wishlistCount})
                 </Link>
