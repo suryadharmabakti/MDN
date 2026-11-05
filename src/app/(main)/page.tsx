@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
-import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaStar, FaChevronRight } from "react-icons/fa";
+import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaBolt, FaChevronRight } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import { ProductWithMeta } from "@/types";
 import FlashSaleCountdown from "@/components/FlashSaleCountdown";
@@ -9,9 +9,9 @@ import FlashSaleCountdown from "@/components/FlashSaleCountdown";
 export const dynamic = "force-dynamic";
 
 const categories = [
-  { name: "Laptop", icon: FaLaptop, href: "/produk?category=Laptop", color: "bg-blue-500" },
-  { name: "PC", icon: FaDesktop, href: "/produk?category=PC", color: "bg-green-500" },
-  { name: "Aksesoris", icon: FaHeadphones, href: "/produk?category=Aksesoris", color: "bg-orange-500" },
+  { name: "Laptop", icon: FaLaptop, href: "/produk?category=Laptop" },
+  { name: "PC", icon: FaDesktop, href: "/produk?category=PC" },
+  { name: "Aksesoris", icon: FaHeadphones, href: "/produk?category=Aksesoris" },
 ];
 
 const benefits = [
@@ -47,36 +47,33 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-primary-700 to-primary-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/uploads/17.jpg')] opacity-10 bg-center bg-no-repeat bg-cover" />
-
-        <div className="max-w-7xl mx-auto px-4 py-16 lg:py-24">
+      <section className="relative bg-primary-800 text-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 py-20 lg:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-sm font-medium">New Collection 2026 Available</span>
-              </div>
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-white/60">
+                New Collection 2026 Available
+              </p>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
-                Premium <span className="text-primary-300">Technology</span>
+              <h1 className="text-[clamp(2.25rem,6vw,5rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
+                Premium Technology
                 <br />For Your Life
               </h1>
 
-              <p className="text-lg text-primary-100 max-w-lg">
+              <p className="text-[17px] leading-relaxed text-white/70 max-w-lg">
                 Discover the latest gadgets and electronics at unbeatable prices. Quality guaranteed with official warranty.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link
                   href="/produk"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-700 font-medium rounded-xl hover:bg-gray-100 transition-colors"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-700 font-medium rounded-full hover:bg-gray-100 transition-colors"
                 >
                   Shop Now <FaChevronRight />
                 </Link>
                 <Link
                   href="/tentang-kami"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-medium rounded-xl hover:bg-white/20 transition-colors"
+                  className="inline-flex items-center gap-2 px-8 py-4 text-white font-medium rounded-full ring-1 ring-inset ring-white/30 hover:bg-white/10 transition-colors"
                 >
                   Learn More
                 </Link>
@@ -85,7 +82,6 @@ export default async function HomePage() {
 
             <div className="hidden lg:flex justify-center">
               <div className="relative w-full max-w-md">
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary-400/20 to-transparent rounded-full blur-3xl" />
                 <Image
                   src="/uploads/21.png"
                   alt="MDN Tech Products"
@@ -107,28 +103,28 @@ export default async function HomePage() {
             <Link
               key={cat.name}
               href={cat.href}
-              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center gap-3"
+              className="bg-white rounded-2xl p-6 border border-line hover:border-primary-200 hover:shadow-sm transition-all flex flex-col items-center gap-3"
             >
-              <div className={`w-16 h-16 ${cat.color} rounded-2xl flex items-center justify-center`}>
-                <cat.icon className="text-2xl text-white" />
+              <div className="w-14 h-14 bg-surface rounded-xl flex items-center justify-center">
+                <cat.icon className="text-xl text-primary-600" />
               </div>
-              <span className="font-medium text-gray-900">{cat.name}</span>
+              <span className="font-medium text-ink">{cat.name}</span>
             </Link>
           ))}
         </div>
       </section>
 
       {/* Benefits */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
+      <section className="max-w-7xl mx-auto px-4 py-12 lg:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {benefits.map((benefit, idx) => (
-            <div key={idx} className="bg-white rounded-xl p-5 shadow-sm flex items-center gap-4">
+            <div key={idx} className="bg-white rounded-2xl p-5 border border-line flex items-center gap-4">
               <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
                 <benefit.icon className="text-xl text-primary-600" />
               </div>
               <div>
-                <h4 className="font-medium text-gray-900 text-sm">{benefit.title}</h4>
-                <p className="text-xs text-gray-500">{benefit.desc}</p>
+                <h4 className="font-medium text-ink text-sm">{benefit.title}</h4>
+                <p className="text-xs text-ink-secondary">{benefit.desc}</p>
               </div>
             </div>
           ))}
@@ -137,11 +133,14 @@ export default async function HomePage() {
 
       {/* Flash Sale */}
       {flashSaleProducts.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 py-8">
-          <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-3xl p-6 md:p-8 text-white">
+        <section className="max-w-7xl mx-auto px-4 section-y">
+          <div className="bg-red-600 rounded-panel p-6 md:p-8 text-white">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
-                <h2 className="text-2xl md:text-3xl font-medium">⚡ Flash Sale</h2>
+                <h2 className="flex items-center gap-2 text-2xl md:text-3xl font-semibold">
+                  <FaBolt aria-hidden="true" />
+                  Flash Sale
+                </h2>
                 <FlashSaleCountdown
                   endTime={
                     (() => {
@@ -179,11 +178,11 @@ export default async function HomePage() {
 
       {/* Best Sellers */}
       {bestSellers.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 py-8">
+        <section className="max-w-7xl mx-auto px-4 section-y">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-1 h-8 bg-orange-500 rounded-full" />
-              <h2 className="text-2xl md:text-3xl font-medium text-gray-900">Best Sellers</h2>
+              <div className="w-1 h-8 bg-primary-600 rounded-full" />
+              <h2 className="text-2xl md:text-3xl font-semibold text-ink">Best Sellers</h2>
             </div>
             <Link href="/produk?filter=bestseller" className="text-primary-600 font-medium hover:underline">
               View All →
@@ -211,44 +210,34 @@ export default async function HomePage() {
       )}
 
       {/* Promo Banner */}
-      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-8">
+      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 section-y">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          <div className="w-full bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-8 text-white relative overflow-hidden">
-            <div className="absolute right-0 top-0 w-1/2 h-full opacity-10">
-              <Image src="/uploads/21.png" alt="" fill className="object-contain" />
-            </div>
-            <div className="relative z-10">
-              <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">Limited Offer</span>
-              <h3 className="text-3xl font-medium mt-4 mb-2">Up to 30% Off</h3>
-              <p className="text-primary-100 mb-6">On all laptop purchases this month</p>
-              <Link href="/produk?category=Laptop" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 font-medium rounded-xl hover:bg-gray-100 transition-colors">
-                Shop Now
-              </Link>
-            </div>
+          <div className="w-full bg-primary-700 rounded-panel p-8 text-white">
+            <span className="inline-block px-3 py-1 bg-white/15 rounded-full text-sm font-medium">Limited Offer</span>
+            <h3 className="text-3xl font-semibold mt-4 mb-2">Up to 30% Off</h3>
+            <p className="text-white/70 mb-6">On all laptop purchases this month</p>
+            <Link href="/produk?category=Laptop" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 font-medium rounded-full hover:bg-gray-100 transition-colors">
+              Shop Now
+            </Link>
           </div>
-          <div className="w-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 text-white relative overflow-hidden">
-            <div className="absolute right-0 top-0 w-1/2 h-full opacity-10">
-              <Image src="/uploads/21.png" alt="" fill className="object-contain" />
-            </div>
-            <div className="relative z-10">
-              <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">Free Shipping</span>
-              <h3 className="text-3xl font-medium mt-4 mb-2">Free Delivery</h3>
-              <p className="text-gray-300 mb-6">On orders above Rp 500.000</p>
-              <Link href="/produk" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-900 font-medium rounded-xl hover:bg-gray-100 transition-colors">
-                Shop Now
-              </Link>
-            </div>
+          <div className="w-full bg-gray-900 rounded-panel p-8 text-white">
+            <span className="inline-block px-3 py-1 bg-white/15 rounded-full text-sm font-medium">Free Shipping</span>
+            <h3 className="text-3xl font-semibold mt-4 mb-2">Free Delivery</h3>
+            <p className="text-gray-300 mb-6">On orders above Rp 500.000</p>
+            <Link href="/produk" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-900 font-medium rounded-full hover:bg-gray-100 transition-colors">
+              Shop Now
+            </Link>
           </div>
         </div>
       </section>
 
       {/* New Products */}
       {newProducts.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 py-8">
+        <section className="max-w-7xl mx-auto px-4 section-y">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-1 h-8 bg-green-500 rounded-full" />
-              <h2 className="text-2xl md:text-3xl font-medium text-gray-900">New Arrivals</h2>
+              <div className="w-1 h-8 bg-primary-600 rounded-full" />
+              <h2 className="text-2xl md:text-3xl font-semibold text-ink">New Arrivals</h2>
             </div>
             <Link href="/produk?filter=new" className="text-primary-600 font-medium hover:underline">
               View All →
@@ -276,11 +265,11 @@ export default async function HomePage() {
       )}
 
       {/* All Products */}
-      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-8">
+      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 section-y">
         <div className="w-full flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-1 h-8 bg-primary-500 rounded-full" />
-            <h2 className="text-2xl md:text-3xl font-medium text-gray-900">All Products</h2>
+            <div className="w-1 h-8 bg-primary-600 rounded-full" />
+            <h2 className="text-2xl md:text-3xl font-semibold text-ink">All Products</h2>
           </div>
           <Link href="/produk" className="text-primary-600 font-medium hover:underline">
             View All →
@@ -306,17 +295,17 @@ export default async function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gray-900 text-white py-16">
+      <section className="bg-gray-900 text-white py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-medium mb-4">Ready to Upgrade Your Tech?</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4">Ready to Upgrade Your Tech?</h2>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
             Join thousands of satisfied customers who trust MDN Tech for their technology needs.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/produk" className="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
+            <Link href="/produk" className="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-full transition-colors">
               Browse Products
             </Link>
-            <Link href="/hubungi-kami" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-medium rounded-xl transition-colors">
+            <Link href="/hubungi-kami" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-medium rounded-full transition-colors">
               Contact Us
             </Link>
           </div>
