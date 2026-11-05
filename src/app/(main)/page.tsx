@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaChevronRight } from "react-icons/fa";
 import { FiZap } from "react-icons/fi";
-import { HiSearch } from "react-icons/hi";
 import ProductCard from "@/components/ProductCard";
 import { ProductWithMeta } from "@/types";
 import FlashSaleCountdown from "@/components/FlashSaleCountdown";
@@ -50,56 +49,47 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 py-20 lg:py-28">
-          <div className="max-w-3xl mx-auto text-center">
-            {/* Visual Icon Bulat */}
-            <div className="flex justify-center mb-8">
-              <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center p-4">
-                <Image
-                  src="/uploads/mdn-logo.png"
-                  alt="MDN Tech"
-                  width={60}
-                  height={60}
-                  className="object-contain opacity-80"
-                />
-              </div>
-            </div>
+      <section className="relative bg-primary-800 text-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 py-24 lg:py-32">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/60">
+              New Collection 2026 Available
+            </p>
 
-            <h1 className="text-[clamp(2.25rem,5.5vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-ink mb-4">
+            <h1 className="text-[clamp(2.5rem,7vw,5.5rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
               Premium Technology
               <br />For Your Life
             </h1>
 
-            <p className="text-[17px] leading-[1.47] text-ink-secondary mb-10">
-              Temukan solusi teknologi terbaik untuk Anda. Mulai di sini.
+            <p className="text-lg lg:text-xl leading-relaxed text-white/70 max-w-2xl mx-auto">
+              Discover the latest gadgets and electronics at unbeatable prices. Quality guaranteed with official warranty.
             </p>
 
-            {/* Tombol Pintasan (Pills) */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.name}
-                  href={cat.href}
-                  className="px-6 py-2 bg-surface text-ink text-[14px] font-medium rounded-full hover:bg-line transition-colors"
-                >
-                  {cat.name}
-                </Link>
-              ))}
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-2">
+              <Link
+                href="/produk"
+                className="inline-flex items-center px-8 py-4 bg-white text-primary-700 font-medium rounded-full hover:bg-gray-100 transition-colors"
+              >
+                Shop Now
+              </Link>
+              <Link
+                href="/tentang-kami"
+                className="inline-flex items-center gap-1.5 text-white font-medium hover:text-white/80 transition-colors"
+              >
+                Learn More <FaChevronRight className="text-xs" />
+              </Link>
             </div>
+          </div>
 
-            {/* Search Bar Hero */}
-            <div className="max-w-xl mx-auto relative group">
-              <form action="/produk" method="GET" className="relative">
-                <input
-                  type="text"
-                  name="search"
-                  placeholder="Cari produk atau solusi..."
-                  className="w-full px-6 py-4 pl-14 bg-surface border border-line rounded-full text-[16px] focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
-                />
-                <HiSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-              </form>
-            </div>
+          <div className="mt-16 lg:mt-20 flex justify-center">
+            <Image
+              src="/uploads/21.png"
+              alt="MDN Tech Products"
+              width={500}
+              height={500}
+              className="w-full max-w-2xl h-auto object-contain"
+              priority
+            />
           </div>
         </div>
       </section>
