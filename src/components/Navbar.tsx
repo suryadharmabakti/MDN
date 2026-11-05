@@ -75,152 +75,113 @@ export default function Navbar() {
     <>
       <CartDrawer />
       <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl backdrop-saturate-150 border-b border-line">
-        {/* Top Bar */}
-        <div className="bg-primary-700 text-white/90 text-[11px]">
-          <div className="max-w-7xl mx-auto px-4 py-1.5 flex justify-between items-center">
-            <p>Welcome to MDN Tech - Your Trusted Technology Partner</p>
-            <Link href="/hubungi-kami" className="hover:text-white transition-colors">
-              Help
-            </Link>
-          </div>
-        </div>
-
-        {/* Main Navbar */}
-        <div className="max-w-7xl mx-auto px-4 py-2.5">
-          <div className="flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between h-12 md:h-14 gap-8">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+            <Link href="/" className="flex-shrink-0">
               <Image
                 src="/uploads/mdn-logo.png"
                 alt="MDN Tech Logo"
-                width={70}
-                height={700}
-                className="h-10 w-10 object-contain"
+                width={40}
+                height={40}
+                className="h-8 w-8 object-contain opacity-90 hover:opacity-100 transition-opacity"
               />
             </Link>
 
-
-
-            {/* Search Bar */}
-            <form
-              onSubmit={handleSearch}
-              className="flex-1 max-w-2xl hidden md:block"
-            >
-              <div className="flex">
-                <div className="relative flex-1">
-                  <input
-                    type="text"
-                    placeholder="Search for products, brands and more..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-4 py-2.5 pl-11 bg-surface border border-line rounded-l-full focus:border-primary-500 focus:outline-none transition-colors"
-                  />
-                  <HiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-                </div>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-r-full transition-colors"
+            {/* Desktop Links - Centered */}
+            <div className="hidden md:flex items-center justify-center flex-1 gap-1 lg:gap-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-1 text-[12px] font-medium tracking-tight transition-colors ${
+                    pathname === link.href
+                      ? "text-ink"
+                      : "text-ink-secondary hover:text-ink"
+                  }`}
                 >
-                  Search
-                </button>
-              </div>
-            </form>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
 
-            {/* Right Icons */}
-            <div className="flex items-center gap-2">
-              {/* Wishlist */}
-              <Link
-                href="/wishlist"
-                className="hidden lg:flex flex-col items-center p-2 hover:bg-surface rounded-lg transition-colors"
+            {/* Icons & Search */}
+            <div className="flex items-center gap-2 md:gap-4">
+              {/* Search (Slim on Desktop) */}
+              <form
+                onSubmit={handleSearch}
+                className="hidden lg:flex items-center relative group"
               >
-                <div className="relative">
-                  <FaHeart className="text-xl text-gray-600" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-32 focus:w-48 px-3 py-1 pl-8 bg-surface border border-line rounded-full text-[12px] focus:outline-none transition-all duration-300"
+                />
+                <HiSearch className="absolute left-2.5 text-gray-400 text-sm" />
+              </form>
+
+              <div className="flex items-center gap-1 md:gap-2">
+                {/* Wishlist */}
+                <Link
+                  href="/wishlist"
+                  className="relative p-2 text-ink-secondary hover:text-ink transition-colors"
+                  title="Wishlist"
+                >
+                  <FaHeart className="text-[18px]" />
                   {wishlistCount > 0 && (
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs font-medium rounded-full flex items-center justify-center">
+                    <span className="absolute top-1 right-1 w-4 h-4 bg-primary-600 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
                       {wishlistCount}
                     </span>
                   )}
-                </div>
-                <span className="text-xs font-medium text-gray-600 mt-1">
-                  Wishlist
-                </span>
-              </Link>
+                </Link>
 
-              {/* Account */}
-
-
-              {/* Cart */}
-              <button
-                onClick={openCart}
-                className="flex flex-col items-center p-2 hover:bg-surface rounded-lg transition-colors"
-              >
-                <div className="relative">
-                  <FaShoppingCart className="text-xl text-gray-600" />
+                {/* Cart */}
+                <button
+                  onClick={openCart}
+                  className="relative p-2 text-ink-secondary hover:text-ink transition-colors"
+                  title="Shopping Cart"
+                >
+                  <FaShoppingCart className="text-[18px]" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs font-medium rounded-full flex items-center justify-center">
+                    <span className="absolute top-1 right-1 w-4 h-4 bg-primary-600 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
                       {cartCount}
                     </span>
                   )}
-                </div>
-                <span className="text-xs font-medium text-gray-600 mt-1">
-                  Cart
-                </span>
-              </button>
+                </button>
 
-              {/* Mobile Menu Toggle */}
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden p-2 hover:bg-surface rounded-lg"
-              >
-                {menuOpen ? (
-                  <HiX className="w-6 h-6 text-gray-700" />
-                ) : (
-                  <HiMenu className="w-6 h-6 text-gray-700" />
-                )}
-              </button>
+                {/* Mobile Menu Toggle */}
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="md:hidden p-2 text-ink-secondary hover:text-ink"
+                >
+                  {menuOpen ? (
+                    <HiX className="w-6 h-6" />
+                  ) : (
+                    <HiMenu className="w-6 h-6" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Mobile Search */}
-          <form onSubmit={handleSearch} className="md:hidden mt-3">
-            <div className="flex">
+        {/* Mobile Search - Visible only when menu closed on mobile */}
+        {!menuOpen && (
+          <div className="md:hidden px-4 pb-3">
+            <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2.5 bg-surface border border-line rounded-l-full focus:border-primary-500 focus:outline-none"
+                className="w-full px-4 py-2 pl-10 bg-surface border border-line rounded-full text-sm focus:outline-none"
               />
-              <button
-                type="submit"
-                className="px-5 py-2.5 bg-primary-600 text-white font-medium rounded-r-full"
-              >
-                <HiSearch />
-              </button>
-            </div>
-          </form>
-        </div>
-
-        {/* Bottom Nav (Desktop) */}
-        <div className="hidden md:block border-t border-line">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-4 py-2.5 text-[13px] font-medium transition-colors ${pathname === link.href
-                    ? "text-primary-600 border-b-2 border-primary-600"
-                    : "text-gray-600 hover:text-primary-600"
-                    }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="flex-1" />
-            </div>
+              <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            </form>
           </div>
-        </div>
+        )}
 
         {/* Mobile Menu */}
         {menuOpen && (
@@ -231,10 +192,11 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-lg font-medium transition-colors ${pathname === link.href
-                    ? "bg-primary-50 text-primary-600"
-                    : "text-gray-700 hover:bg-surface"
-                    }`}
+                  className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
+                    pathname === link.href
+                      ? "bg-primary-50 text-primary-600"
+                      : "text-gray-700 hover:bg-surface"
+                  }`}
                 >
                   {link.label}
                 </Link>
