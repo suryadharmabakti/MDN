@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaExclamationTriangle, FaMapMarkerAlt, FaPhoneAlt, FaPaperPlane, FaBarcode } from "react-icons/fa";
+import styles from "../apple-v3-pages.module.css";
 
 export default function LaporanPage() {
     const [formData, setFormData] = useState({
@@ -50,21 +51,19 @@ export default function LaporanPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-20 px-4">
-            <div className="max-w-3xl w-full bg-white rounded-[30px] shadow-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:shadow-primary-600/10">
+        <div className={`${styles.appleV3} apple-v2 ${styles.reportPage} page-report flex flex-col items-center`}>
+            <div className={styles.reportPanel}>
                 {/* Header Section */}
-                <div className="bg-gradient-to-br from-dark-900 via-dark-800 to-primary-900 text-white p-12 text-center relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-400/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
-
-                    <h1 className="text-4xl font-medium mb-4 relative z-10">Laporan Isu</h1>
-                    <p className="text-gray-300 relative z-10">
+                <div className={styles.reportHeader}>
+                    <p className={styles.eyebrow}>MDN Support</p>
+                    <h1>Laporan Isu</h1>
+                    <p>
                         Berikan masukan atau laporkan masalah Anda. Kami siap membantu dengan sepenuh hati.
                     </p>
                 </div>
 
                 {/* Form Section */}
-                <form onSubmit={handleSubmit} className="p-10 md:p-14 space-y-8">
+                <form onSubmit={handleSubmit} className={`${styles.reportForm} space-y-8`}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Nama */}
                         <div className="space-y-2 group">
