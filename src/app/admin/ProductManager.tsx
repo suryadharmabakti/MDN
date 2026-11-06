@@ -391,7 +391,7 @@ export default function ProductManager({ initialProducts }: Props) {
                           alt={p.name}
                           width={48}
                           height={48}
-                          className="h-12 w-12 rounded-lg object-cover ring-1 ring-gray-200"
+                          className="h-12 w-12 rounded-lg bg-[#f5f5f7] object-contain p-1 ring-1 ring-gray-200"
                         />
                       ) : (
                         <div className="h-12 w-12 flex-shrink-0 bg-primary-50 rounded-lg flex items-center justify-center text-primary-600 group-hover:scale-110 transition-transform">
@@ -493,12 +493,12 @@ export default function ProductManager({ initialProducts }: Props) {
                     {imagesList.length > 0 ? (
                       <div className="mb-3 flex flex-wrap gap-3">
                         {imagesList.map((p, i) => (
-                          <div key={i} className="relative group w-24 h-24 rounded-lg overflow-hidden ring-1 ring-gray-200">
+                          <div key={i} className="relative group h-24 w-24 overflow-hidden rounded-lg bg-[#f5f5f7] p-2 ring-1 ring-gray-200">
                             <Image
                               src={p.url.startsWith("data:") || p.url.startsWith("blob:") || p.url.startsWith("/") ? p.url : `/${p.url}`}
                               alt={`Preview ${i + 1}`}
                               fill
-                              className="object-cover"
+                              className="object-contain"
                             />
                             {/* Number badge */}
                             <span className="absolute top-1 right-1 bg-black/60 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm z-10">

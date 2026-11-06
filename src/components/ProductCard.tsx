@@ -106,14 +106,15 @@ export default function ProductCard({
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full relative">
-      <div className="relative aspect-square bg-gray-50 overflow-hidden z-10">
+      <div className="relative aspect-square overflow-hidden bg-[#f5f5f7] p-4 z-10">
         <Link href={`/produk/detail?id=${id}`} className="block w-full h-full" aria-label={`Lihat detail ${name}`}>
           {image ? (
             <Image
               src={image.startsWith("data:") || image.startsWith("/") ? image : `/${image}`}
               alt={name}
               fill
-              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-contain"
             />
           ) : (
             <div className="w-full h-full bg-gray-100 flex items-center justify-center">
