@@ -50,8 +50,6 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><Link href="/" className="hover:text-ink hover:underline transition-all">Home</Link></li>
               <li><Link href="/produk" className="hover:text-ink hover:underline transition-all">Shop</Link></li>
-              <li><Link href="/cek-garansi" className="hover:text-ink hover:underline transition-all">Cek Garansi</Link></li>
-              <li><Link href="/download" className="hover:text-ink hover:underline transition-all">Download Driver</Link></li>
               <li><Link href="/tentang-kami" className="hover:text-ink hover:underline transition-all">Tentang Kami</Link></li>
               <li><Link href="/hubungi-kami" className="hover:text-ink hover:underline transition-all">Kontak</Link></li>
               <li><Link href="/laporan" className="hover:text-ink hover:underline transition-all">Laporan</Link></li>
@@ -62,11 +60,11 @@ export default function Footer() {
           <div>
             <h4 className="text-ink font-semibold mb-4 uppercase tracking-wider text-[11px]">Layanan Pelanggan</h4>
             <ul className="space-y-2">
-              <li><Link href="/cek-garansi" className="hover:text-ink hover:underline transition-all">Klaim & Garansi</Link></li>
-              <li><Link href="/hubungi-kami" className="hover:text-ink hover:underline transition-all">Pusat Bantuan</Link></li>
-              <li><Link href="/hubungi-kami" className="hover:text-ink hover:underline transition-all">Kebijakan Pengiriman</Link></li>
-              <li><Link href="/hubungi-kami" className="hover:text-ink hover:underline transition-all">Kebijakan Pengembalian</Link></li>
-              <li><Link href="/hubungi-kami" className="hover:text-ink hover:underline transition-all">Syarat & Ketentuan</Link></li>
+              <li><Link href="#" className="hover:text-ink hover:underline transition-all">Kebijakan Pengiriman</Link></li>
+              <li><Link href="#" className="hover:text-ink hover:underline transition-all">Kebijakan Pengembalian</Link></li>
+              <li><Link href="#" className="hover:text-ink hover:underline transition-all">Kebijakan Privasi</Link></li>
+              <li><Link href="#" className="hover:text-ink hover:underline transition-all">Syarat & Ketentuan</Link></li>
+              <li><Link href="#" className="hover:text-ink hover:underline transition-all">FAQ</Link></li>
             </ul>
           </div>
 
@@ -89,7 +87,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-ink hover:underline transition-all"
                 >
-                  0821-2890-7619
+                  08131536969
                 </a>
               </li>
               <li className="flex items-center gap-2">
@@ -136,7 +134,7 @@ export default function Footer() {
                 <Link href="#" className="hover:text-ink hover:underline">Peta Situs</Link>
               </div>
             </div>
-
+            
             <div className="flex flex-wrap items-center gap-3 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
               <span className="px-2 py-0.5 border border-line rounded text-[10px]">VISA</span>
               <span className="px-2 py-0.5 border border-line rounded text-[10px]">MASTERCARD</span>
@@ -147,7 +145,7 @@ export default function Footer() {
               <span className="px-2 py-0.5 border border-line rounded text-[10px]">GOPAY</span>
             </div>
           </div>
-
+          
           <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-line/50 pt-8">
             <p className="text-ink-secondary opacity-80 italic">
               Powered by PT. MDN Industry Power Indonesia Corp
