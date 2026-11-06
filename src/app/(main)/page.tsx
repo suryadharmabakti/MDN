@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight, FaBolt, FaDatabase, FaMicrochip, FaShieldAlt } from "react-icons/fa";
 import { prisma } from "@/lib/prisma";
+import ProductCard from "@/components/ProductCard";
 import styles from "./apple-v2.module.css";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +24,7 @@ export default async function HomePage() {
     <div className={`${styles.appleV2} apple-v2 overflow-hidden bg-white text-ink`}>
       <section className="relative isolate overflow-hidden bg-[#f5f5f7] px-4 pt-16 sm:px-6 lg:px-8 lg:pt-24">
         <div className="mx-auto max-w-7xl text-center">
-          <p className="text-sm font-semibold tracking-wide text-primary-600">MDN ENTERPRISE SYSTEMS</p>
+          <p className="text-sm font-semibold tracking-wide text-primary-600"></p>
           <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.045em] text-ink sm:text-6xl lg:text-7xl">
             Teknologi untuk
             <br />manusia yang melaju.
@@ -58,7 +59,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-sm font-semibold tracking-[0.16em] text-primary-600">OUR PRODUCTS</p><h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">Pilih fondasi Anda.</h2></div><Link href="/produk?category=Server" className="inline-flex items-center gap-2 text-lg font-medium text-primary-600 hover:underline">Lihat semua server <FaArrowRight className="text-xs" /></Link></div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => <Link key={product.id} href={`/produk/detail?id=${product.id}`} className="group flex min-h-[440px] flex-col overflow-hidden rounded-panel bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"><div className="relative flex-1 overflow-hidden rounded-2xl bg-[#f5f5f7] p-4"><Image src={product.image} alt={product.name} fill className="object-contain" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" /></div><div className="mt-6"><p className="text-xs font-semibold uppercase tracking-widest text-primary-600">{product.tipe}</p><h3 className="mt-2 text-2xl font-semibold tracking-tight">{product.name}</h3><p className="mt-3 line-clamp-2 text-base leading-relaxed text-ink-secondary">{product.description}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary-600">Pelajari lebih lanjut <FaArrowRight className="text-[10px]" /></span></div></Link>)}
+            {products.map((product) => <ProductCard key={product.id} {...product} />)}
           </div>
         </div>
       </section>
