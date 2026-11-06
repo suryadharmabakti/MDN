@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaLaptop, FaMapMarkerAlt, FaQuestionCircle, FaShieldAlt } from "react-icons/fa";
+import { FaLaptop, FaMapMarkerAlt, FaQuestionCircle } from "react-icons/fa";
+import styles from "../apple-v3-pages.module.css";
 
 export default function CheckWarrantyPage() {
     const [sn, setSn] = useState("");
@@ -31,39 +32,33 @@ export default function CheckWarrantyPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-16 px-4 sm:px-6 lg:px-8">
-            {/* Header Symbol */}
-            <div className="mb-8">
-                <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto shadow-sm">
-                    <FaShieldAlt className="text-4xl text-primary-600" />
-                </div>
-            </div>
+        <main className={`${styles.appleV3} apple-v2 ${styles.warrantyPage} page-warranty`}>
+            <section className={styles.warrantyHero}>
+                <p className={styles.eyebrow}>MDN Care</p>
+                <h1 className={styles.warrantyTitle}>Cek status garansi perangkat Anda.</h1>
+                <p className={styles.warrantyLead}>Masukkan nomor seri untuk melihat perlindungan dan informasi perangkat MDN Anda.</p>
+            </section>
 
-            <div className="text-center mb-10 max-w-2xl mx-auto">
-                <h1 className="text-4xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">
-                    Check Warranty Status
-                </h1>
-                <p className="text-lg text-gray-500">
-                    Verify your MDN Technology device warranty status and coverage details by entering your serial number below.
-                </p>
-            </div>
-
-            <div className="w-full max-w-xl bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8 md:p-10">
-                <form onSubmit={onSearch} className="space-y-6">
+            <div className={styles.warrantyMain}>
+                <div className={styles.warrantyGrid}>
+                    <section className={styles.formPanel} aria-labelledby="warranty-form-title">
+                        <h2 id="warranty-form-title" className={styles.panelTitle}>Mulai pemeriksaan</h2>
+                        <p className={styles.panelIntro}>Pilih negara pembelian, lalu masukkan nomor seri perangkat Anda.</p>
+                        <form onSubmit={onSearch}>
 
                     {/* Country Field */}
-                    <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">
+                    <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>
                             Country/Region of purchase
                         </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <FaMapMarkerAlt className="text-gray-400" />
+                        <div className={styles.fieldControl}>
+                            <div className={styles.fieldIcon}>
+                                <FaMapMarkerAlt />
                             </div>
                             <select
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
-                                className="block w-full pl-11 pr-10 py-4 text-base border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 rounded-xl transition-colors appearance-none cursor-pointer"
+                                className={styles.select}
                             >
                                 <option value="Indonesia">Indonesia</option>
                                 <option value="Malaysia">Malaysia</option>
@@ -74,38 +69,38 @@ export default function CheckWarrantyPage() {
                     </div>
 
                     {/* Serial Number Field */}
-                    <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700 flex justify-between items-center">
+                    <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>
                             <span>Serial Number</span>
                             <button
                                 type="button"
                                 onClick={() => setShowSnHelp(!showSnHelp)}
-                                className="text-primary-600 hover:text-primary-700 text-xs flex items-center gap-1 font-semibold group cursor-pointer"
+                                className={styles.helpButton}
                             >
-                                <FaQuestionCircle className="text-gray-400 group-hover:text-primary-600 transition-colors" />
+                                <FaQuestionCircle />
                                 {showSnHelp ? "Tutup panduan" : "Find my serial number"}
                             </button>
                         </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <FaLaptop className="text-gray-400" />
+                        <div className={styles.fieldControl}>
+                            <div className={styles.fieldIcon}>
+                                <FaLaptop />
                             </div>
                             <input
                                 type="text"
                                 value={sn}
                                 onChange={(e) => setSn(e.target.value)}
                                 placeholder="e.g. MDN-XYZ-123456"
-                                className="block w-full pl-11 pr-4 py-4 text-base border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 rounded-xl transition-colors placeholder-gray-400 uppercase"
+                                className={styles.input}
                                 required
                             />
                         </div>
                         {showSnHelp && (
-                            <div className="bg-primary-50/70 border border-primary-200 rounded-xl p-4 text-xs text-gray-700 space-y-1.5 animate-in fade-in duration-200">
-                                <p className="font-semibold text-primary-900">Cara menemukan Nomor Seri perangkat Anda:</p>
-                                <ul className="list-disc pl-4 space-y-1 text-gray-600">
+                            <div className={styles.serialHelp}>
+                                <p>Cara menemukan Nomor Seri perangkat Anda:</p>
+                                <ul>
                                     <li><strong>Laptop:</strong> Cek stiker barcode di bagian bawah bodi laptop atau pada kardus kemasan resmi.</li>
                                     <li><strong>PC / Desktop:</strong> Cek stiker di bagian belakang atau samping casing.</li>
-                                    <li><strong>Windows:</strong> Buka Command Prompt (cmd) lalu ketik <code className="bg-white px-1.5 py-0.5 rounded border border-primary-200 font-mono">wmic bios get serialnumber</code> lalu tekan Enter.</li>
+                                    <li><strong>Windows:</strong> Buka Command Prompt (cmd) lalu ketik <code>wmic bios get serialnumber</code> lalu tekan Enter.</li>
                                 </ul>
                             </div>
                         )}
@@ -114,10 +109,7 @@ export default function CheckWarrantyPage() {
                     <button
                         type="submit"
                         disabled={loading || !sn}
-                        className={`w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-lg font-medium text-white ${loading || !sn
-                                ? "bg-gray-300 cursor-not-allowed"
-                                : "bg-primary-600 hover:bg-primary-700 shadow-primary-500/30 hover:shadow-lg transition-all"
-                            }`}
+                        className={styles.submit}
                     >
                         {loading ? "Checking Database..." : "Check Warranty"}
                     </button>
@@ -125,51 +117,49 @@ export default function CheckWarrantyPage() {
 
                 {/* Results Area */}
                 {hasSearched && (
-                    <div className={`mt-8 p-6 rounded-2xl border ${loading ? "hidden" :
-                            result?.ok ? "bg-green-50/50 border-green-100" : "bg-red-50/50 border-red-100"
-                        }`}>
+                    <div className={`${styles.result} ${loading ? "hidden" : result?.ok ? styles.success : styles.failure}`}>
                         {result?.ok ? (
-                            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div>
+                                <div className={styles.resultHeader}>
+                                    <div className={styles.statusIcon}>
+                                        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-900">Device Found</h3>
-                                        <p className="text-sm text-gray-500 font-mono">{result.data.serialNumber}</p>
+                                        <h3 className={styles.resultTitle}>Perangkat ditemukan</h3>
+                                        <p className={styles.serial}>{result.data.serialNumber}</p>
                                     </div>
                                 </div>
 
-                                <div className="bg-white rounded-xl p-4 border border-green-100 space-y-3 shadow-sm">
-                                    <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                        <span className="text-gray-500 text-sm">Product Model</span>
-                                        <span className="font-medium text-gray-900 text-right">{result.data.modelName || "MDN Device"}</span>
+                                <div className={styles.resultCard}>
+                                    <div className={styles.resultRow}>
+                                        <span>Model produk</span>
+                                        <strong>{result.data.modelName || "MDN Device"}</strong>
                                     </div>
 
                                     {result.data.warrantyUntil && (
                                         <>
-                                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                                <span className="text-gray-500 text-sm">Warranty Expiration</span>
-                                                <span className="font-medium text-gray-900">
+                                            <div className={styles.resultRow}>
+                                                <span>Masa garansi berakhir</span>
+                                                <strong>
                                                     {new Date(result.data.warrantyUntil).toLocaleDateString("id-ID", {
                                                         year: 'numeric',
                                                         month: 'long',
                                                         day: 'numeric'
                                                     })}
-                                                </span>
+                                                </strong>
                                             </div>
-                                            <div className="flex justify-between items-center py-2">
-                                                <span className="text-gray-500 text-sm">Status</span>
+                                            <div className={styles.resultRow}>
+                                                <span>Status</span>
                                                 {result.data.warrantyValid ? (
-                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-green-100 text-green-800">
-                                                        Active
-                                                    </span>
+                                                    <strong className={`${styles.badge} ${styles.active}`}>
+                                                        Aktif
+                                                    </strong>
                                                 ) : (
-                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-red-100 text-red-800">
-                                                        Expired
-                                                    </span>
+                                                    <strong className={`${styles.badge} ${styles.expired}`}>
+                                                        Berakhir
+                                                    </strong>
                                                 )}
                                             </div>
                                         </>
@@ -177,29 +167,38 @@ export default function CheckWarrantyPage() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center py-4">
-                                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-3">
-                                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="text-center py-2">
+                                <div className={`${styles.statusIcon} mx-auto mb-3`}>
+                                    <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </div>
-                                <h3 className="text-lg font-medium text-gray-900 mb-1">Device Not Found</h3>
-                                <p className="text-sm text-gray-600">
+                                <h3 className={styles.resultTitle}>Perangkat tidak ditemukan</h3>
+                                <p className={`${styles.panelIntro} mt-1 mb-0`}>
                                     {result?.error || result?.message || "We couldn't find a device with that serial number. Please check the number and try again."}
                                 </p>
-                                <div className="mt-4 pt-4 border-t border-red-100">
-                                    <p className="text-xs text-gray-500">Need help? <Link href="/hubungi-kami" className="text-primary-600 font-medium hover:underline">Contact Support</Link></p>
+                                <div className={styles.support}>
+                                    <p>Butuh bantuan? <Link href="/hubungi-kami">Hubungi dukungan MDN</Link></p>
                                 </div>
                             </div>
                         )}
                     </div>
                 )}
-            </div>
+                    </section>
 
-            {/* Help section beneath form */}
-            <div className="mt-12 text-center text-sm text-gray-500">
-                <p>Multiple products to check? <Link href="/login" className="text-primary-600 font-medium hover:underline">Sign in to your account</Link></p>
+                    <aside className={styles.sidePanel}>
+                        <p className={styles.sideKicker}>Bantuan mandiri</p>
+                        <h2>Perlindungan yang mudah dipahami.</h2>
+                        <p>Gunakan nomor seri resmi perangkat untuk mendapatkan informasi yang paling sesuai.</p>
+                        <ol className={styles.steps}>
+                            <li><span className={styles.stepNumber}>1</span><span>Pilih negara atau wilayah tempat perangkat dibeli.</span></li>
+                            <li><span className={styles.stepNumber}>2</span><span>Masukkan nomor seri tanpa spasi tambahan.</span></li>
+                            <li><span className={styles.stepNumber}>3</span><span>Lihat status dan tanggal perlindungan perangkat Anda.</span></li>
+                        </ol>
+                    </aside>
+                </div>
             </div>
-        </div>
+            <p className={styles.signIn}>Memeriksa beberapa perangkat? <Link href="/login">Masuk ke akun Anda</Link></p>
+        </main>
     );
 }
