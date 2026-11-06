@@ -47,7 +47,7 @@ export default function HubungiKamiPage() {
               rel="noopener noreferrer"
               className="text-green-600 hover:text-green-700 font-medium transition-colors"
             >
-              08131536969
+              0821-2890-7619
             </a>
           </div>
 

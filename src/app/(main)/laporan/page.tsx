@@ -21,24 +21,21 @@ export default function LaporanPage() {
         setMessage(null);
 
         try {
-            const response = await fetch("https://formsubmit.co/ajax/sales@mdntech.co.id", {
+            const response = await fetch("/api/report", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
                 },
-                body: JSON.stringify({
-                    ...formData,
-                    _subject: `Laporan Baru - ${formData.nama}`,
-                    _template: "table"
-                }),
+                body: JSON.stringify(formData),
             });
 
+            const data = await response.json().catch(() => ({}));
+
             if (response.ok) {
-                setMessage({ type: "success", text: "Laporan berhasil dikirim!." });
+                setMessage({ type: "success", text: data.message || "Laporan berhasil dikirim!" });
                 setFormData({ nama: "", email: "", isuLaporan: "", lokasi: "", nomorHp: "", serialNumber: "" });
             } else {
-                setMessage({ type: "error", text: "Gagal mengirim laporan. Pastikan koneksi internet aktif." });
+                setMessage({ type: "error", text: data.message || "Gagal mengirim laporan. Silakan periksa kembali formulir Anda." });
             }
         } catch (error) {
             setMessage({ type: "error", text: "Terjadi kesalahan sistem. Silakan coba lagi nanti." });

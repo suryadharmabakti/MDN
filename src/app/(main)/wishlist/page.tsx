@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaHeart, FaTrash, FaShoppingCart, FaArrowRight } from "react-icons/fa";
+import { FaHeart, FaTrash, FaShoppingCart, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useWishlistStore, useCartStore, CartItem } from "@/lib/store";
 import ProductCard from "@/components/ProductCard";
 
@@ -51,28 +51,34 @@ export default function WishlistPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {items.map((item) => (
-            <div key={item.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div key={item.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group">
               <div className="relative aspect-square bg-gray-50">
-                {item.image ? (
-                  <img
-                    src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <FaHeart className="text-4xl text-gray-300" />
-                  </div>
-                )}
+                <Link href={`/produk/detail?id=${item.id}`} className="block w-full h-full">
+                  {item.image ? (
+                    <img
+                      src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
+                      alt={item.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <FaHeart className="text-4xl text-gray-300" />
+                    </div>
+                  )}
+                </Link>
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors"
+                  className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors z-10"
                 >
                   <FaTrash />
                 </button>
               </div>
               <div className="p-4">
-                <h3 className="font-medium text-gray-900 line-clamp-2 mb-2">{item.name}</h3>
+                <h3 className="font-medium text-gray-900 line-clamp-2 mb-2">
+                  <Link href={`/produk/detail?id=${item.id}`} className="hover:text-primary-600 transition-colors">
+                    {item.name}
+                  </Link>
+                </h3>
                 <p className="text-xl font-black text-primary-600 mb-4">
                   Rp {(item.price || 0).toLocaleString("id-ID")}
                 </p>
@@ -92,7 +98,7 @@ export default function WishlistPage() {
             href="/produk"
             className="inline-flex items-center gap-2 text-gray-500 hover:text-primary-600 font-medium"
           >
-            <FaArrowRight /> Continue Shopping
+            <FaArrowLeft /> Continue Shopping
           </Link>
         </div>
       </div>

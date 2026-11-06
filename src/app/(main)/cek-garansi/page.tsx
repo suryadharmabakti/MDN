@@ -10,6 +10,7 @@ export default function CheckWarrantyPage() {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<any>(null);
     const [hasSearched, setHasSearched] = useState(false);
+    const [showSnHelp, setShowSnHelp] = useState(false);
 
     const onSearch = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,9 +77,13 @@ export default function CheckWarrantyPage() {
                     <div className="space-y-2">
                         <label className="block text-sm font-medium text-gray-700 flex justify-between items-center">
                             <span>Serial Number</span>
-                            <button type="button" className="text-primary-600 hover:text-primary-700 text-xs flex items-center gap-1 font-semibold group">
+                            <button
+                                type="button"
+                                onClick={() => setShowSnHelp(!showSnHelp)}
+                                className="text-primary-600 hover:text-primary-700 text-xs flex items-center gap-1 font-semibold group cursor-pointer"
+                            >
                                 <FaQuestionCircle className="text-gray-400 group-hover:text-primary-600 transition-colors" />
-                                Find my serial number
+                                {showSnHelp ? "Tutup panduan" : "Find my serial number"}
                             </button>
                         </label>
                         <div className="relative">
@@ -94,6 +99,16 @@ export default function CheckWarrantyPage() {
                                 required
                             />
                         </div>
+                        {showSnHelp && (
+                            <div className="bg-primary-50/70 border border-primary-200 rounded-xl p-4 text-xs text-gray-700 space-y-1.5 animate-in fade-in duration-200">
+                                <p className="font-semibold text-primary-900">Cara menemukan Nomor Seri perangkat Anda:</p>
+                                <ul className="list-disc pl-4 space-y-1 text-gray-600">
+                                    <li><strong>Laptop:</strong> Cek stiker barcode di bagian bawah bodi laptop atau pada kardus kemasan resmi.</li>
+                                    <li><strong>PC / Desktop:</strong> Cek stiker di bagian belakang atau samping casing.</li>
+                                    <li><strong>Windows:</strong> Buka Command Prompt (cmd) lalu ketik <code className="bg-white px-1.5 py-0.5 rounded border border-primary-200 font-mono">wmic bios get serialnumber</code> lalu tekan Enter.</li>
+                                </ul>
+                            </div>
+                        )}
                     </div>
 
                     <button
@@ -183,7 +198,7 @@ export default function CheckWarrantyPage() {
 
             {/* Help section beneath form */}
             <div className="mt-12 text-center text-sm text-gray-500">
-                <p>Multiple products to check? <a href="#" className="text-primary-600 font-medium hover:underline">Sign in to your account</a></p>
+                <p>Multiple products to check? <Link href="/login" className="text-primary-600 font-medium hover:underline">Sign in to your account</Link></p>
             </div>
         </div>
     );

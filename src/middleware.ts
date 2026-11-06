@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Lewati halaman login — tidak perlu proteksi
-    if (pathname === "/admin/login" || pathname.startsWith("/admin/login/")) {
+    if (pathname === "/login" || pathname === "/admin/login" || pathname.startsWith("/admin/login/")) {
         return NextResponse.next();
     }
 
@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
 
     // Jika tidak ada token yang valid → redirect ke login
     if (!token || !token.email) {
-        const loginUrl = new URL("/admin/login", request.url);
+        const loginUrl = new URL("/login", request.url);
         // Tambahkan callbackUrl agar setelah login langsung kembali ke halaman yang dituju
         loginUrl.searchParams.set("callbackUrl", pathname);
         return NextResponse.redirect(loginUrl);

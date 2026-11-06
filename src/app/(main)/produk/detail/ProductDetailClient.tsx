@@ -117,6 +117,20 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
         ? Math.round(((productOldPrice - productPrice) / productOldPrice) * 100)
         : 0;
 
+    const isServer = product.category === "Server";
+    const specifications = [
+        { label: "Brand", value: product.merk },
+        { label: "Model", value: product.tipe },
+        { label: "Kategori", value: product.category },
+        { label: "Prosesor", value: product.prosesor },
+        { label: isServer ? "Memori & penyimpanan" : "Kapasitas", value: product.kapasitas },
+        { label: isServer ? "GPU & ekspansi" : "Sistem operasi", value: product.sistemOperasi },
+        { label: "Dimensi", value: product.dimensi },
+        { label: "Berat", value: product.berat },
+        { label: isServer ? "Daya & keandalan" : "Garansi", value: product.masaGaransi },
+        { label: "Ketersediaan", value: product.stok },
+    ].filter((spec) => spec.value && spec.value.trim());
+
     return (
         <div className="bg-gray-50 min-h-screen">
             {/* Breadcrumb */}
@@ -334,19 +348,13 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
 
                         <div className="p-8">
                             {activeTab === "specs" && (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="p-4 bg-gray-50 rounded-xl flex justify-between">
-                                        <span className="text-gray-500">Brand</span>
-                                        <span className="font-semibold text-gray-900">{product.merk || "-"}</span>
-                                    </div>
-                                    <div className="p-4 bg-gray-50 rounded-xl flex justify-between">
-                                        <span className="text-gray-500">Type</span>
-                                        <span className="font-semibold text-gray-900">{product.tipe || "-"}</span>
-                                    </div>
-                                    <div className="p-4 bg-gray-50 rounded-xl flex justify-between">
-                                        <span className="text-gray-500">Category</span>
-                                        <span className="font-semibold text-gray-900">{product.category || "-"}</span>
-                                    </div>
+                                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                                    {specifications.map((spec) => (
+                                        <div key={spec.label} className="flex flex-col gap-1 rounded-xl bg-gray-50 p-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                                            <span className="text-sm text-gray-500">{spec.label}</span>
+                                            <span className="text-sm font-semibold leading-relaxed text-gray-900 sm:max-w-[65%] sm:text-right">{spec.value}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
 

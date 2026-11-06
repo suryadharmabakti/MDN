@@ -62,11 +62,13 @@ export async function updateProduct(data: z.infer<typeof ProductSchema>) {
     const validated = ProductSchema.parse(data);
     if (!validated.id) return { success: false, error: "ID produk tidak ada" };
 
-    console.log(`Updating product ${validated.id} with data:`, validated);
+    const { id, ...productData } = validated;
+
+    console.log(`Updating product ${id} with data:`, productData);
 
     const product = await prisma.product.update({
-      where: { id: validated.id },
-      data: validated,
+      where: { id },
+      data: productData,
     });
     
     console.log("Product updated successfully");

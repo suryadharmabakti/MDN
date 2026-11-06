@@ -4,11 +4,11 @@ import nodemailer from "nodemailer";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { nama, email, isuLaporan, lokasi, nomorHp } = body;
+    const { nama, email, isuLaporan, lokasi, nomorHp, serialNumber } = body;
 
     if (!nama || !email || !isuLaporan || !lokasi || !nomorHp) {
       return NextResponse.json(
-        { message: "Semua field harus diisi." },
+        { message: "Semua field wajib harus diisi." },
         { status: 400 }
       );
     }
@@ -44,6 +44,10 @@ export async function POST(req: Request) {
             <tr>
               <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Nomor HP</td>
               <td style="padding: 10px; border-bottom: 1px solid #eee;">${nomorHp}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Serial Number</td>
+              <td style="padding: 10px; border-bottom: 1px solid #eee;">${serialNumber || "-"}</td>
             </tr>
             <tr>
               <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Lokasi</td>

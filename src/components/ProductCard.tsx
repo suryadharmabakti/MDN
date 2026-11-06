@@ -106,22 +106,23 @@ export default function ProductCard({
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full relative">
-      <Link href={`/produk/detail?id=${id}`} className="absolute inset-0 z-0" aria-label={`View detail for ${name}`} />
       <div className="relative aspect-square bg-gray-50 overflow-hidden z-10">
-        {image ? (
-          <Image
-            src={image.startsWith("data:") || image.startsWith("/") ? image : `/${image}`}
-            alt={name}
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-300">No Image</span>
-          </div>
-        )}
+        <Link href={`/produk/detail?id=${id}`} className="block w-full h-full" aria-label={`Lihat detail ${name}`}>
+          {image ? (
+            <Image
+              src={image.startsWith("data:") || image.startsWith("/") ? image : `/${image}`}
+              alt={name}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+              <span className="text-gray-300">No Image</span>
+            </div>
+          )}
+        </Link>
 
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
+        <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
           {isFlashSale && (
             <span className="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded-full">
               FLASH SALE
@@ -175,8 +176,10 @@ export default function ProductCard({
 
       <div className="p-4 flex flex-col flex-1 z-10">
         <p className="text-xs text-gray-500 font-medium mb-1">{category}</p>
-        <h3 className="font-medium text-gray-900 text-lg line-clamp-2 mb-2 group-hover:text-primary-600 transition-colors">
-          {name}
+        <h3 className="font-medium text-gray-900 text-lg line-clamp-2 mb-2">
+          <Link href={`/produk/detail?id=${id}`} className="hover:text-primary-600 transition-colors">
+            {name}
+          </Link>
         </h3>
 
         <div className="flex items-center gap-1 mb-3">

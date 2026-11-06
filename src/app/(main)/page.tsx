@@ -1,320 +1,84 @@
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-
 import Image from "next/image";
-import { FaLaptop, FaDesktop, FaHeadphones, FaShippingFast, FaShieldAlt, FaUndo, FaHeadset, FaChevronRight } from "react-icons/fa";
-import { FiZap } from "react-icons/fi";
-import ProductCard from "@/components/ProductCard";
-import { ProductWithMeta } from "@/types";
-import FlashSaleCountdown from "@/components/FlashSaleCountdown";
+import Link from "next/link";
+import { FaArrowRight, FaBolt, FaDatabase, FaMicrochip, FaShieldAlt } from "react-icons/fa";
+import { prisma } from "@/lib/prisma";
+import styles from "./apple-v2.module.css";
 
 export const dynamic = "force-dynamic";
 
-const categories = [
-  { name: "Laptop", icon: FaLaptop, href: "/produk?category=Laptop" },
-  { name: "PC", icon: FaDesktop, href: "/produk?category=PC" },
-  { name: "Aksesoris", icon: FaHeadphones, href: "/produk?category=Aksesoris" },
-];
-
-const benefits = [
-  { icon: FaShippingFast, title: "Free Shipping", desc: "On orders over Rp 500.000" },
-  { icon: FaShieldAlt, title: "Secure Payment", desc: "100% protected transactions" },
-  { icon: FaUndo, title: "Easy Returns", desc: "30-day return policy" },
-  { icon: FaHeadset, title: "24/7 Support", desc: "Dedicated customer service" },
+const strengths = [
+  { icon: FaMicrochip, number: "8", suffix: "GPU", title: "Komputasi siap AI", text: "Konfigurasi GPU untuk pelatihan model, inferensi, dan beban kerja intensif." },
+  { icon: FaDatabase, number: "600+", suffix: "TB", title: "Penyimpanan padat", text: "Kapasitas besar untuk data yang terus tumbuh tanpa mengorbankan akses." },
+  { icon: FaShieldAlt, number: "24/7", suffix: "", title: "Dibuat untuk selalu aktif", text: "Komponen redundant, hot-swap, dan dukungan teknis untuk infrastruktur penting." },
 ];
 
 export default async function HomePage() {
-  const [flashSaleProducts, bestSellers, newProducts, allProducts] = await Promise.all([
-    prisma.product.findMany({
-      where: { isFlashSale: true },
-      orderBy: { createdAt: "desc" },
-      take: 4,
-    }),
-    prisma.product.findMany({
-      where: { isBestSeller: true },
-      orderBy: { createdAt: "desc" },
-      take: 4,
-    }),
-    prisma.product.findMany({
-      where: { isNew: true },
-      orderBy: { createdAt: "desc" },
-      take: 4,
-    }),
-    prisma.product.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 8,
-    }),
-  ]);
+  const products = await prisma.product.findMany({
+    where: { category: "Server" },
+    orderBy: [{ isBestSeller: "desc" }, { createdAt: "asc" }],
+    take: 5,
+  });
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-primary-800 text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 py-24 lg:py-32">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/60">
-              New Collection 2026 Available
-            </p>
-
-            <h1 className="text-[clamp(2.5rem,7vw,5.5rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
-              Premium Technology
-              <br />For Your Life
-            </h1>
-
-            <p className="text-lg lg:text-xl leading-relaxed text-white/70 max-w-2xl mx-auto">
-              Discover the latest gadgets and electronics at unbeatable prices. Quality guaranteed with official warranty.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-2">
-              <Link
-                href="/produk"
-                className="inline-flex items-center px-8 py-4 bg-white text-primary-700 font-medium rounded-full hover:bg-gray-100 transition-colors"
-              >
-                Shop Now
-              </Link>
-              <Link
-                href="/tentang-kami"
-                className="inline-flex items-center gap-1.5 text-white font-medium hover:text-white/80 transition-colors"
-              >
-                Learn More <FaChevronRight className="text-xs" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-16 lg:mt-20 flex justify-center">
-            <Image
-              src="/uploads/21.png"
-              alt="MDN Tech Products"
-              width={500}
-              height={500}
-              className="w-full max-w-2xl h-auto object-contain"
-              priority
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Categories */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 section-y">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {categories.map((cat, idx) => (
-              <Link
-                key={cat.name}
-                href={cat.href}
-                className={`group ${idx === 0 ? "md:col-span-2" : ""} bg-surface rounded-panel p-8 flex items-center justify-between gap-6 hover:bg-line transition-colors`}
-              >
-                <div>
-                  <h3 className="text-xl md:text-2xl font-semibold text-ink">{cat.name}</h3>
-                  <span className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary-600">
-                    Lihat <FaChevronRight className="text-[10px]" />
-                  </span>
-                </div>
-                <cat.icon className="text-4xl text-primary-600/80" aria-hidden="true" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="bg-surface">
-        <div className="max-w-7xl mx-auto px-4 py-12 lg:py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {benefits.map((benefit, idx) => (
-              <div key={idx} className="bg-white rounded-2xl p-5 border border-line flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <benefit.icon className="text-xl text-primary-600" />
-              </div>
-              <div>
-                <h4 className="font-medium text-ink text-sm">{benefit.title}</h4>
-                <p className="text-xs text-ink-secondary">{benefit.desc}</p>
-              </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Flash Sale */}
-      {flashSaleProducts.length > 0 && (
-        <section className="bg-white">
-          <div className="max-w-7xl mx-auto px-4 section-y">
-            <div className="bg-red-600 rounded-panel p-6 md:p-8 text-white">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <h2 className="flex items-center gap-2 text-2xl md:text-3xl font-semibold">
-                    <FiZap aria-hidden="true" />
-                    Flash Sale
-                  </h2>
-                  <FlashSaleCountdown
-                    endTime={
-                      (() => {
-                        const p = flashSaleProducts.find((p: any) => p.flashSaleEndTime);
-                        return p ? (p as any).flashSaleEndTime?.toISOString() ?? null : null;
-                      })()
-                    }
-                  />
-                </div>
-                <Link href="/produk?filter=flashsale" className="text-white font-medium hover:underline">
-                  View All →
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {flashSaleProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    price={product.price}
-                    oldPrice={product.oldPrice}
-                    image={product.image}
-                    category={product.category}
-                    merk={product.merk}
-                    tipe={product.tipe}
-                    rating={product.rating}
-                    reviewCount={product.reviewCount}
-                    isFlashSale={true}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Best Sellers */}
-      {bestSellers.length > 0 && (
-        <section className="bg-surface">
-          <div className="max-w-7xl mx-auto px-4 section-y">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl md:text-3xl font-semibold text-ink">Best Sellers</h2>
-              <Link href="/produk?filter=bestseller" className="text-sm font-medium text-primary-600 hover:underline">
-                View All →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {bestSellers.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  oldPrice={product.oldPrice}
-                  image={product.image}
-                  category={product.category}
-                  merk={product.merk}
-                  tipe={product.tipe}
-                  rating={product.rating}
-                  reviewCount={product.reviewCount}
-                  isBestSeller={true}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Promo Banner */}
-      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 section-y">
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          <div className="w-full bg-primary-700 rounded-panel p-8 text-white">
-            <span className="inline-block px-3 py-1 bg-white/15 rounded-full text-sm font-medium">Limited Offer</span>
-            <h3 className="text-3xl font-semibold mt-4 mb-2">Up to 30% Off</h3>
-            <p className="text-white/70 mb-6">On all laptop purchases this month</p>
-            <Link href="/produk?category=Laptop" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 font-medium rounded-full hover:bg-gray-100 transition-colors">
-              Shop Now
-            </Link>
-          </div>
-          <div className="w-full bg-gray-900 rounded-panel p-8 text-white">
-            <span className="inline-block px-3 py-1 bg-white/15 rounded-full text-sm font-medium">Free Shipping</span>
-            <h3 className="text-3xl font-semibold mt-4 mb-2">Free Delivery</h3>
-            <p className="text-gray-300 mb-6">On orders above Rp 500.000</p>
-            <Link href="/produk" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-900 font-medium rounded-full hover:bg-gray-100 transition-colors">
-              Shop Now
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* New Products */}
-      {newProducts.length > 0 && (
-        <section className="bg-white">
-          <div className="max-w-7xl mx-auto px-4 section-y">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl md:text-3xl font-semibold text-ink">New Arrivals</h2>
-              <Link href="/produk?filter=new" className="text-sm font-medium text-primary-600 hover:underline">
-                View All →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {newProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  oldPrice={product.oldPrice}
-                  image={product.image}
-                  category={product.category}
-                  merk={product.merk}
-                  tipe={product.tipe}
-                  rating={product.rating}
-                  reviewCount={product.reviewCount}
-                  isNew={true}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* All Products */}
-      <section className="bg-surface">
-        <div className="max-w-7xl mx-auto px-4 section-y">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-semibold text-ink">All Products</h2>
-            <Link href="/produk" className="text-sm font-medium text-primary-600 hover:underline">
-              View All →
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {allProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                oldPrice={product.oldPrice}
-                image={product.image}
-                category={product.category}
-                merk={product.merk}
-                tipe={product.tipe}
-                rating={product.rating}
-                reviewCount={product.reviewCount}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-gray-900 text-white py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4">Ready to Upgrade Your Tech?</h2>
-          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers who trust MDN Tech for their technology needs.
+    <div className={`${styles.appleV2} apple-v2 overflow-hidden bg-white text-ink`}>
+      <section className="relative isolate overflow-hidden bg-[#f5f5f7] px-4 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+        <div className="mx-auto max-w-7xl text-center">
+          <p className="text-sm font-semibold tracking-wide text-primary-600">MDN ENTERPRISE SYSTEMS</p>
+          <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.045em] text-ink sm:text-6xl lg:text-7xl">
+            Teknologi untuk
+            <br />manusia yang melaju.
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-secondary sm:text-xl">
+            MDN menghadirkan infrastruktur enterprise yang andal untuk AI, komputasi berperforma tinggi, dan data yang terus bertumbuh.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/produk" className="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-full transition-colors">
-              Browse Products
-            </Link>
-            <Link href="/hubungi-kami" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-medium rounded-full transition-colors">
-              Contact Us
-            </Link>
+          <div className="mt-8 flex flex-wrap justify-center gap-3 text-base font-medium">
+            <Link href="/produk?category=Server" className="inline-flex items-center gap-2 rounded-full bg-primary-600 px-6 py-3 text-white shadow-sm transition-colors hover:bg-primary-700">Lihat produk <FaArrowRight className="text-xs" /></Link>
+            <Link href="/hubungi-kami" className="inline-flex items-center gap-2 rounded-full border border-primary-200 bg-white px-6 py-3 text-primary-700 transition-colors hover:bg-primary-50">Konsultasi kebutuhan <FaArrowRight className="text-xs" /></Link>
+          </div>
+          <p className="mt-5 text-sm text-ink-secondary">Garansi resmi <span className="px-1">·</span> Dukungan teknis <span className="px-1">·</span> Konfigurasi sesuai kebutuhan</p>
+          {/* Sebaiknya ganti foto hero ini dengan foto asli tim atau ruang server MDN agar lebih autentik. */}
+          <div className={`${styles.heroFrame} relative mx-auto mt-8 h-[300px] max-w-6xl sm:h-[440px] lg:h-[590px]`}>
+            <Image src="/uploads/Teknisi-MDN-cutout.png" alt="Teknisi MDN memeriksa infrastruktur server" fill priority className="object-contain object-center" sizes="(max-width: 768px) 100vw, 1200px" />
           </div>
         </div>
       </section>
+
+      <section className="bg-white px-4"><div className={styles.trustStrip}><div><strong>[ISI]</strong><span>tahun beroperasi</span></div><div><strong>[ISI]</strong><span>proyek ditangani</span></div><div><strong>[ISI]</strong><span>kota terlayani</span></div><div><strong>[ISI]</strong><span>unit terkirim</span></div></div></section>
+
+      <section className="bg-white px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-4xl text-center"><p className="text-sm font-semibold tracking-[0.16em] text-primary-600">KEUNGGULAN DEMI KEUNGGULAN</p><h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">Performa ketika setiap detik berarti.</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-secondary">Arsitektur yang dirancang untuk komputasi besar, penyimpanan rapat, dan keandalan yang konsisten.</p></div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            {strengths.map((item, index) => <div key={item.title} className={`rounded-panel border border-line bg-surface p-8 shadow-sm transition-transform duration-300 hover:-translate-y-1 lg:p-10 ${index === 0 ? "md:row-span-2" : ""}`}><div className="flex items-start justify-between"><div className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-sm"><item.icon className="text-xl text-primary-600" aria-hidden="true" /></div><p className="text-5xl font-semibold tracking-[-0.06em] text-ink sm:text-6xl">{item.number}<span className="ml-1 text-xl tracking-tight text-primary-600">{item.suffix}</span></p></div><h3 className="mt-10 text-2xl font-semibold tracking-tight">{item.title}</h3><p className="mt-3 max-w-md text-base leading-relaxed text-ink-secondary">{item.text}</p></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f5f5f7] px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-sm font-semibold tracking-[0.16em] text-primary-600">OUR PRODUCTS</p><h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">Pilih fondasi Anda.</h2></div><Link href="/produk?category=Server" className="inline-flex items-center gap-2 text-lg font-medium text-primary-600 hover:underline">Lihat semua server <FaArrowRight className="text-xs" /></Link></div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {products.map((product) => <Link key={product.id} href={`/produk/detail?id=${product.id}`} className="group flex min-h-[440px] flex-col overflow-hidden rounded-panel bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"><div className="relative flex-1"><Image src={product.image} alt={product.name} fill className="object-contain p-4 transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" /></div><div className="mt-6"><p className="text-xs font-semibold uppercase tracking-widest text-primary-600">{product.tipe}</p><h3 className="mt-2 text-2xl font-semibold tracking-tight">{product.name}</h3><p className="mt-3 line-clamp-2 text-base leading-relaxed text-ink-secondary">{product.description}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary-600">Pelajari lebih lanjut <FaArrowRight className="text-[10px]" /></span></div></Link>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-sm font-semibold tracking-[0.16em] text-primary-600">CARA KAMI BEKERJA</p>
+          <div className="mt-8 grid gap-6 border-t border-line pt-8 md:grid-cols-4">
+            {["Konsultasi", "Konfigurasi", "Pengiriman & instalasi", "Dukungan"].map((step, index) => <div key={step}><p className="text-4xl font-semibold tracking-[-0.05em] text-primary-200">0{index + 1}</p><h3 className="mt-4 text-xl font-semibold">{step}</h3><p className="mt-2 text-sm leading-relaxed text-ink-secondary">{index === 0 ? "Diskusikan kebutuhan beban kerja dan target Anda." : index === 1 ? "Pilih komponen yang tepat untuk kebutuhan sistem." : index === 2 ? "Koordinasi pengiriman dan kesiapan implementasi." : "Tim kami siap membantu setelah sistem berjalan."}</p></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#071a42] px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]"><div><p className="text-sm font-semibold tracking-wide text-primary-300">UNTUK SETIAP AMBISI</p><h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] sm:text-5xl">Dari data center hingga AI generatif.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">Kami membantu instansi pemerintah dan perusahaan membangun infrastruktur yang siap untuk beban kerja hari ini dan pertumbuhan esok hari.</p><Link href="/hubungi-kami" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-primary-700 transition-colors hover:bg-primary-50">Bicara dengan tim MDN <FaArrowRight className="text-xs" /></Link></div><div className="relative overflow-hidden rounded-panel bg-gradient-to-br from-primary-500/35 to-white/5 p-6 ring-1 ring-white/10 sm:p-9"><div className="pointer-events-none absolute -right-12 -top-16 h-52 w-52 rounded-full bg-primary-300/30 blur-3xl" /><div className="relative flex items-center gap-3 text-primary-200"><FaBolt /><span className="text-sm font-semibold tracking-wide">IMPLEMENTASI YANG TERUKUR</span></div><div className="relative mt-4 h-52 sm:h-60"><Image src="/uploads/server-hgx-ai-8gpu.png" alt="MDN HGX AI Server" fill className="object-contain drop-shadow-2xl" sizes="(max-width: 1024px) 100vw, 500px" /></div><dl className="relative mt-6 grid grid-cols-3 gap-3 text-center"><div className="rounded-xl bg-white/10 p-3"><dt className="text-[11px] text-white/60">Konfigurasi</dt><dd className="mt-1 text-sm font-semibold">Fleksibel</dd></div><div className="rounded-xl bg-white/10 p-3"><dt className="text-[11px] text-white/60">Dukungan</dt><dd className="mt-1 text-sm font-semibold">Profesional</dd></div><div className="rounded-xl bg-white/10 p-3"><dt className="text-[11px] text-white/60">Sektor</dt><dd className="mt-1 text-sm font-semibold">Enterprise</dd></div></dl></div></div>
+      </section>
+
+      <section className="bg-white px-4"><div className="mx-auto max-w-7xl"><p className="text-sm font-semibold tracking-[0.16em] text-primary-600">SOLUSI UNTUK INDUSTRI</p><h2 className="mt-4 max-w-3xl">Infrastruktur yang mengikuti cara Anda bekerja.</h2><div className={`${styles.industry} mt-10`}><article><h3>Pemerintahan</h3><p>Infrastruktur stabil untuk layanan publik dan kebutuhan data antarunit.</p><span>Beban kerja kritis</span></article><article><h3>Pendidikan</h3><p>Komputasi dan penyimpanan untuk laboratorium, riset, serta pembelajaran.</p><span>Riset & pembelajaran</span></article><article><h3>Perbankan</h3><p>Fondasi yang dapat dikonfigurasi untuk data, aplikasi, dan operasional inti.</p><span>Data & transaksi</span></article><article><h3>Riset AI</h3><p>GPU dan storage berkapasitas tinggi untuk eksperimen dan model skala besar.</p><span>AI & HPC</span></article></div></div></section>
+
+      <section className="bg-[#f5f5f7] px-4"><div className="mx-auto max-w-7xl"><div className={styles.faq}><p className="text-center text-sm font-semibold tracking-[0.16em] text-primary-600">PERTANYAAN UMUM</p><h2 className="mt-4 text-center">Mari mulai dari kebutuhan Anda.</h2>{["Apakah server dapat dikonfigurasi sesuai kebutuhan?", "Bagaimana layanan dukungan setelah implementasi?", "Apakah MDN melayani pengiriman dan instalasi?", "Bagaimana pembelian untuk instansi?", "Bagaimana informasi garansi produk?"].map((question) => <details key={question}><summary>{question}</summary><p>[ISI: Jawaban resmi MDN untuk {question.toLowerCase()}]</p></details>)}</div><div className={`${styles.closing} mt-20`}><h2>Butuh konfigurasi khusus?</h2><p>Ceritakan beban kerja, kapasitas, dan target implementasi Anda. Tim MDN siap membantu menyusun pilihan yang tepat.</p><a href="https://api.whatsapp.com/send/?phone=6282128907619">WhatsApp MDN</a><a href="mailto:sales@mdntech.co.id">sales@mdntech.co.id</a></div></div></section>
     </div>
   );
 }

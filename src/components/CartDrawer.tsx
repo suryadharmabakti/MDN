@@ -2,164 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaTrash, FaShoppingCart, FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaMinus, FaPlus, FaShoppingBag, FaTimes, FaTrash } from "react-icons/fa";
 import { useCartStore } from "@/lib/store";
 
 export default function CartDrawer() {
-  const { items, isOpen, closeCart, removeItem, updateQuantity, getTotalPrice } =
-    useCartStore();
-
+  const { items, isOpen, closeCart, removeItem, updateQuantity, getTotalPrice } = useCartStore();
   if (!isOpen) return null;
 
   const total = getTotalPrice();
-
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={closeCart}
-      />
-
-      <div className="absolute inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col">
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <FaShoppingCart className="text-primary-600 text-xl" />
-            <h2 className="text-xl font-medium text-gray-900">Shopping Cart</h2>
-            <span className="bg-primary-600 text-white text-xs font-medium px-2 py-1 rounded-full">
-              {items.length}
-            </span>
-          </div>
-          <button
-            onClick={closeCart}
-            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-6">
+    <div className="fixed inset-0 z-50">
+      <button aria-label="Tutup keranjang" onClick={closeCart} className="absolute inset-0 cursor-default bg-black/35 backdrop-blur-sm" />
+      <aside aria-label="Keranjang belanja" className="absolute inset-y-0 right-0 flex w-full max-w-[430px] flex-col bg-white shadow-2xl">
+        <header className="flex items-center justify-between border-b border-line px-6 py-5">
+          <div><p className="text-xs font-semibold tracking-[0.16em] text-primary-600">MDN STORE</p><h2 className="mt-1 text-2xl font-semibold tracking-tight">Bag</h2></div>
+          <button onClick={closeCart} aria-label="Tutup" className="grid h-10 w-10 place-items-center rounded-full bg-surface text-ink transition-colors hover:bg-line"><FaTimes /></button>
+        </header>
+        <div className="flex-1 overflow-y-auto px-6 py-6">
           {items.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <FaShoppingCart className="text-4xl text-gray-300" />
-              </div>
-              <h3 className="text-xl font-medium text-gray-900 mb-2">
-                Your cart is empty
-              </h3>
-              <p className="text-gray-500 mb-6">
-                Looks like you haven&apos;t added anything yet.
-              </p>
-              <Link
-                href="/produk"
-                onClick={closeCart}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors"
-              >
-                Start Shopping
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex gap-4 p-4 bg-gray-50 rounded-2xl"
-                >
-                  <div className="relative w-20 h-20 bg-white rounded-xl overflow-hidden flex-shrink-0">
-                    {item.image ? (
-                      <Image
-                        src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-400 text-xs">No Image</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-gray-900 truncate">
-                      {item.name}
-                    </h4>
-                    <p className="text-sm text-gray-500">{item.merk}</p>
-                    <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                        >
-                          -
-                        </button>
-                        <span className="w-8 text-center font-semibold">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                        >
-                          +
-                        </button>
-                      </div>
-                      <span className="font-medium text-primary-600">
-                        Rp {(item.price * item.quantity).toLocaleString("id-ID")}
-                      </span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="text-gray-400 hover:text-red-500 transition-colors self-start"
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+            <div className="flex h-full min-h-[400px] flex-col items-center justify-center text-center"><div className="grid h-20 w-20 place-items-center rounded-full bg-primary-50 text-3xl text-primary-600"><FaShoppingBag /></div><h3 className="mt-6 text-2xl font-semibold">Bag Anda kosong.</h3><p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-secondary">Temukan solusi server yang tepat untuk kebutuhan Anda.</p><Link onClick={closeCart} href="/produk?category=Server" className="mt-6 rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white hover:bg-primary-700">Jelajahi server</Link></div>
+          ) : <div className="space-y-6">{items.map((item) => <article key={item.id} className="border-b border-line pb-6"><div className="flex gap-4"><div className="relative h-24 w-24 shrink-0 rounded-2xl bg-surface">{item.image && <Image src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`} alt={item.name} fill className="object-contain p-2" />}</div><div className="min-w-0 flex-1"><div className="flex gap-3"><div className="min-w-0 flex-1"><h3 className="text-sm font-semibold leading-snug">{item.name}</h3><p className="mt-1 text-xs text-ink-secondary">{item.merk}</p></div><button onClick={() => removeItem(item.id)} aria-label={`Hapus ${item.name}`} className="text-ink-secondary hover:text-red-600"><FaTrash /></button></div><div className="mt-4 flex items-center justify-between"><div className="flex items-center rounded-full border border-line bg-white"><button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="grid h-8 w-8 place-items-center"><FaMinus className="text-[10px]" /></button><span className="w-7 text-center text-sm font-semibold">{item.quantity}</span><button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="grid h-8 w-8 place-items-center"><FaPlus className="text-[10px]" /></button></div><span className="text-sm font-semibold">{item.price ? `Rp ${(item.price * item.quantity).toLocaleString("id-ID")}` : "Hubungi kami"}</span></div></div></div></article>)}</div>}
         </div>
-
-        {items.length > 0 && (
-          <div className="border-t border-gray-100 p-6 bg-white">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-gray-600">Subtotal</span>
-              <span className="text-2xl font-medium text-gray-900">
-                Rp {total.toLocaleString("id-ID")}
-              </span>
-            </div>
-            <p className="text-sm text-gray-500 mb-4">
-              Shipping and taxes calculated at checkout.
-            </p>
-            <Link
-              href="/cart"
-              onClick={closeCart}
-              className="flex items-center justify-center gap-2 w-full py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
-            >
-              Checkout <FaArrowRight />
-            </Link>
-            <Link
-              href="/cart"
-              onClick={closeCart}
-              className="block text-center mt-3 text-sm text-gray-500 hover:text-primary-600"
-            >
-              View Cart
-            </Link>
-          </div>
-        )}
-      </div>
+        {items.length > 0 && <footer className="border-t border-line bg-surface px-6 py-6"><div className="flex items-baseline justify-between"><span className="text-sm text-ink-secondary">Subtotal</span><span className="text-xl font-semibold">{total ? `Rp ${total.toLocaleString("id-ID")}` : "Sesuai konfigurasi"}</span></div><p className="mt-2 text-xs leading-relaxed text-ink-secondary">Harga dan konfigurasi akhir akan dikonfirmasi oleh tim MDN.</p><Link onClick={closeCart} href="/checkout" className="mt-5 flex items-center justify-center gap-2 rounded-full bg-primary-600 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-primary-700">Lanjutkan <FaArrowRight className="text-xs" /></Link><Link onClick={closeCart} href="/cart" className="mt-4 block text-center text-sm font-medium text-primary-600 hover:underline">Lihat Bag</Link></footer>}
+      </aside>
     </div>
   );
 }
