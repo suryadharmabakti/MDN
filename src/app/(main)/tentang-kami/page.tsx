@@ -9,6 +9,7 @@ import {
   FaCreditCard,
   FaCertificate,
 } from "react-icons/fa";
+import styles from "../apple-v3-pages.module.css";
 
 const values = [
   {
@@ -69,29 +70,31 @@ const services = [
 
 export default function TentangKamiPage() {
   return (
-    <>
+    <main className={`${styles.appleV3} apple-v2 page-about`}>
       {/* Header */}
-      <section className="bg-gradient-to-br from-dark-900 via-dark-800 to-primary-900 text-white py-16">
+      <section className={`${styles.contactHero} py-24`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-medium mb-4">
-            Tentang Kami
+          <p className={styles.eyebrow}>Tentang MDN</p>
+          <h1 className={`${styles.contactTitle} text-gray-900 mb-4`}>
+            Teknologi yang bergerak bersama Indonesia.
           </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto">
+          <p className={`${styles.contactLead} max-w-2xl`}>
             Menghadirkan inovasi teknologi untuk Indonesia yang lebih maju
           </p>
         </div>
       </section>
 
       {/* Company Overview */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-white rounded-xl shadow-md p-8 lg:p-12">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div>
           <p className="text-primary-600 font-semibold text-sm uppercase tracking-widest mb-2">
             PT. MDN Industry Power Indonesia Corp
           </p>
-          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 mb-6">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 mb-6">
             Perusahaan Teknologi Terdepan di Indonesia
           </h2>
-          <p className="text-gray-600 leading-relaxed mb-4">
+          </div><div><p className="text-gray-600 leading-relaxed mb-4">
             PT. MDN Industry Power Indonesia Corp adalah perusahaan teknologi
             yang bergerak di bidang manufaktur dan distribusi perangkat
             elektronik, komputer, dan solusi industri.
@@ -100,17 +103,17 @@ export default function TentangKamiPage() {
             Kami hadir untuk menyediakan produk berkualitas tinggi yang bisa
             diandalkan untuk kebutuhan bisnis dan anak muda di Indonesia.
           </p>
-        </div>
+        </div></div>
       </section>
 
       {/* Vision & Mission */}
-      <section className="bg-gray-100 py-16">
+      <section className="bg-gray-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 text-center mb-12">
             Visi dan Misi
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl shadow-md p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="bg-white rounded-3xl border border-gray-200 p-8">
               <h3 className="text-lg font-medium text-primary-600 mb-4">Visi</h3>
               <p className="text-gray-600 leading-relaxed">
                 Menjadi perusahaan teknologi terdepan di Indonesia yang
@@ -118,7 +121,7 @@ export default function TentangKamiPage() {
                 nasional ke level yang lebih tinggi.
               </p>
             </div>
-            <div className="bg-white rounded-xl shadow-md p-8">
+            <div className="bg-white rounded-3xl border border-gray-200 p-8">
               <h3 className="text-lg font-medium text-primary-600 mb-4">Misi</h3>
               <ul className="space-y-3 text-gray-600">
                 <li className="flex items-start gap-2">
@@ -148,7 +151,7 @@ export default function TentangKamiPage() {
       </section>
 
       {/* Company Values */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-12">
           <h2 className="text-2xl sm:text-3xl font-medium text-gray-900">
             Nilai-Nilai Perusahaan
@@ -158,11 +161,11 @@ export default function TentangKamiPage() {
             terbaik
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
           {values.map((v) => (
             <div
               key={v.title}
-              className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
+              className="bg-white rounded-3xl border border-gray-200 p-6 transition-shadow hover:shadow-lg lg:col-span-2 first:lg:col-span-3 even:lg:col-span-3"
             >
               <v.icon className={`text-3xl ${v.color} mb-4`} />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -175,7 +178,7 @@ export default function TentangKamiPage() {
       </section>
 
       {/* Services */}
-      <section className="bg-gray-100 py-16">
+      <section className="bg-gray-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 text-center mb-12">
             Layanan Terbaik untuk Anda
@@ -184,11 +187,11 @@ export default function TentangKamiPage() {
             Kami berkomitmen memberikan pengalaman terbaik kepada setiap
             pelanggan.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {services.map((s) => (
               <div
                 key={s.title}
-                className="bg-white rounded-xl shadow-md p-8 text-center"
+                className="bg-white rounded-3xl border border-gray-200 p-8 text-center"
               >
                 <s.icon className="text-4xl text-primary-600 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -201,6 +204,7 @@ export default function TentangKamiPage() {
         </div>
       </section>
 
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12"><div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-gray-200 overflow-hidden text-center"><div className="p-6 border-b md:border-b-0 md:border-r border-gray-200"><strong>[ISI: angka pengalaman]</strong><span className="block text-sm text-gray-500 mt-1">[ISI: label metrik]</span></div><div className="p-6 border-b md:border-b-0 md:border-r border-gray-200"><strong>[ISI: angka produk/mitra]</strong><span className="block text-sm text-gray-500 mt-1">[ISI: label metrik]</span></div><div className="p-6"><strong>[ISI: angka cakupan layanan]</strong><span className="block text-sm text-gray-500 mt-1">[ISI: label metrik]</span></div></div></section>
       {/* Corporate CTA */}
       <section className="bg-primary-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
@@ -219,6 +223,6 @@ export default function TentangKamiPage() {
           </Link>
         </div>
       </section>
-    </>
+    </main>
   );
 }
