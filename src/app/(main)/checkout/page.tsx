@@ -234,13 +234,14 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4">
-                    <div className="relative w-16 h-16 bg-gray-50 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="apple-v2 relative aspect-square h-[88px] w-[88px] shrink-0 overflow-hidden rounded-2xl bg-[#f5f5f7] p-2 sm:h-28 sm:w-28 sm:p-3">
                       {item.image && (
                         <Image
                           src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
                           alt={item.name}
                           fill
-                          className="object-cover"
+                          sizes="(max-width: 640px) 88px, 112px"
+                          className="object-contain"
                         />
                       )}
                     </div>
