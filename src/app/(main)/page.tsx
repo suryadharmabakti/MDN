@@ -17,7 +17,7 @@ export default async function HomePage() {
   const products = await prisma.product.findMany({
     where: { category: "Server" },
     orderBy: [{ isBestSeller: "desc" }, { createdAt: "asc" }],
-    take: 5,
+    take: 3,
   });
 
   return (
