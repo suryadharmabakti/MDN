@@ -11,6 +11,8 @@
 .appleV2 h1, .appleV2 h2, .appleV2 h3 { text-wrap: balance; }
 .appleV2 > section { padding-block: clamp(96px, 12vw, 168px); }
 .appleV2 > section:first-child { padding-top: clamp(76px, 9vw, 124px); padding-bottom: 0; }
+.appleV2 > section:first-child > div { position:relative; isolation:isolate; }
+.appleV2 > section:first-child > div::before { content:""; position:absolute; z-index:-1; pointer-events:none; inset:-90px -180px auto; height:370px; background:radial-gradient(ellipse 70% 62% at center, rgba(37,99,235,.13), transparent 75%); }
 .appleV2 h1 { font-size: clamp(3rem, 8vw, 6.5rem) !important; font-weight: 700 !important; letter-spacing: -.055em !important; line-height: 1.02 !important; }
 .appleV2 h2 { font-size: clamp(2.25rem, 5vw, 4rem) !important; letter-spacing: -.04em !important; }
 .appleV2 :global(.rounded-panel) { border-radius: 28px; }
@@ -22,6 +24,8 @@
 .specOne { left: 5%; bottom: 7%; }.specTwo { right: 5%; top: 8%; animation-delay: -2s; }.specThree { right: 20%; bottom: 7%; animation-delay: -4s; }
 
 .trustStrip { display:grid; grid-template-columns:repeat(4,1fr); max-width:1200px; margin:0 auto; }.trustStrip div { padding: 10px clamp(14px,3vw,46px); border-right:1px solid #d2d2d7; }.trustStrip div:last-child { border:0; }.trustStrip strong{ display:block; font-size:clamp(2.5rem,5vw,4.5rem); letter-spacing:-.065em; color:var(--v2-navy); }.trustStrip span{ font-size:.8rem; color:var(--v2-muted); }
+.logoMarquee { width:100%; overflow:hidden; }.logoTrack { display:flex; width:max-content; animation:logoMarquee 52s linear infinite; }.logoPanel { position:relative; flex:0 0 clamp(140px,14vw,220px); height:92px; margin-right:clamp(16px,2vw,36px); }@keyframes logoMarquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+.sectorSection { padding-block:clamp(28px,4vw,56px)!important; }.performanceSection { padding-block:clamp(44px,6vw,80px)!important; }
 
 .featured { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }.featuredCard { min-height:520px; padding:40px; position:relative; overflow:hidden; border-radius:30px; background:radial-gradient(circle at 70% 20%, #174a9b, var(--v2-navy) 55%); color:white; }.featuredCard img{ object-fit:contain; padding:88px 30px 30px; transition:transform .35s ease; }.featuredCard:hover img{ transform:scale(1.04); }.featuredCard p{ position:relative; z-index:1; color:rgba(255,255,255,.7); max-width:24rem; }.featuredCard h3{ position:relative; z-index:1; font-size:clamp(1.75rem,3vw,2.75rem); }
 .chips{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.chips span{border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:6px 10px;font-size:.75rem;background:rgba(255,255,255,.08)}
@@ -29,5 +33,5 @@
 .faq { max-width:900px; margin:0 auto; }.faq details{ border-top:1px solid #d2d2d7; padding:20px 0; }.faq summary{cursor:pointer;font-size:1.125rem;font-weight:600;list-style:none}.faq summary::-webkit-details-marker{display:none}.faq p{color:var(--v2-muted);line-height:1.6;margin:13px 30px 0 0}.faq details:last-child{border-bottom:1px solid #d2d2d7}
 .closing { border-radius:32px; background:var(--v2-navy); color:white; padding:clamp(36px,7vw,76px); text-align:center; }.closing p{color:rgba(255,255,255,.72);max-width:40rem;margin:16px auto 0}.closing a{display:inline-flex;margin:28px 6px 0;border-radius:99px;padding:14px 22px;font-weight:600}.closing a:first-of-type{background:white;color:#0a1f44}.closing a:last-of-type{border:1px solid rgba(255,255,255,.42);color:white}
 @keyframes heroIn{from{opacity:0;transform:scale(1.05) translateY(18px)}to{opacity:1;transform:scale(1) translateY(0)}}@keyframes float{50%{transform:translateY(-8px)}}
-@media(max-width:700px){.trustStrip{grid-template-columns:repeat(2,1fr);gap:20px}.trustStrip div:nth-child(2){border:0}.featured{grid-template-columns:1fr}.featuredCard{min-height:430px;padding:28px}.spec{display:none}.appleV2 > section{padding-block:88px}.trustStrip div{padding-inline:12px}}
-@media(prefers-reduced-motion:reduce){.heroFrame,.spec{animation:none!important}.featuredCard img{transition:none}}
+@media(max-width:700px){.trustStrip{grid-template-columns:repeat(2,1fr);gap:20px}.trustStrip div:nth-child(2){border:0}.featured{grid-template-columns:1fr}.featuredCard{min-height:430px;padding:28px}.spec{display:none}.appleV2 > section{padding-block:88px}.appleV2 > section:first-child > div::before{inset:-40px -24px auto;height:390px}.trustStrip div{padding-inline:12px}}
+@media(prefers-reduced-motion:reduce){.heroFrame,.spec,.logoTrack{animation:none!important}.featuredCard img{transition:none}}
