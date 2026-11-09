@@ -55,7 +55,7 @@ export default function LaporanPage() {
             <div className={styles.reportPanel}>
                 {/* Header Section */}
                 <div className={styles.reportHeader}>
-                    <p className={styles.eyebrow}>MDN Support</p>
+                   
                     <h1>Laporan Isu</h1>
                     <p>
                         Berikan masukan atau laporkan masalah Anda. Kami siap membantu dengan sepenuh hati.

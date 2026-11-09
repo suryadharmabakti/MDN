@@ -5,7 +5,6 @@ export default function HubungiKamiPage() {
   return (
     <main className={`${styles.appleV3} apple-v2 ${styles.contactPage} page-contact`}>
       <section className={styles.contactHero}>
-        <p className={styles.eyebrow}>MDN Support</p>
         <h1 className={styles.contactTitle}>Mari mulai percakapan.</h1>
         <p className={styles.contactLead}>Tim kami siap membantu kebutuhan perangkat dan solusi teknologi Anda.</p>
       </section>

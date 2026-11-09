@@ -104,7 +104,7 @@ export default function Footer() {
 
           {/* Company Info & Socials */}
           <div>
-            <h4 className="text-ink font-semibold mb-4 uppercase tracking-wider text-[11px]">Tentang MDN Tech</h4>
+            <h4 className="text-ink font-semibold mb-4 uppercase tracking-wider text-[11px]"></h4>
             <p className="mb-4 text-ink-secondary leading-relaxed">
               PT. MDN Industry Power Indonesia Corp — Mitra teknologi terpercaya Anda untuk laptop, komputer, dan solusi industri.
             </p>

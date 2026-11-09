@@ -74,7 +74,7 @@ export default function TentangKamiPage() {
       {/* Header */}
       <section className={`${styles.contactHero} py-24`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className={styles.eyebrow}>Tentang MDN</p>
+          
           <h1 className={`${styles.contactTitle} text-gray-900 mb-4`}>
             Teknologi yang bergerak bersama Indonesia.
           </h1>

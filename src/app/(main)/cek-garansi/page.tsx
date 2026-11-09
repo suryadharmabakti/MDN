@@ -34,7 +34,6 @@ export default function CheckWarrantyPage() {
     return (
         <main className={`${styles.appleV3} apple-v2 ${styles.warrantyPage} page-warranty`}>
             <section className={styles.warrantyHero}>
-                <p className={styles.eyebrow}>MDN Care</p>
                 <h1 className={styles.warrantyTitle}>Cek status garansi perangkat Anda.</h1>
                 <p className={styles.warrantyLead}>Masukkan nomor seri untuk melihat perlindungan dan informasi perangkat MDN Anda.</p>
             </section>

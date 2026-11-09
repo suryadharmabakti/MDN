@@ -10,7 +10,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "MDN Tech - Inovasi Lokal Kualitas Global",
+  title: "MDN Tech",
   description:
     "PT. MDN Industry Power Indonesia Corp — Teknologi terdepan dengan performa tinggi untuk kebutuhan harian Anda.",
   icons: {

@@ -15,7 +15,7 @@ export default function CartDrawer() {
       <button aria-label="Tutup keranjang" onClick={closeCart} className="absolute inset-0 cursor-default bg-black/35 backdrop-blur-sm" />
       <aside aria-label="Keranjang belanja" className="absolute inset-y-0 right-0 flex w-full max-w-[430px] flex-col bg-white shadow-2xl">
         <header className="flex items-center justify-between border-b border-line px-6 py-5">
-          <div><p className="text-xs font-semibold tracking-[0.16em] text-primary-600">MDN STORE</p><h2 className="mt-1 text-2xl font-semibold tracking-tight">Bag</h2></div>
+          <div><p className="text-xs font-semibold tracking-[0.16em] text-primary-600"></p><h2 className="mt-1 text-2xl font-semibold tracking-tight">Bag</h2></div>
           <button onClick={closeCart} aria-label="Tutup" className="grid h-10 w-10 place-items-center rounded-full bg-surface text-ink transition-colors hover:bg-line"><FaTimes /></button>
         </header>
         <div className="flex-1 overflow-y-auto px-6 py-6">
