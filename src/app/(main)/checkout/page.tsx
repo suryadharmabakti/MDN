@@ -1,57 +1,173 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaArrowLeft, FaCheck, FaCreditCard, FaMoneyBillWave, FaUniversity, FaLock } from "react-icons/fa";
+import { FaCheck, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
 import { useCartStore } from "@/lib/store";
+
+type Destination = { id: number; label: string; zipCode: string };
+type ShippingOption = {
+  courier: string;
+  courierName: string;
+  service: string;
+  description: string;
+  cost: number;
+  etd: string;
+};
+
+const rupiah = (n: number) => `Rp ${Math.round(n).toLocaleString("id-ID")}`;
+const inputClass =
+  "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15";
+const labelClass = "mb-2 block text-sm font-medium text-gray-700";
+
+const paymentMethods = [
+  { value: "transfer", title: "Transfer bank", text: "BCA, Mandiri, BRI, atau BNI" },
+  { value: "credit", title: "Kartu kredit/debit", text: "Visa, Mastercard, atau JCB" },
+  { value: "ewallet", title: "E-wallet", text: "GoPay, OVO, atau DANA" },
+];
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCartStore();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    paymentMethod: "transfer",
-  });
-  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", address: "", paymentMethod: "transfer" });
 
-  const total = getTotalPrice();
-  const shipping = total > 500000 ? 0 : 25000;
-  const grandTotal = total + shipping;
+  // Destination search
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Destination[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [destination, setDestination] = useState<Destination | null>(null);
+  const [searchError, setSearchError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setOrderPlaced(true);
-    clearCart();
+  // Shipping options
+  const [options, setOptions] = useState<ShippingOption[]>([]);
+  const [loadingCost, setLoadingCost] = useState(false);
+  const [costError, setCostError] = useState("");
+  const [selected, setSelected] = useState<string>("");
+
+  // Submit
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [placedOrder, setPlacedOrder] = useState<{ id: number; totalAmount: number } | null>(null);
+
+  const cartPayload = items.map((i) => ({ id: i.id, quantity: i.quantity }));
+  const cartKey = JSON.stringify(cartPayload);
+  const subtotal = getTotalPrice();
+  const chosen = options.find((o) => `${o.courier}:${o.service}` === selected) || null;
+  const grandTotal = subtotal + (chosen?.cost || 0);
+
+  // Debounced destination search
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (destination && query === destination.label) return;
+    clearTimeout(searchTimer.current);
+    if (query.trim().length < 3) {
+      setResults([]);
+      return;
+    }
+    searchTimer.current = setTimeout(async () => {
+      setSearching(true);
+      setSearchError("");
+      try {
+        const res = await fetch(`/api/shipping/destination?search=${encodeURIComponent(query.trim())}`);
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error);
+        setResults(json.data || []);
+      } catch (e) {
+        setSearchError(e instanceof Error && e.message ? e.message : "Gagal mencari lokasi.");
+        setResults([]);
+      } finally {
+        setSearching(false);
+      }
+    }, 400);
+    return () => clearTimeout(searchTimer.current);
+  }, [query, destination]);
+
+  // Fetch shipping options when destination or cart changes
+  useEffect(() => {
+    if (!destination || items.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      setLoadingCost(true);
+      setCostError("");
+      setOptions([]);
+      setSelected("");
+      try {
+        const res = await fetch("/api/shipping/cost", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ destinationId: destination.id, items: JSON.parse(cartKey) }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error);
+        if (cancelled) return;
+        const list: ShippingOption[] = json.data?.options || [];
+        setOptions(list);
+        if (list[0]) setSelected(`${list[0].courier}:${list[0].service}`);
+        if (list.length === 0) setCostError("Tidak ada layanan kurir yang tersedia untuk tujuan ini.");
+      } catch (e) {
+        if (!cancelled) setCostError(e instanceof Error && e.message ? e.message : "Gagal menghitung ongkir.");
+      } finally {
+        if (!cancelled) setLoadingCost(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [destination, cartKey, items.length]);
+
+  const pickDestination = (d: Destination) => {
+    setDestination(d);
+    setQuery(d.label);
+    setResults([]);
   };
 
-  if (orderPlaced) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError("");
+    if (!destination) return setSubmitError("Pilih lokasi tujuan pengiriman terlebih dahulu.");
+    if (!chosen) return setSubmitError("Pilih layanan pengiriman terlebih dahulu.");
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          destination,
+          shipping: { courier: chosen.courier, service: chosen.service },
+          items: cartPayload,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      setPlacedOrder(json.data);
+      clearCart();
+    } catch (err) {
+      setSubmitError(err instanceof Error && err.message ? err.message : "Pesanan gagal dibuat.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (placedOrder) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center max-w-md">
-          <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FaCheck className="text-4xl text-green-500" />
+      <div className="flex min-h-[70vh] items-center justify-center bg-white px-4">
+        <div className="max-w-md text-center">
+          <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#e8f8ee]">
+            <FaCheck className="text-2xl text-[#248a3d]" />
           </div>
-          <h2 className="text-3xl font-black text-gray-900 mb-4">Order Placed Successfully!</h2>
-          <p className="text-gray-500 mb-8">
-            Thank you for your order. We will process your order and send you a confirmation email shortly.
+          <h1 className="mt-6 text-3xl font-semibold tracking-tight text-gray-900">Pesanan diterima.</h1>
+          <p className="mt-3 text-gray-500">
+            Nomor pesanan Anda <span className="font-semibold text-gray-900">#{placedOrder.id}</span> dengan total{" "}
+            {rupiah(placedOrder.totalAmount)}. Tim MDN akan segera menghubungi Anda untuk konfirmasi pembayaran.
           </p>
-          <div className="space-y-3">
-            <Link
-              href="/"
-              className="block w-full px-6 py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
-            >
-              Back to Home
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <Link href="/produk" className="rounded-full bg-[#0071e3] px-6 py-3 font-medium text-white hover:bg-[#0077ed]">
+              Lanjut belanja
             </Link>
-            <Link
-              href="/produk"
-              className="block w-full px-6 py-4 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors"
-            >
-              Continue Shopping
+            <Link href="/" className="text-[#0071e3] hover:underline">
+              Kembali ke beranda ›
             </Link>
           </div>
         </div>
@@ -61,11 +177,11 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-medium text-gray-900 mb-4">Your cart is empty</h2>
-          <Link href="/produk" className="text-primary-600 hover:underline">
-            Continue Shopping
+      <div className="flex min-h-[60vh] items-center justify-center bg-white px-4 text-center">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Keranjang Anda kosong.</h1>
+          <Link href="/produk" className="mt-3 inline-block text-[#0071e3] hover:underline">
+            Lanjut belanja ›
           </Link>
         </div>
       </div>
@@ -73,217 +189,189 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <Link href="/cart" className="hover:text-primary-600">Cart</Link>
-          <span>/</span>
-          <span className="text-gray-900 font-medium">Checkout</span>
-        </div>
+    <div className="bg-white">
+      <div className="mx-auto max-w-6xl px-4 pb-24 pt-10 sm:px-6 lg:px-8">
+        <h1 className="text-4xl font-semibold tracking-[-0.035em] text-gray-900 sm:text-5xl">Checkout.</h1>
 
-        <h1 className="text-3xl font-black text-gray-900 mb-8">Checkout</h1>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Form */}
-          <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Contact Info */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-medium text-gray-900 mb-6">Contact Information</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                    <input
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-                      placeholder="0812-3456-7890"
-                    />
-                  </div>
+        <form onSubmit={handleSubmit} className="mt-10 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
+          <div className="space-y-12">
+            {/* Contact */}
+            <section>
+              <h2 className="text-xl font-semibold tracking-tight text-gray-900">Kontak</h2>
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className={labelClass} htmlFor="name">Nama lengkap</label>
+                  <input id="name" required className={inputClass} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                </div>
+                <div>
+                  <label className={labelClass} htmlFor="email">Email</label>
+                  <input id="email" type="email" required className={inputClass} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                </div>
+                <div className="md:col-span-2">
+                  <label className={labelClass} htmlFor="phone">Nomor telepon</label>
+                  <input id="phone" type="tel" required className={inputClass} placeholder="0812-3456-7890" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                 </div>
               </div>
+            </section>
 
-              {/* Shipping Address */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-medium text-gray-900 mb-6">Shipping Address</h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+            {/* Shipping address */}
+            <section>
+              <h2 className="text-xl font-semibold tracking-tight text-gray-900">Alamat pengiriman</h2>
+              <div className="mt-5 space-y-4">
+                <div className="relative">
+                  <label className={labelClass} htmlFor="destination">Kelurahan / kecamatan / kota</label>
+                  <div className="relative">
+                    <FaMapMarkerAlt className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
-                      type="text"
-                      required
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-                      placeholder="Jl. Example No. 123"
+                      id="destination"
+                      autoComplete="off"
+                      className={`${inputClass} pl-10`}
+                      placeholder="Ketik minimal 3 huruf, mis. Cempaka Putih"
+                      value={query}
+                      onChange={(e) => {
+                        setQuery(e.target.value);
+                        if (destination) {
+                          setDestination(null);
+                          setOptions([]);
+                          setSelected("");
+                        }
+                      }}
                     />
+                    {searching && <FaSpinner className="absolute right-4 top-1/2 -translate-y-1/2 animate-spin text-gray-400" />}
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.city}
-                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-                        placeholder="Jakarta"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.postalCode}
-                        onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-                        placeholder="12345"
-                      />
-                    </div>
-                  </div>
+                  {results.length > 0 && !destination && (
+                    <ul className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-gray-100 bg-white py-2 shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
+                      {results.map((d) => (
+                        <li key={d.id}>
+                          <button type="button" onClick={() => pickDestination(d)} className="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-[#f5f5f7]">
+                            {d.label}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {searchError && <p className="mt-2 text-sm text-[#d70015]">{searchError}</p>}
+                </div>
+                <div>
+                  <label className={labelClass} htmlFor="address">Alamat lengkap</label>
+                  <textarea id="address" required rows={3} className={inputClass} placeholder="Nama jalan, nomor rumah/gedung, RT/RW, patokan" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
                 </div>
               </div>
+            </section>
 
-              {/* Payment Method */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-medium text-gray-900 mb-6">Payment Method</h2>
-                <div className="space-y-3">
-                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${formData.paymentMethod === "transfer" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
-                    }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="transfer"
-                      checked={formData.paymentMethod === "transfer"}
-                      onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                      className="w-5 h-5 text-primary-600"
-                    />
-                    <FaCreditCard className="text-2xl text-gray-600" />
-                    <div>
-                      <p className="font-medium text-gray-900">Bank Transfer</p>
-                      <p className="text-sm text-gray-500">Transfer via BCA, Mandiri, BRI, or BNI</p>
-                    </div>
-                  </label>
-                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${formData.paymentMethod === "credit" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
-                    }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="credit"
-                      checked={formData.paymentMethod === "credit"}
-                      onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                      className="w-5 h-5 text-primary-600"
-                    />
-                    <FaMoneyBillWave className="text-2xl text-gray-600" />
-                    <div>
-                      <p className="font-medium text-gray-900">Credit/Debit Card</p>
-                      <p className="text-sm text-gray-500">Pay with Visa, Mastercard, or JCB</p>
-                    </div>
-                  </label>
-                  <label className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-colors ${formData.paymentMethod === "ewallet" ? "border-primary-600 bg-primary-50" : "border-gray-200 hover:border-gray-300"
-                    }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="ewallet"
-                      checked={formData.paymentMethod === "ewallet"}
-                      onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                      className="w-5 h-5 text-primary-600"
-                    />
-                    <FaUniversity className="text-2xl text-gray-600" />
-                    <div>
-                      <p className="font-medium text-gray-900">E-Wallet</p>
-                      <p className="text-sm text-gray-500">Pay with Gopay, OVO, or DANA</p>
-                    </div>
-                  </label>
-                </div>
+            {/* Courier */}
+            <section>
+              <h2 className="text-xl font-semibold tracking-tight text-gray-900">Pengiriman</h2>
+              <div className="mt-5">
+                {!destination && <p className="text-gray-500">Pilih lokasi tujuan untuk melihat pilihan kurir dan ongkos kirim.</p>}
+                {loadingCost && (
+                  <p className="flex items-center gap-2 text-gray-500">
+                    <FaSpinner className="animate-spin" /> Menghitung ongkos kirim…
+                  </p>
+                )}
+                {costError && <p className="text-sm text-[#d70015]">{costError}</p>}
+                {options.length > 0 && (
+                  <div className="space-y-3">
+                    {options.map((o) => {
+                      const key = `${o.courier}:${o.service}`;
+                      const active = key === selected;
+                      return (
+                        <label key={key} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors ${active ? "border-[#0071e3] bg-[#f5f9ff]" : "border-gray-200 hover:border-gray-300"}`}>
+                          <input type="radio" name="shipping" value={key} checked={active} onChange={() => setSelected(key)} className="h-4 w-4 accent-[#0071e3]" />
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-900">
+                              {o.courier.toUpperCase()} {o.service}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {o.description}
+                              {o.etd ? ` · Estimasi ${o.etd.replace(/day/i, "hari")}` : ""}
+                            </p>
+                          </div>
+                          <p className="font-medium text-gray-900">{rupiah(o.cost)}</p>
+                        </label>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-            </form>
+            </section>
+
+            {/* Payment */}
+            <section>
+              <h2 className="text-xl font-semibold tracking-tight text-gray-900">Pembayaran</h2>
+              <div className="mt-5 space-y-3">
+                {paymentMethods.map((m) => {
+                  const active = form.paymentMethod === m.value;
+                  return (
+                    <label key={m.value} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors ${active ? "border-[#0071e3] bg-[#f5f9ff]" : "border-gray-200 hover:border-gray-300"}`}>
+                      <input type="radio" name="paymentMethod" value={m.value} checked={active} onChange={() => setForm({ ...form, paymentMethod: m.value })} className="h-4 w-4 accent-[#0071e3]" />
+                      <div>
+                        <p className="font-medium text-gray-900">{m.title}</p>
+                        <p className="text-sm text-gray-500">{m.text}</p>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </section>
           </div>
 
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 sticky top-24">
-              <h2 className="text-xl font-medium text-gray-900 mb-6">Order Summary</h2>
-
-              <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
+          {/* Summary */}
+          <aside className="lg:sticky lg:top-24 lg:self-start">
+            <div className="rounded-[28px] bg-[#f5f5f7] p-7">
+              <h2 className="text-xl font-semibold tracking-tight text-gray-900">Ringkasan pesanan</h2>
+              <ul className="mt-5 max-h-72 space-y-4 overflow-y-auto">
                 {items.map((item) => (
-                  <div key={item.id} className="flex gap-4">
-                    <div className="apple-v2 relative aspect-square h-[88px] w-[88px] shrink-0 overflow-hidden rounded-2xl bg-[#f5f5f7] p-2 sm:h-28 sm:w-28 sm:p-3">
+                  <li key={item.id} className="flex items-center gap-4">
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white">
                       {item.image && (
                         <Image
                           src={item.image.startsWith("data:") || item.image.startsWith("/") ? item.image : `/${item.image}`}
                           alt={item.name}
                           fill
-                          sizes="(max-width: 640px) 88px, 112px"
-                          className="object-contain"
+                          sizes="64px"
+                          className="object-contain p-1.5"
                         />
                       )}
                     </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900 text-sm line-clamp-1">{item.name}</p>
-                      <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="line-clamp-1 text-sm font-medium text-gray-900">{item.name}</p>
+                      <p className="text-xs text-gray-500">Jumlah: {item.quantity}</p>
                     </div>
-                    <p className="font-semibold text-gray-900">
-                      Rp {(item.price * item.quantity).toLocaleString("id-ID")}
-                    </p>
-                  </div>
+                    <p className="text-sm font-medium text-gray-900">{rupiah(item.price * item.quantity)}</p>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
-              <div className="border-t pt-4 space-y-3">
+              <dl className="mt-6 space-y-3 border-t border-gray-200 pt-5 text-sm">
                 <div className="flex justify-between text-gray-600">
-                  <span>Subtotal</span>
-                  <span>Rp {total.toLocaleString("id-ID")}</span>
+                  <dt>Subtotal</dt>
+                  <dd>{rupiah(subtotal)}</dd>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Shipping</span>
-                  <span>{shipping === 0 ? <span className="text-green-600">Free</span> : `Rp ${shipping.toLocaleString("id-ID")}`}</span>
+                  <dt>Ongkos kirim{chosen ? ` (${chosen.courier.toUpperCase()} ${chosen.service})` : ""}</dt>
+                  <dd>{chosen ? rupiah(chosen.cost) : "—"}</dd>
                 </div>
-                <div className="flex justify-between text-xl font-black pt-3 border-t">
-                  <span>Total</span>
-                  <span className="text-primary-600">Rp {grandTotal.toLocaleString("id-ID")}</span>
+                <div className="flex justify-between border-t border-gray-200 pt-4 text-lg font-semibold text-gray-900">
+                  <dt>Total</dt>
+                  <dd>{rupiah(grandTotal)}</dd>
                 </div>
-              </div>
+              </dl>
+
+              {submitError && <p className="mt-4 text-sm text-[#d70015]">{submitError}</p>}
 
               <button
-                onClick={handleSubmit}
-                className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors"
+                type="submit"
+                disabled={submitting || !chosen}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#0071e3] px-6 py-3.5 font-medium text-white transition-colors hover:bg-[#0077ed] disabled:cursor-not-allowed disabled:bg-gray-300"
               >
-                <FaLock /> Place Order
+                {submitting && <FaSpinner className="animate-spin" />}
+                {submitting ? "Memproses…" : "Buat pesanan"}
               </button>
-
-              <p className="text-xs text-gray-500 text-center mt-4">
-                Your payment is secured with 256-bit SSL encryption
-              </p>
+              <p className="mt-3 text-center text-xs text-gray-500">Ongkos kirim dihitung otomatis melalui RajaOngkir.</p>
             </div>
-          </div>
-        </div>
+          </aside>
+        </form>
       </div>
     </div>
   );

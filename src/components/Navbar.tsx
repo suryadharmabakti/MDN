@@ -83,9 +83,9 @@ export default function Navbar() {
                 <Image
                   src="/uploads/mdn-logo.png"
                   alt="MDN Tech Logo"
-                  width={40}
-                  height={40}
-                  className="h-8 w-8 object-contain opacity-90 hover:opacity-100 transition-opacity"
+                  width={48}
+                  height={48}
+                  className="h-10 w-10 md:h-11 md:w-11 object-contain opacity-90 hover:opacity-100 transition-opacity"
                 />
               </Link>
             </div>

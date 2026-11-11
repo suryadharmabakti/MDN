@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaStar, FaRegStar, FaShoppingCart, FaHeart, FaRegHeart, FaEye } from "react-icons/fa";
+import { FaStar, FaHeart, FaRegHeart } from "react-icons/fa";
 import { useCartStore, useWishlistStore, CartItem } from "@/lib/store";
 import { useState } from "react";
 
@@ -87,138 +87,82 @@ export default function ProductCard({
 
   const discount = oldPrice && price ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
 
-  const renderStars = (rating: number) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-
-    for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(<FaStar key={i} className="text-yellow-400 text-xs" />);
-      } else if (i === fullStars && hasHalfStar) {
-        stars.push(<FaStar key={i} className="text-yellow-400 text-xs" />);
-      } else {
-        stars.push(<FaRegStar key={i} className="text-yellow-400 text-xs" />);
-      }
-    }
-    return stars;
-  };
+  const label = isFlashSale
+    ? `Flash Sale${discount > 0 ? ` · Hemat ${discount}%` : ""}`
+    : discount > 0
+      ? `Hemat ${discount}%`
+      : isNew
+        ? "Baru"
+        : isBestSeller
+          ? "Terlaris"
+          : null;
+  const labelColor = isFlashSale || discount > 0 ? "text-[#bf4800]" : "text-[#0071e3]";
+  const href = `/produk/detail?id=${id}`;
 
   return (
-    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full relative">
-      <div className="relative aspect-square overflow-hidden bg-[#f5f5f7] p-4 z-10">
-        <Link href={`/produk/detail?id=${id}`} className="block w-full h-full" aria-label={`Lihat detail ${name}`}>
-          {image ? (
-            <Image
-              src={image.startsWith("data:") || image.startsWith("/") ? image : `/${image}`}
-              alt={name}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-contain"
-            />
-          ) : (
-            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-              <span className="text-gray-300">No Image</span>
-            </div>
-          )}
-        </Link>
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-[28px] bg-[#f5f5f7] transition-transform duration-300 hover:-translate-y-1">
+      <Link href={href} className="relative block aspect-[4/3] overflow-hidden" aria-label={`Lihat detail ${name}`}>
+        {image ? (
+          <Image
+            src={image.startsWith("data:") || image.startsWith("/") ? image : `/${image}`}
+            alt={name}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-contain p-8 transition-transform duration-500 group-hover:scale-[1.03] sm:p-10"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-300">No Image</div>
+        )}
+      </Link>
 
-        <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
-          {isFlashSale && (
-            <span className="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded-full">
-              FLASH SALE
-            </span>
-          )}
-          {isBestSeller && (
-            <span className="px-3 py-1 bg-orange-500 text-white text-xs font-medium rounded-full">
-              Best Seller
-            </span>
-          )}
-          {isNew && (
-            <span className="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded-full">
-              New
-            </span>
-          )}
-          {discount > 0 && (
-            <span className="px-3 py-1 bg-primary-600 text-white text-xs font-medium rounded-full">
-              -{discount}%
-            </span>
-          )}
-        </div>
+      <button
+        onClick={handleWishlist}
+        aria-label={isInWishlist ? "Hapus dari wishlist" : "Tambah ke wishlist"}
+        className={`absolute right-4 top-4 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/90 transition-all hover:bg-white ${
+          isInWishlist ? "text-red-500 opacity-100" : "text-gray-400 opacity-0 hover:text-red-500 group-hover:opacity-100"
+        }`}
+      >
+        {isInWishlist ? <FaHeart /> : <FaRegHeart />}
+      </button>
 
-        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-          <button
-            onClick={handleWishlist}
-            className={`w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center transition-all hover:scale-110 ${isInWishlist ? "text-red-500" : "text-gray-400 hover:text-red-500"
-              }`}
-          >
-            {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-          </button>
-          <Link
-            href={`/produk/detail?id=${id}`}
-            className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-400 hover:text-primary-600 transition-all hover:scale-110"
-          >
-            <FaEye />
-          </Link>
-        </div>
-
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-20">
-          <button
-            onClick={handleAddToCart}
-            disabled={isAdding}
-            className={`w-full py-3 bg-primary-600 text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-all hover:bg-primary-700 ${isAdding ? "bg-green-500" : ""
-              }`}
-          >
-            <FaShoppingCart />
-            {isAdding ? "Added!" : "Add to Cart"}
-          </button>
-        </div>
-      </div>
-
-      <div className="p-4 flex flex-col flex-1 z-10">
-        <p className="text-xs text-gray-500 font-medium mb-1">{category}</p>
-        <h3 className="font-medium text-gray-900 text-lg line-clamp-2 mb-2">
-          <Link href={`/produk/detail?id=${id}`} className="hover:text-primary-600 transition-colors">
-            {name}
-          </Link>
+      <div className="flex flex-1 flex-col px-7 pb-7">
+        {label ? (
+          <p className={`text-xs font-semibold ${labelColor}`}>{label}</p>
+        ) : (
+          <p className="text-xs font-medium text-gray-500">{category}</p>
+        )}
+        <h3 className="mt-1.5 line-clamp-2 text-xl font-semibold tracking-tight text-gray-900">
+          <Link href={href}>{name}</Link>
         </h3>
 
-        <div className="flex items-center gap-1 mb-3">
-          {renderStars(rating || 0)}
-          <span className="text-xs text-gray-400 ml-1">({reviewCount || 0})</span>
-        </div>
-
-        <div className="mt-auto">
-          <div className="flex items-baseline gap-2">
-            <span className="text-lg font-medium text-primary-600">
-              Rp {(price || 0).toLocaleString("id-ID")}
-            </span>
-            {oldPrice && price && oldPrice > price && (
-              <span className="text-sm text-gray-400 line-through">
-                Rp {oldPrice.toLocaleString("id-ID")}
-              </span>
-            )}
+        {(reviewCount || 0) > 0 && (
+          <div className="mt-2 flex items-center gap-1 text-xs text-gray-500">
+            <FaStar className="text-[#ff9f0a]" aria-hidden="true" />
+            {(rating || 0).toFixed(1)} <span className="text-gray-400">({reviewCount})</span>
           </div>
-          <p className="text-xs text-gray-500 mt-1">
-            {merk} {tipe}
+        )}
+
+        <div className="mt-auto pt-5">
+          <p className="text-[15px] text-gray-900">
+            Rp {(price || 0).toLocaleString("id-ID")}
+            {oldPrice && price && oldPrice > price ? (
+              <span className="ml-2 text-sm text-gray-400 line-through">Rp {oldPrice.toLocaleString("id-ID")}</span>
+            ) : null}
           </p>
 
-          <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gray-100 relative z-20">
-            <Link
-              href={`/produk/detail?id=${id}`}
-              className="flex items-center justify-center gap-2 py-2.5 bg-gray-100 text-gray-700 text-xs font-semibold rounded-xl hover:bg-gray-200 transition-colors"
-            >
-              Lihat Detail
-            </Link>
+          <div className="mt-5 flex items-center justify-between gap-3">
             <button
               onClick={handleAddToCart}
               disabled={isAdding}
-              className={`flex items-center justify-center gap-2 py-2.5 ${isAdding ? "bg-green-500" : "bg-primary-600 hover:bg-primary-700"
-                } text-white text-xs font-semibold rounded-xl transition-colors`}
+              className={`rounded-full px-5 py-2 text-sm font-medium text-white transition-colors ${
+                isAdding ? "bg-[#248a3d]" : "bg-[#0071e3] hover:bg-[#0077ed]"
+              }`}
             >
-              <FaShoppingCart />
-              {isAdding ? "Selesai" : "Beli"}
+              {isAdding ? "Ditambahkan" : "Beli"}
             </button>
+            <Link href={href} className="inline-flex items-center gap-1 text-sm text-[#0071e3] hover:underline">
+              Lihat detail <span className="text-base leading-none">›</span>
+            </Link>
           </div>
         </div>
       </div>

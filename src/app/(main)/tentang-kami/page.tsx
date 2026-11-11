@@ -17,35 +17,30 @@ const values = [
     title: "Inovasi",
     description:
       "Berpikir maju dan terus mengembangkan teknologi untuk menciptakan solusi yang lebih baik.",
-    color: "text-yellow-400",
   },
   {
     icon: FaStar,
     title: "Kualitas",
     description:
       "Menjunjung tinggi standar kualitas dalam setiap produk dan layanan yang kami berikan.",
-    color: "text-primary-400",
   },
   {
     icon: FaShieldAlt,
     title: "Keandalan",
     description:
       "Memberikan solusi yang dapat diandalkan bagi pelanggan dan mitra bisnis kami.",
-    color: "text-green-400",
   },
   {
     icon: FaHandshake,
     title: "Kolaborasi",
     description:
       "Membangun hubungan yang kuat dengan pelanggan, mitra, dan komunitas.",
-    color: "text-purple-400",
   },
   {
     icon: FaLeaf,
     title: "Keberlanjutan",
     description:
       "Mengelola bisnis secara ramah lingkungan dan bertanggung jawab.",
-    color: "text-emerald-400",
   },
 ];
 
@@ -72,154 +67,142 @@ export default function TentangKamiPage() {
   return (
     <main className={`${styles.appleV3} apple-v2 page-about`}>
       {/* Header */}
-      <section className={`${styles.contactHero} py-24`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          
-          <h1 className={`${styles.contactTitle} text-gray-900 mb-4`}>
+      <section className={styles.contactHero}>
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <h1 className={`${styles.contactTitle} text-gray-900`}>
             Teknologi yang bergerak bersama Indonesia.
           </h1>
-          <p className={`${styles.contactLead} max-w-2xl`}>
-            Menghadirkan inovasi teknologi untuk Indonesia yang lebih maju
+          <p className={`${styles.contactLead} !max-w-2xl`}>
+            Menghadirkan inovasi teknologi untuk Indonesia yang lebih maju.
           </p>
         </div>
       </section>
 
       {/* Company Overview */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid md:grid-cols-2 gap-12 items-start">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div className="grid items-start gap-10 md:grid-cols-2 md:gap-16">
           <div>
-          <p className="text-primary-600 font-semibold text-sm uppercase tracking-widest mb-2">
-            PT. MDN Industry Power Indonesia Corp
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 mb-6">
-            Perusahaan Teknologi Terdepan di Indonesia
-          </h2>
-          </div><div><p className="text-gray-600 leading-relaxed mb-4">
-            PT. MDN Industry Power Indonesia Corp adalah perusahaan teknologi
-            yang bergerak di bidang manufaktur dan distribusi perangkat
-            elektronik, komputer, dan solusi industri.
-          </p>
-          <p className="text-gray-600 leading-relaxed">
-            Kami hadir untuk menyediakan produk berkualitas tinggi yang bisa
-            diandalkan untuk kebutuhan bisnis dan anak muda di Indonesia.
-          </p>
-        </div></div>
+            <p className="text-sm font-semibold tracking-[0.16em] text-primary-600">TENTANG MDN</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.035em] text-gray-900 sm:text-5xl">
+              Perusahaan teknologi untuk Indonesia.
+            </h2>
+          </div>
+          <div className="space-y-5 text-lg leading-relaxed text-gray-600 md:pt-10">
+            <p>
+              PT. MDN Industry Power Indonesia Corp adalah perusahaan teknologi
+              yang bergerak di bidang manufaktur dan distribusi perangkat
+              elektronik, komputer, dan solusi industri.
+            </p>
+            <p>
+              Kami hadir untuk menyediakan produk berkualitas tinggi yang bisa
+              diandalkan untuk kebutuhan bisnis dan anak muda di Indonesia.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Vision & Mission */}
-      <section className="bg-gray-100 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 text-center mb-12">
-            Visi dan Misi
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="bg-white rounded-3xl border border-gray-200 p-8">
-              <h3 className="text-lg font-medium text-primary-600 mb-4">Visi</h3>
-              <p className="text-gray-600 leading-relaxed">
+      <section className="bg-[#f5f5f7] py-20 lg:py-28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="flex flex-col rounded-[28px] bg-[#0a3d91] p-8 text-white lg:p-12">
+              <p className="text-sm font-semibold tracking-[0.16em] text-[#9cc4ff]">VISI</p>
+              <p className="mt-auto pt-12 text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
                 Menjadi perusahaan teknologi terdepan di Indonesia yang
                 menghadirkan inovasi kelas dunia untuk mendorong industri
                 nasional ke level yang lebih tinggi.
               </p>
             </div>
-            <div className="bg-white rounded-3xl border border-gray-200 p-8">
-              <h3 className="text-lg font-medium text-primary-600 mb-4">Misi</h3>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary-500 mt-1">•</span>
-                  Mengedepankan prinsip keberlanjutan dalam setiap aspek bisnis.
+            <div className="rounded-[28px] bg-white p-8 lg:p-12">
+              <p className="text-sm font-semibold tracking-[0.16em] text-primary-600">MISI</p>
+              <ol className="mt-8 divide-y divide-gray-100">
+                <li className="flex gap-5 py-4 first:pt-0 last:pb-0">
+                  <span className="text-sm font-semibold text-gray-400">01</span>
+                  <span className="text-gray-700">Mengedepankan prinsip keberlanjutan dalam setiap aspek bisnis.</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary-500 mt-1">•</span>
-                  Mendorong pengembangan talenta muda di bidang teknologi.
+                <li className="flex gap-5 py-4 first:pt-0 last:pb-0">
+                  <span className="text-sm font-semibold text-gray-400">02</span>
+                  <span className="text-gray-700">Mendorong pengembangan talenta muda di bidang teknologi.</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary-500 mt-1">•</span>
-                  Menyediakan layanan purna jual yang profesional dan responsif.
+                <li className="flex gap-5 py-4 first:pt-0 last:pb-0">
+                  <span className="text-sm font-semibold text-gray-400">03</span>
+                  <span className="text-gray-700">Menyediakan layanan purna jual yang profesional dan responsif.</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary-500 mt-1">•</span>
-                  Memberikan solusi industri yang efisien dan andal.
+                <li className="flex gap-5 py-4 first:pt-0 last:pb-0">
+                  <span className="text-sm font-semibold text-gray-400">04</span>
+                  <span className="text-gray-700">Memberikan solusi industri yang efisien dan andal.</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary-500 mt-1">•</span>
-                  Mengembangkan dan memproduksi perangkat elektronik berkualitas tinggi.
+                <li className="flex gap-5 py-4 first:pt-0 last:pb-0">
+                  <span className="text-sm font-semibold text-gray-400">05</span>
+                  <span className="text-gray-700">Mengembangkan dan memproduksi perangkat elektronik berkualitas tinggi.</span>
                 </li>
-              </ul>
+              </ol>
             </div>
           </div>
         </div>
       </section>
 
       {/* Company Values */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900">
-            Nilai-Nilai Perusahaan
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold tracking-[0.16em] text-primary-600">NILAI KAMI</p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-[-0.035em] text-gray-900 sm:text-5xl">
+            Prinsip di balik setiap langkah.
           </h2>
-          <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
-            Prinsip yang memandu setiap langkah kami dalam menghadirkan solusi
-            terbaik
-          </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {values.map((v) => (
             <div
               key={v.title}
-              className="bg-white rounded-3xl border border-gray-200 p-6 transition-shadow hover:shadow-lg lg:col-span-2 first:lg:col-span-3 even:lg:col-span-3"
+              className="rounded-[28px] bg-[#f5f5f7] p-7 transition-transform duration-300 hover:-translate-y-1 lg:col-span-2 lg:[&:nth-child(n+4)]:col-span-3 sm:last:col-span-2 lg:last:col-span-3"
             >
-              <v.icon className={`text-3xl ${v.color} mb-4`} />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {v.title}
-              </h3>
-              <p className="text-gray-500 text-sm">{v.description}</p>
+              <v.icon className="text-2xl text-primary-600" aria-hidden="true" />
+              <h3 className="mt-8 text-xl font-semibold tracking-tight text-gray-900">{v.title}</h3>
+              <p className="mt-2 leading-relaxed text-gray-500">{v.description}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Services */}
-      <section className="bg-gray-100 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 text-center mb-12">
-            Layanan Terbaik untuk Anda
-          </h2>
-          <p className="text-center text-gray-500 -mt-8 mb-12">
-            Kami berkomitmen memberikan pengalaman terbaik kepada setiap
-            pelanggan.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <section className="border-t border-gray-100 py-20 lg:py-28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold tracking-[0.16em] text-primary-600">LAYANAN</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.035em] text-gray-900 sm:text-5xl">
+              Layanan terbaik untuk Anda.
+            </h2>
+            <p className="mt-4 text-lg text-gray-500">
+              Kami berkomitmen memberikan pengalaman terbaik kepada setiap pelanggan.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-10 border-t border-gray-200 pt-10 md:grid-cols-3">
             {services.map((s) => (
-              <div
-                key={s.title}
-                className="bg-white rounded-3xl border border-gray-200 p-8 text-center"
-              >
-                <s.icon className="text-4xl text-primary-600 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  {s.title}
-                </h3>
-                <p className="text-gray-500 text-sm">{s.description}</p>
+              <div key={s.title}>
+                <s.icon className="text-2xl text-primary-600" aria-hidden="true" />
+                <h3 className="mt-5 text-xl font-semibold tracking-tight text-gray-900">{s.title}</h3>
+                <p className="mt-2 leading-relaxed text-gray-500">{s.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12"><div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-gray-200 overflow-hidden text-center"><div className="p-6 border-b md:border-b-0 md:border-r border-gray-200"><strong>[ISI: angka pengalaman]</strong><span className="block text-sm text-gray-500 mt-1">[ISI: label metrik]</span></div><div className="p-6 border-b md:border-b-0 md:border-r border-gray-200"><strong>[ISI: angka produk/mitra]</strong><span className="block text-sm text-gray-500 mt-1">[ISI: label metrik]</span></div><div className="p-6"><strong>[ISI: angka cakupan layanan]</strong><span className="block text-sm text-gray-500 mt-1">[ISI: label metrik]</span></div></div></section>
       {/* Corporate CTA */}
-      <section className="bg-primary-600 text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl font-medium mb-4">
-            Solusi Korporat untuk Bisnis Anda
+      <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
+        <div className="rounded-[28px] bg-gradient-to-b from-[#0a3d91] to-[#072a66] px-6 py-16 text-center text-white sm:py-24">
+          <h2 className="text-3xl font-semibold tracking-[-0.035em] sm:text-5xl">
+            Solusi korporat untuk bisnis Anda.
           </h2>
-          <p className="text-primary-100 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/70">
             Dapatkan penawaran khusus untuk kebutuhan perangkat teknologi
             perusahaan Anda.
           </p>
           <Link
             href="/hubungi-kami"
-            className="inline-flex items-center px-8 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-primary-50 transition-colors shadow-lg"
+            className="mt-9 inline-flex items-center rounded-full bg-white px-6 py-3 font-medium text-[#0a3d91] transition-colors hover:bg-[#e8f0ff]"
           >
-            Hubungi Kami untuk Penawaran Korporat
+            Hubungi kami
           </Link>
         </div>
       </section>

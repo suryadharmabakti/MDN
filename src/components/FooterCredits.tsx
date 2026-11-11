@@ -1,7 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+
+const credits = [
+  { name: "M. Abu Bakar Ashidiq", href: "https://github.com/ahmadasshidiq", via: "GitHub" },
+  { name: "Famadha Nugraha Setyajati", href: "https://www.linkedin.com/in/famadha-nugraha-setyajati-42aaa6287", via: "LinkedIn" },
+  { name: "Surya Dharma Bakti RM", href: "https://github.com/suryadharmabakti", via: "GitHub" },
+];
 
 export default function FooterCredits() {
   const [showCredits, setShowCredits] = useState(false);
@@ -17,54 +23,79 @@ export default function FooterCredits() {
     }
   };
 
+  useEffect(() => {
+    if (!showCredits) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setShowCredits(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showCredits]);
+
   return (
-    <div className="mt-4 flex flex-col items-center justify-center">
-      <button 
+    <div className="flex shrink-0 items-center self-start md:self-auto">
+      <button
         onClick={handleLogoClick}
-        className="cursor-pointer border-none bg-transparent p-0 flex flex-col items-center justify-center focus:outline-none"
+        className="flex cursor-pointer items-center border-none bg-transparent p-0 focus:outline-none"
       >
         <Image
           src="/uploads/mdn-logo.png"
           alt="MDN Logo"
           width={40}
           height={40}
-          className="h-10 w-10 object-contain hover:opacity-80 transition-opacity"
+          className="h-8 w-8 object-contain opacity-80 transition-opacity hover:opacity-100"
         />
       </button>
 
       {showCredits && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity text-left">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in duration-300">
-            {/* Content */}
-            <div className="text-center">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
-                Website By
-              </h3>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm text-left"
+          onClick={() => setShowCredits(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="credits-title"
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-sm rounded-3xl bg-white px-8 pt-10 pb-8 shadow-[0_24px_60px_rgba(0,0,0,0.18)]"
+          >
+            <button
+              onClick={() => setShowCredits(false)}
+              aria-label="Tutup"
+              className="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                <path d="M1 1l12 12M13 1L1 13" />
+              </svg>
+            </button>
 
-              <div className="flex flex-col gap-3 font-semibold text-[15px] text-gray-700 dark:text-gray-200">
-                <a href="https://github.com/ahmadasshidiq" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-600 hover:scale-[1.03] transition-transform duration-300">
-                  <span className="bg-gradient-to-r from-blue-500 to-cyan-500 w-2 h-2 rounded-full inline-block mr-3"></span>
-                  M. Abu Bakar Ashidiq
-                </a>
-                <a href="https://www.linkedin.com/in/famadha-nugraha-setyajati-42aaa6287" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-600 hover:scale-[1.03] transition-transform duration-300">
-                  <span className="bg-gradient-to-r from-indigo-500 to-purple-500 w-2 h-2 rounded-full inline-block mr-3"></span>
-                  Famadha Nugraha Setyajati
-                </a>
-                <a href="https://github.com/suryadharmabakti" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-600 hover:scale-[1.03] transition-transform duration-300">
-                  <span className="bg-gradient-to-r from-orange-500 to-rose-500 w-2 h-2 rounded-full inline-block mr-3"></span>
-                  Surya Dharma Bakti RM
-                </a>
-              </div>
-            </div>
+            <p className="text-center text-[11px] font-medium uppercase tracking-[0.2em] text-gray-400">
+              Created By
+            </p>
+            <h3 id="credits-title" className="mt-2 text-center text-xl font-semibold tracking-tight text-gray-900">
+              Development Team
+            </h3>
 
-            <div className="mt-8 flex justify-center">
-              <button
-                onClick={() => setShowCredits(false)}
-                className="px-8 py-2.5 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium transition-all duration-300 active:scale-95 text-sm"
-              >
-                Tutup
-              </button>
-            </div>
+            <ul className="mt-7 divide-y divide-gray-100 border-y border-gray-100">
+              {credits.map((c) => (
+                <li key={c.name}>
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between py-4 transition-colors"
+                  >
+                    <span className="text-[15px] font-medium text-gray-800 group-hover:text-gray-950">{c.name}</span>
+                    <span className="flex items-center gap-1 text-xs text-gray-400 transition-colors group-hover:text-primary-600">
+                      {c.via}
+                      <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-6 text-center text-xs text-gray-400">
+              PT. MDN Industry Power Indonesia Corp
+            </p>
           </div>
         </div>
       )}

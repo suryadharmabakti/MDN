@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
     FaWhatsapp,
     FaStar,
-    FaRegStar,
     FaHeart,
     FaRegHeart,
     FaShippingFast,
@@ -13,8 +12,6 @@ import {
     FaUndo,
     FaMinus,
     FaPlus,
-    FaShoppingCart,
-    FaCheck,
     FaChevronRight,
     FaChevronLeft,
 } from "react-icons/fa";
@@ -93,23 +90,6 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
         }
     };
 
-    const renderStars = (rating: number) => {
-        const stars = [];
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 >= 0.5;
-
-        for (let i = 0; i < 5; i++) {
-            if (i < fullStars) {
-                stars.push(<FaStar key={i} className="text-yellow-400" />);
-            } else if (i === fullStars && hasHalfStar) {
-                stars.push(<FaStar key={i} className="text-yellow-400" />);
-            } else {
-                stars.push(<FaRegStar key={i} className="text-yellow-400" />);
-            }
-        }
-        return stars;
-    };
-
     const productPrice = (product as any).price != null ? Number((product as any).price) : 0;
     const productOldPrice = (product as any).oldPrice != null ? Number((product as any).oldPrice) : undefined;
 
@@ -131,264 +111,205 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
         { label: "Ketersediaan", value: product.stok },
     ].filter((spec) => spec.value && spec.value.trim());
 
+    const reviewCount = Number(product.reviewCount || 0);
+    const rating = Number(product.rating || 0);
+    const waHref = `https://api.whatsapp.com/send/?phone=6282128907619&text=${encodeURIComponent(
+        `Halo, saya tertarik dengan produk ${product.name}.`
+    )}`;
+    const tabClass = (tab: string) =>
+        `rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+            activeTab === tab ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-900"
+        }`;
+    const benefits = [
+        { icon: FaShippingFast, title: "Dikirim ke seluruh Indonesia", text: "Ongkir dihitung otomatis saat checkout." },
+        { icon: FaShieldAlt, title: "Garansi resmi 1 tahun", text: "Layanan purna jual dari tim MDN." },
+        { icon: FaUndo, title: "Pengembalian 30 hari", text: "Untuk produk yang belum digunakan." },
+    ];
+    const toSrc = (img: string) => (img.startsWith("data:") || img.startsWith("/") ? img : `/${img}`);
+
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-white">
             {/* Breadcrumb */}
-            <div className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 py-4">
-                    <div className="flex items-center gap-2 text-sm">
-                        <Link href="/" className="text-gray-500 hover:text-primary-600">
-                            Home
-                        </Link>
-                        <FaChevronRight className="text-gray-300 text-xs" />
-                        <Link href="/produk" className="text-gray-500 hover:text-primary-600">
-                            Products
-                        </Link>
-                        <FaChevronRight className="text-gray-300 text-xs" />
-                        <span className="text-gray-900 font-medium">{product.name}</span>
-                    </div>
-                </div>
+            <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
+                <nav className="flex items-center gap-2 text-sm text-gray-500" aria-label="Breadcrumb">
+                    <Link href="/" className="hover:text-gray-900">Home</Link>
+                    <FaChevronRight className="text-[10px] text-gray-300" />
+                    <Link href="/produk" className="hover:text-gray-900">Shop</Link>
+                    <FaChevronRight className="text-[10px] text-gray-300" />
+                    <span className="truncate text-gray-900">{product.name}</span>
+                </nav>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 py-8">
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                        {/* Image Section */}
-                        <div className="p-8 bg-gray-50 flex flex-col gap-4">
-                            <div className="relative aspect-square w-full bg-white rounded-2xl overflow-hidden shadow-inner group">
-                                {currentDisplayImage ? (
-                                    <Image
-                                        src={currentDisplayImage.startsWith("data:") || currentDisplayImage.startsWith("/") ? currentDisplayImage : `/${currentDisplayImage}`}
-                                        alt={product.name}
-                                        fill
-                                        className="object-contain"
-                                    />
-                                ) : (
-                                    <div className="flex items-center justify-center w-full h-full bg-gray-100">
-                                        <span className="text-gray-400">No Image</span>
-                                    </div>
-                                )}
+            <div className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pb-28">
+                <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+                    {/* Image Section */}
+                    <div className="lg:sticky lg:top-24 lg:self-start">
+                        <div className="group relative aspect-square w-full overflow-hidden rounded-[28px] bg-[#f5f5f7]">
+                            {currentDisplayImage ? (
+                                <Image
+                                    src={toSrc(currentDisplayImage)}
+                                    alt={product.name}
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 600px"
+                                    className="object-contain p-10 sm:p-14"
+                                />
+                            ) : (
+                                <div className="flex h-full w-full items-center justify-center text-gray-400">No Image</div>
+                            )}
 
-                                {/* Navigation Arrows */}
-                                {images.length > 1 && (
-                                    <>
-                                        <button
-                                            onClick={handlePrevImage}
-                                            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white text-gray-800 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-10"
-                                        >
-                                            <FaChevronLeft className="text-sm" />
-                                        </button>
-                                        <button
-                                            onClick={handleNextImage}
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white text-gray-800 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-10"
-                                        >
-                                            <FaChevronRight className="text-sm" />
-                                        </button>
-                                    </>
-                                )}
+                            {images.length > 1 && (
+                                <>
+                                    <button onClick={handlePrevImage} aria-label="Gambar sebelumnya" className="absolute left-4 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-gray-700 opacity-0 transition-opacity hover:bg-white group-hover:opacity-100">
+                                        <FaChevronLeft className="text-sm" />
+                                    </button>
+                                    <button onClick={handleNextImage} aria-label="Gambar berikutnya" className="absolute right-4 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-gray-700 opacity-0 transition-opacity hover:bg-white group-hover:opacity-100">
+                                        <FaChevronRight className="text-sm" />
+                                    </button>
+                                </>
+                            )}
+                        </div>
 
-                                <div className="absolute top-4 left-4 flex flex-col gap-2">
-                                    {/* Could be dynamic in future */}
+                        {images.length > 1 && (
+                            <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+                                {images.map((img: string, idx: number) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setSelectedImage(img)}
+                                        className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-[#f5f5f7] ring-2 transition-all ${currentDisplayImage === img ? "ring-[#0071e3]" : "ring-transparent opacity-60 hover:opacity-100"}`}
+                                    >
+                                        <Image src={toSrc(img)} alt={`${product.name} ${idx + 1}`} fill className="object-contain p-2" />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Info Section */}
+                    <div>
+                        {discount > 0 ? (
+                            <p className="text-sm font-semibold text-[#bf4800]">Hemat {discount}%</p>
+                        ) : (
+                            <p className="text-sm font-medium text-gray-500">{product.category || "Produk"}</p>
+                        )}
+                        <h1 className="mt-2 text-4xl font-semibold tracking-[-0.035em] text-gray-900 [text-wrap:balance] lg:text-[2.75rem] lg:leading-[1.08]">{product.name}</h1>
+
+                        {reviewCount > 0 && (
+                            <p className="mt-3 flex items-center gap-1.5 text-sm text-gray-500">
+                                <FaStar className="text-[#ff9f0a]" aria-hidden="true" />
+                                {rating.toFixed(1)} · {reviewCount} ulasan
+                            </p>
+                        )}
+
+                        <p className="mt-6 whitespace-pre-wrap text-lg leading-relaxed text-gray-600">
+                            {product.description || "Belum ada deskripsi."}
+                        </p>
+
+                        <div className="mt-8 border-t border-gray-200 pt-8">
+                            <p className="text-2xl font-semibold tracking-tight text-gray-900">
+                                Rp {productPrice.toLocaleString("id-ID")}
+                            </p>
+                            {productOldPrice && productOldPrice > productPrice && (
+                                <p className="mt-1 text-sm text-gray-400 line-through">
+                                    Rp {productOldPrice.toLocaleString("id-ID")}
+                                </p>
+                            )}
+
+                            <div className="mt-6 flex items-center gap-3">
+                                <div className="flex items-center rounded-full bg-[#f5f5f7]">
+                                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Kurangi jumlah" className="grid h-12 w-12 place-items-center rounded-full text-gray-600 transition-colors hover:text-gray-900">
+                                        <FaMinus className="text-xs" />
+                                    </button>
+                                    <span className="w-8 text-center font-medium">{quantity}</span>
+                                    <button onClick={() => setQuantity(quantity + 1)} aria-label="Tambah jumlah" className="grid h-12 w-12 place-items-center rounded-full text-gray-600 transition-colors hover:text-gray-900">
+                                        <FaPlus className="text-xs" />
+                                    </button>
                                 </div>
                                 <button
+                                    onClick={handleAddToCart}
+                                    className={`h-12 flex-1 rounded-full font-medium text-white transition-colors ${isAdding ? "bg-[#248a3d]" : "bg-[#0071e3] hover:bg-[#0077ed]"}`}
+                                >
+                                    {isAdding ? "Ditambahkan" : "Tambah ke keranjang"}
+                                </button>
+                                <button
                                     onClick={handleWishlist}
-                                    className={`absolute top-4 right-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all hover:scale-110 z-10 ${isInWishlist ? "text-red-500" : "text-gray-400 hover:text-red-500"
-                                        }`}
+                                    aria-label={isInWishlist ? "Hapus dari wishlist" : "Tambah ke wishlist"}
+                                    className={`grid h-12 w-12 flex-shrink-0 place-items-center rounded-full bg-[#f5f5f7] transition-colors ${isInWishlist ? "text-red-500" : "text-gray-500 hover:text-red-500"}`}
                                 >
                                     {isInWishlist ? <FaHeart /> : <FaRegHeart />}
                                 </button>
                             </div>
 
-                            {/* Thumbnails */}
-                            {images.length > 1 && (
-                                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-200">
-                                    {images.map((img: string, idx: number) => (
-                                        <button
-                                            key={idx}
-                                            onClick={() => setSelectedImage(img)}
-                                            className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${currentDisplayImage === img ? "border-primary-600 opacity-100" : "border-transparent opacity-60 hover:opacity-100"}`}
-                                        >
-                                            <Image
-                                                src={img.startsWith("data:") || img.startsWith("/") ? img : `/${img}`}
-                                                alt={`${product.name} ${idx + 1}`}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Info Section */}
-                        <div className="p-8">
-                            <div className="mb-4">
-                                <span className="inline-block px-3 py-1 bg-primary-100 text-primary-700 text-sm font-semibold rounded-full">
-                                    {product.category || "Uncategorized"}
-                                </span>
-                            </div>
-
-                            <h1 className="text-3xl font-black text-gray-900 mb-4">{product.name}</h1>
-
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="flex items-center gap-1">
-                                    {renderStars(Number((product as any).rating || 4.5))}
-                                </div>
-                                <span className="text-gray-400">|</span>
-                                <span className="text-primary-600 font-semibold flex items-center gap-1">
-                                    <FaCheck className="text-xs" /> In Stock
-                                </span>
-                            </div>
-
-                            <div className="mb-6">
-                                <div className="flex items-baseline gap-3">
-                                    <span className="text-4xl font-black text-primary-600">
-                                        Rp {productPrice.toLocaleString("id-ID")}
-                                    </span>
-                                    {productOldPrice && productOldPrice > productPrice && (
-                                        <>
-                                            <span className="text-xl text-gray-400 line-through">
-                                                Rp {productOldPrice.toLocaleString("id-ID")}
-                                            </span>
-                                            <span className="px-2 py-1 bg-red-500 text-white text-sm font-medium rounded-lg">
-                                                -{discount}%
-                                            </span>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-
-                            <p className="text-gray-600 mb-8 whitespace-pre-wrap">
-                                {product.description || "No description available."}
-                            </p>
-
-                            {/* Quantity & Add to Cart */}
-                            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                                <div className="flex items-center border border-gray-200 rounded-xl">
-                                    <button
-                                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                        className="px-4 py-3 hover:bg-gray-50 transition-colors"
-                                    >
-                                        <FaMinus />
-                                    </button>
-                                    <span className="px-6 py-3 font-medium text-lg">{quantity}</span>
-                                    <button
-                                        onClick={() => setQuantity(quantity + 1)}
-                                        className="px-4 py-3 hover:bg-gray-50 transition-colors"
-                                    >
-                                        <FaPlus />
-                                    </button>
-                                </div>
-
-                                <button
-                                    onClick={handleAddToCart}
-                                    className={`flex-1 flex items-center justify-center gap-3 px-8 py-4 font-medium rounded-xl transition-all ${isAdding
-                                        ? "bg-green-500 text-white"
-                                        : "bg-primary-600 hover:bg-primary-700 text-white shadow-lg shadow-primary-200"
-                                        }`}
-                                >
-                                    <FaShoppingCart />
-                                    {isAdding ? "Added to Cart!" : "Add to Cart"}
-                                </button>
-                            </div>
-
-                            {/* Benefits */}
-                            <div className="grid grid-cols-3 gap-4 mb-8">
-                                <div className="text-center p-4 bg-gray-50 rounded-xl">
-                                    <FaShippingFast className="text-2xl text-primary-600 mx-auto mb-2" />
-                                    <p className="text-xs font-semibold text-gray-700">Free Shipping</p>
-                                </div>
-                                <div className="text-center p-4 bg-gray-50 rounded-xl">
-                                    <FaShieldAlt className="text-2xl text-primary-600 mx-auto mb-2" />
-                                    <p className="text-xs font-semibold text-gray-700">1 Year Warranty</p>
-                                </div>
-                                <div className="text-center p-4 bg-gray-50 rounded-xl">
-                                    <FaUndo className="text-2xl text-primary-600 mx-auto mb-2" />
-                                    <p className="text-xs font-semibold text-gray-700">30-Day Returns</p>
-                                </div>
-                            </div>
-
-                            {/* WhatsApp CTA */}
-                            <a
-                                href={`https://api.whatsapp.com/send/?phone=6282128907619&text=${encodeURIComponent(
-                                    `Halo, saya tertarik dengan produk ${product.name}.`
-                                )}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded-xl transition-colors"
-                            >
-                                <FaWhatsapp className="text-2xl" />
-                                Chat on WhatsApp
+                            <a href={waHref} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-[#0071e3] hover:underline">
+                                <FaWhatsapp aria-hidden="true" /> Tanya tim MDN lewat WhatsApp <span className="text-lg leading-none">›</span>
                             </a>
                         </div>
-                    </div>
 
-                    {/* Tabs */}
-                    <div className="border-t border-gray-100">
-                        <div className="flex border-b border-gray-100">
-                            <button
-                                onClick={() => setActiveTab("specs")}
-                                className={`px-8 py-4 font-medium transition-colors ${activeTab === "specs"
-                                    ? "text-primary-600 border-b-2 border-primary-600"
-                                    : "text-gray-500 hover:text-gray-700"
-                                    }`}
-                            >
-                                Specifications
-                            </button>
-                            <button
-                                onClick={() => setActiveTab("shipping")}
-                                className={`px-8 py-4 font-medium transition-colors ${activeTab === "shipping"
-                                    ? "text-primary-600 border-b-2 border-primary-600"
-                                    : "text-gray-500 hover:text-gray-700"
-                                    }`}
-                            >
-                                Shipping Info
-                            </button>
-                        </div>
-
-                        <div className="p-8">
-                            {activeTab === "specs" && (
-                                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                                    {specifications.map((spec) => (
-                                        <div key={spec.label} className="flex flex-col gap-1 rounded-xl bg-gray-50 p-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-                                            <span className="text-sm text-gray-500">{spec.label}</span>
-                                            <span className="text-sm font-semibold leading-relaxed text-gray-900 sm:max-w-[65%] sm:text-right">{spec.value}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {activeTab === "shipping" && (
-                                <div className="space-y-4">
-                                    <div className="p-6 bg-gray-50 rounded-2xl">
-                                        <h4 className="font-medium text-gray-900 mb-4">Delivery Information</h4>
-                                        <ul className="space-y-2 text-gray-600">
-                                            <li>• Free shipping on orders above Rp 500.000</li>
-                                            <li>• Standard delivery: 2-4 business days</li>
-                                            <li>• Express delivery: Next day delivery (additional cost)</li>
-                                            <li>• Delivery available across Indonesia</li>
-                                        </ul>
+                        <ul className="mt-8 divide-y divide-gray-200 border-y border-gray-200">
+                            {benefits.map((b) => (
+                                <li key={b.title} className="flex items-start gap-4 py-4">
+                                    <b.icon className="mt-1 text-lg text-gray-500" aria-hidden="true" />
+                                    <div>
+                                        <p className="text-sm font-semibold text-gray-900">{b.title}</p>
+                                        <p className="text-sm text-gray-500">{b.text}</p>
                                     </div>
-                                    <div className="p-6 bg-gray-50 rounded-2xl">
-                                        <h4 className="font-medium text-gray-900 mb-4">Return Policy</h4>
-                                        <ul className="space-y-2 text-gray-600">
-                                            <li>• 30-day return policy for unused items</li>
-                                            <li>• Original packaging must be intact</li>
-                                            <li>• Free return shipping for defective items</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
 
+                {/* Tabs */}
+                <section className="mt-20 lg:mt-28">
+                    <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                        <h2 className="text-3xl font-semibold tracking-[-0.035em] text-gray-900 sm:text-4xl">
+                            {activeTab === "specs" ? "Spesifikasi teknis." : "Pengiriman & pengembalian."}
+                        </h2>
+                        <div className="inline-flex self-start rounded-full bg-[#f5f5f7] p-1">
+                            <button onClick={() => setActiveTab("specs")} className={tabClass("specs")}>Spesifikasi</button>
+                            <button onClick={() => setActiveTab("shipping")} className={tabClass("shipping")}>Pengiriman</button>
+                        </div>
+                    </div>
+
+                    {activeTab === "specs" && (
+                        <dl className="mt-10 grid border-t border-gray-200 md:grid-cols-2 md:gap-x-16">
+                            {specifications.map((spec) => (
+                                <div key={spec.label} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6 border-b border-gray-200 py-5">
+                                    <dt className="text-sm text-gray-500">{spec.label}</dt>
+                                    <dd className="text-sm font-medium leading-relaxed text-gray-900">{spec.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    )}
+
+                    {activeTab === "shipping" && (
+                        <div className="mt-10 grid gap-4 md:grid-cols-2">
+                            <div className="rounded-[28px] bg-[#f5f5f7] p-8">
+                                <h3 className="text-xl font-semibold tracking-tight text-gray-900">Pengiriman</h3>
+                                <ul className="mt-4 space-y-2 leading-relaxed text-gray-600">
+                                    <li>Ongkos kirim dihitung otomatis saat checkout sesuai kurir, berat, dan lokasi tujuan.</li>
+                                    <li>Pilihan kurir: JNE, J&amp;T, SiCepat, dan POS Indonesia.</li>
+                                    <li>Estimasi waktu tiba ditampilkan untuk setiap layanan.</li>
+                                    <li>Tersedia ke seluruh Indonesia.</li>
+                                </ul>
+                            </div>
+                            <div className="rounded-[28px] bg-[#f5f5f7] p-8">
+                                <h3 className="text-xl font-semibold tracking-tight text-gray-900">Pengembalian</h3>
+                                <ul className="mt-4 space-y-2 leading-relaxed text-gray-600">
+                                    <li>Pengembalian dalam 30 hari untuk produk yang belum digunakan.</li>
+                                    <li>Kemasan asli harus utuh.</li>
+                                    <li>Gratis ongkir pengembalian untuk produk cacat.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    )}
+                </section>
+
                 {/* Related Products */}
                 {relatedProducts.length > 0 && (
-                    <div className="mt-12">
-                        <h2 className="text-2xl font-black text-gray-900 mb-6">Related Products</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {relatedProducts.map((item) => (
+                    <section className="mt-20 lg:mt-28">
+                        <h2 className="text-3xl font-semibold tracking-[-0.035em] text-gray-900 sm:text-4xl">Produk terkait.</h2>
+                        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {relatedProducts.slice(0, 3).map((item) => (
                                 <ProductCard
                                     key={item.id}
                                     id={item.id}
@@ -402,7 +323,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                 />
                             ))}
                         </div>
-                    </div>
+                    </section>
                 )}
             </div>
         </div>
