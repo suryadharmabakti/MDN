@@ -42,7 +42,7 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="border-t border-line bg-surface text-[12px] leading-relaxed text-ink-secondary">
-      <div className="mx-auto max-w-7xl px-4 py-12 lg:py-16">
+      <div className="mx-auto max-w-[1344px] px-4 py-12 lg:px-8 lg:py-16">
         {/* Newsletter */}
         <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
@@ -139,7 +139,7 @@ export default function Footer() {
         <div className="mt-12 flex flex-col gap-4 border-t border-line pt-6 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <p>
-              Copyright © {new Date().getFullYear()} PT. MDN Industry Power Indonesia Corp. All rights reserved.
+              Copyright © {new Date().getFullYear()} PT. MDN Industry Power Indonesia Corp.
             </p>
             <div className="flex items-center gap-3">
               <Link href="#" className={linkClass}>Privacy</Link>

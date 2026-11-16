@@ -206,13 +206,20 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
 
                         <div className="mt-8 border-t border-gray-200 pt-8">
                             <p className="text-2xl font-semibold tracking-tight text-gray-900">
-                                Rp {productPrice.toLocaleString("id-ID")}
+                                Rp {(productPrice * quantity).toLocaleString("id-ID")}
                             </p>
-                            {productOldPrice && productOldPrice > productPrice && (
-                                <p className="mt-1 text-sm text-gray-400 line-through">
-                                    Rp {productOldPrice.toLocaleString("id-ID")}
-                                </p>
-                            )}
+                            <div className="mt-1 flex flex-wrap items-center gap-x-2 text-sm">
+                                {productOldPrice && productOldPrice > productPrice && (
+                                    <span className="text-gray-400 line-through">
+                                        Rp {(productOldPrice * quantity).toLocaleString("id-ID")}
+                                    </span>
+                                )}
+                                {quantity > 1 && (
+                                    <span className="text-gray-500">
+                                        {quantity} × Rp {productPrice.toLocaleString("id-ID")}
+                                    </span>
+                                )}
+                            </div>
 
                             <div className="mt-6 flex items-center gap-3">
                                 <div className="flex items-center rounded-full bg-[#f5f5f7]">

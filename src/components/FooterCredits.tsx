@@ -37,11 +37,11 @@ export default function FooterCredits() {
         className="flex cursor-pointer items-center border-none bg-transparent p-0 focus:outline-none"
       >
         <Image
-          src="/uploads/mdn-logo.png"
+          src="/uploads/mdn-logo-mark.png"
           alt="MDN Logo"
-          width={40}
-          height={40}
-          className="h-8 w-8 object-contain opacity-80 transition-opacity hover:opacity-100"
+          width={163}
+          height={63}
+          className="h-7 w-auto object-contain opacity-80 transition-opacity hover:opacity-100"
         />
       </button>
 

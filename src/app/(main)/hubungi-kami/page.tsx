@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaEnvelope, FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
 import styles from "../apple-v3-pages.module.css";
 
@@ -20,15 +21,22 @@ const channels = [
   },
 ];
 
+const shortcuts = [
+  { title: "Laporkan masalah", text: "Ada kendala pada perangkat? Kirim laporan ke tim kami.", label: "Buat laporan", href: "/laporan" },
+  { title: "Cek garansi", text: "Lihat status garansi dengan nomor seri perangkat.", label: "Cek sekarang", href: "/cek-garansi" },
+  { title: "Belanja produk", text: "Jelajahi server dan perangkat yang tersedia.", label: "Lihat produk", href: "/produk" },
+];
+
 export default function HubungiKamiPage() {
   return (
     <main className={`${styles.appleV3} apple-v2 ${styles.contactPage} page-contact`}>
       <section className={styles.contactHero}>
-        <h1 className={styles.contactTitle}>Mari mulai percakapan.</h1>
+        
+        <h1 className={`${styles.contactTitle} mt-4`}>Mari mulai percakapan.</h1>
         <p className={styles.contactLead}>Tim kami siap membantu kebutuhan perangkat dan solusi teknologi Anda.</p>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
+      <section className="mx-auto max-w-[1216px] px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
         <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="grid gap-4">
             {channels.map((c) => (
@@ -65,9 +73,34 @@ export default function HubungiKamiPage() {
                 <p className="mt-1 leading-relaxed text-gray-500">
                   Jl. Cempaka Putih Tengah XVII No.F33, Cemp. Putih Tim., Kec. Cemp. Putih, Jakarta Pusat, DKI Jakarta 10510
                 </p>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Jl.+Cempaka+Putih+Tengah+XVII+No.F33+Jakarta+Pusat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-block font-medium text-[#0071e3] hover:underline"
+                >
+                  Buka di Google Maps ›
+                </a>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1216px] px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
+        <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Butuh bantuan lain?</h2>
+        <div className="mt-6 grid border-t border-gray-200 md:grid-cols-3">
+          {shortcuts.map((s) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              className="group border-b border-gray-200 py-7 md:border-b-0 md:pr-8 [&:not(:first-child)]:md:border-l [&:not(:first-child)]:md:pl-8"
+            >
+              <h3 className="text-lg font-semibold tracking-tight text-gray-900">{s.title}</h3>
+              <p className="mt-1.5 leading-relaxed text-gray-500">{s.text}</p>
+              <span className="mt-3 inline-block font-medium text-[#0071e3] group-hover:underline">{s.label} ›</span>
+            </Link>
+          ))}
         </div>
       </section>
     </main>

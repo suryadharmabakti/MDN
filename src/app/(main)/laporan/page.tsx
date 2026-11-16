@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { FaUser, FaEnvelope, FaExclamationTriangle, FaMapMarkerAlt, FaPhoneAlt, FaPaperPlane, FaBarcode } from "react-icons/fa";
-import styles from "../apple-v3-pages.module.css";
+import Link from "next/link";
+import { FaUser, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt, FaBarcode } from "react-icons/fa";
 
 export default function LaporanPage() {
     const [formData, setFormData] = useState({
@@ -50,183 +50,87 @@ export default function LaporanPage() {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    const fields = [
+        { name: "nama", label: "Nama lengkap", type: "text", placeholder: "Nama Anda", icon: FaUser },
+        { name: "email", label: "Email", type: "email", placeholder: "email@contoh.com", icon: FaEnvelope },
+        { name: "nomorHp", label: "Nomor HP", type: "tel", placeholder: "Contoh: 081234567890", icon: FaPhoneAlt },
+        { name: "lokasi", label: "Lokasi", type: "text", placeholder: "Kota atau alamat perangkat", icon: FaMapMarkerAlt },
+    ] as const;
+
+    const inputClass =
+        "w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15";
+
     return (
-        <div className={`${styles.appleV3} apple-v2 ${styles.reportPage} page-report flex flex-col items-center`}>
-            <div className={styles.reportPanel}>
-                {/* Header Section */}
-                <div className={styles.reportHeader}>
-                   
-                    <h1>Laporan Isu</h1>
-                    <p>
-                        Berikan masukan atau laporkan masalah Anda. Kami siap membantu dengan sepenuh hati.
-                    </p>
-                </div>
+        <main className="apple-v2 bg-white page-report">
+            <section className="bg-gradient-to-b from-[#fbfbfd] to-white px-4 pb-12 pt-20 text-center sm:pt-28">
 
-                {/* Form Section */}
-                <form onSubmit={handleSubmit} className={`${styles.reportForm} space-y-8`}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Nama */}
-                        <div className="space-y-2 group">
-                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
-                                Nama Lengkap
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-500 transition-colors">
-                                    <FaUser className="text-lg" />
-                                </div>
-                                <input
-                                    type="text"
-                                    name="nama"
-                                    value={formData.nama}
-                                    onChange={handleChange}
-                                    required
-                                    placeholder="Masukkan nama lengkap Anda"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
-                                />
-                            </div>
-                        </div>
+                <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.045em] text-gray-900 [text-wrap:balance] sm:text-6xl">
+                    Ada kendala? Kami bantu selesaikan.
+                </h1>
+                <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-gray-500">
+                    Ceritakan masalah perangkat Anda. Tim MDN akan menghubungi Anda untuk tindak lanjut.
+                </p>
+            </section>
 
-                        {/* Email */}
-                        <div className="space-y-2 group">
-                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
-                                Email
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-500 transition-colors">
-                                    <FaEnvelope className="text-lg" />
+            <div className="mx-auto max-w-2xl px-4 pb-24 sm:px-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid gap-5 sm:grid-cols-2">
+                        {fields.map((f) => (
+                            <div key={f.name}>
+                                <label htmlFor={f.name} className="mb-2 block text-sm font-medium text-gray-700">{f.label}</label>
+                                <div className="relative">
+                                    <f.icon className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+                                    <input id={f.name} type={f.type} name={f.name} value={formData[f.name]} onChange={handleChange} required placeholder={f.placeholder} className={inputClass} />
                                 </div>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                    placeholder="email@contoh.com"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
-                                />
                             </div>
-                        </div>
-
-                        {/* Lokasi */}
-                        <div className="space-y-2 group">
-                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
-                                Lokasi
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-500 transition-colors">
-                                    <FaMapMarkerAlt className="text-lg" />
-                                </div>
-                                <input
-                                    type="text"
-                                    name="lokasi"
-                                    value={formData.lokasi}
-                                    onChange={handleChange}
-                                    required
-                                    placeholder="Masukkan lokasi Anda"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Nomor HP */}
-                        <div className="space-y-2 group">
-                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
-                                Nomor HP
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-500 transition-colors">
-                                    <FaPhoneAlt className="text-lg" />
-                                </div>
-                                <input
-                                    type="tel"
-                                    name="nomorHp"
-                                    value={formData.nomorHp}
-                                    onChange={handleChange}
-                                    required
-                                    placeholder="Contoh: 081234567890"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Serial Number */}
-                        <div className="space-y-2 group">
-                            <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
-                                Serial Number
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-500 transition-colors">
-                                    <FaBarcode className="text-lg" />
-                                </div>
-                                <input
-                                    type="text"
-                                    name="serialNumber"
-                                    value={formData.serialNumber}
-                                    onChange={handleChange}
-                                    required
-                                    placeholder="Contoh: MDN-123456"
-                                    className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700"
-                                />
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
-                    {/* Isu Laporan */}
-                    <div className="space-y-2 group">
-                        <label className="text-xs font-medium text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-primary-600">
-                            Isi Laporan / Isu
-                        </label>
+                    <div>
+                        <label htmlFor="serialNumber" className="mb-2 block text-sm font-medium text-gray-700">Nomor seri perangkat</label>
                         <div className="relative">
-                            <div className="absolute top-5 left-5 pointer-events-none text-gray-400 group-focus-within:text-primary-500 transition-colors">
-                                <FaExclamationTriangle className="text-lg" />
-                            </div>
-                            <textarea
-                                name="isuLaporan"
-                                value={formData.isuLaporan}
-                                onChange={handleChange}
-                                required
-                                rows={5}
-                                placeholder="Ceritakan detail masalah atau laporan Anda di sini..."
-                                className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none transition-all text-gray-700 resize-none"
-                            ></textarea>
+                            <FaBarcode className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+                            <input id="serialNumber" type="text" name="serialNumber" value={formData.serialNumber} onChange={handleChange} required placeholder="Contoh: MDN-123456" className={inputClass} autoComplete="off" />
                         </div>
+                        <Link href="/cek-garansi" className="mt-2 inline-block text-sm text-[#0071e3] hover:underline">Cara menemukan nomor seri ›</Link>
                     </div>
 
-                    {/* Alert Message */}
+                    <div>
+                        <label htmlFor="isuLaporan" className="mb-2 block text-sm font-medium text-gray-700">Detail masalah</label>
+                        <textarea
+                            id="isuLaporan"
+                            name="isuLaporan"
+                            value={formData.isuLaporan}
+                            onChange={handleChange}
+                            required
+                            rows={6}
+                            placeholder="Jelaskan apa yang terjadi, kapan mulai muncul, dan langkah yang sudah dicoba."
+                            className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15"
+                        />
+                    </div>
+
                     {message && (
-                        <div
-                            className={`p-6 rounded-2xl flex items-center gap-4 animate-in fade-in zoom-in duration-300 ${message.type === "success"
-                                ? "bg-green-50 text-green-700 border border-green-100"
-                                : "bg-red-50 text-red-700 border border-red-100"
-                                }`}
-                        >
-                            <div
-                                className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${message.type === "success" ? "bg-green-100" : "bg-red-100"
-                                    }`}
-                            >
-                                {message.type === "success" ? "✓" : "!"}
-                            </div>
-                            <p className="font-medium">{message.text}</p>
+                        <div className={`rounded-2xl p-5 text-sm font-medium ${message.type === "success" ? "bg-[#e8f8ee] text-[#248a3d]" : "bg-[#fdecec] text-[#d70015]"}`} role="status">
+                            {message.text}
                         </div>
                     )}
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-5 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white font-medium rounded-2xl transition-all shadow-xl shadow-primary-500/20 transform hover:-translate-y-1 active:scale-[0.98] flex items-center justify-center gap-3 text-lg"
+                        className="w-full rounded-full bg-[#0071e3] py-3.5 font-medium text-white transition-colors hover:bg-[#0077ed] disabled:cursor-not-allowed disabled:bg-gray-300"
                     >
-                        {loading ? (
-                            <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-                        ) : (
-                            <>
-                                <span>Kirim Laporan</span>
-                                <FaPaperPlane className="text-sm" />
-                            </>
-                        )}
+                        {loading ? "Mengirim…" : "Kirim laporan"}
                     </button>
                 </form>
+
+                <p className="mt-10 border-t border-gray-200 pt-8 text-center text-sm text-gray-500">
+                    Butuh jawaban lebih cepat?{" "}
+                    <a href="https://api.whatsapp.com/send/?phone=6282128907619" target="_blank" rel="noopener noreferrer" className="text-[#0071e3] hover:underline">
+                        Hubungi kami lewat WhatsApp ›
+                    </a>
+                </p>
             </div>
-        </div>
+        </main>
     );
 }

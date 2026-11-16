@@ -150,7 +150,7 @@ export default function ProductCard({
             ) : null}
           </p>
 
-          <div className="mt-5 flex items-center justify-between gap-3">
+          <div className="mt-5 flex items-center gap-5">
             <button
               onClick={handleAddToCart}
               disabled={isAdding}

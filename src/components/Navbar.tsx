@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { HiMenu, HiX, HiSearch } from "react-icons/hi";
 import {
@@ -34,6 +34,7 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -67,7 +68,7 @@ export default function Navbar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/produk?search=${encodeURIComponent(searchQuery)}`;
+      router.push(`/produk?search=${encodeURIComponent(searchQuery)}`);
     }
   };
 
@@ -75,17 +76,17 @@ export default function Navbar() {
     <>
       <CartDrawer />
       <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl backdrop-saturate-150 border-b border-line">
-        <div className="max-w-7xl mx-auto px-4 relative">
+        <div className="max-w-[1344px] mx-auto px-4 lg:px-8 relative">
           <div className="flex items-center justify-between h-12 md:h-14">
             {/* Logo - Left aligned */}
             <div className="flex-shrink-0 z-10">
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/uploads/mdn-logo.png"
+                  src="/uploads/mdn-logo-mark.png"
                   alt="MDN Tech Logo"
-                  width={48}
-                  height={48}
-                  className="h-10 w-10 md:h-11 md:w-11 object-contain opacity-90 hover:opacity-100 transition-opacity"
+                  width={163}
+                  height={63}
+                  className="h-6 w-auto md:h-7 object-contain opacity-90 hover:opacity-100 transition-opacity"
                 />
               </Link>
             </div>
