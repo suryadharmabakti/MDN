@@ -115,3 +115,12 @@ h6 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Hover link & tombol teks = biru MDN (hanya situs publik, bukan admin).
+   Tombol berlatar (pill biru dsb.) tidak diubah warnanya. */
+.mdn-site a:not([class*="bg-"]):hover,
+.mdn-site button:not(:disabled):not([class*="bg-"]):hover,
+.mdn-site a:not([class*="bg-"]):hover svg,
+.mdn-site button:not(:disabled):not([class*="bg-"]):hover svg {
+  color: #006fbd !important;
+}

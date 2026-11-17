@@ -30,7 +30,7 @@ export default function CheckWarrantyPage() {
     };
 
     const inputClass =
-        "w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15";
+        "w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#006fbd] focus:ring-4 focus:ring-[#006fbd]/15";
 
     return (
         <main className="apple-v2 bg-white page-warranty">
@@ -49,7 +49,7 @@ export default function CheckWarrantyPage() {
                     <div>
                         <div className="mb-2 flex items-center justify-between gap-4">
                             <label htmlFor="sn" className="text-sm font-medium text-gray-700">Nomor seri</label>
-                            <button type="button" onClick={() => setShowSnHelp(!showSnHelp)} className="text-sm text-[#0071e3] hover:underline">
+                            <button type="button" onClick={() => setShowSnHelp(!showSnHelp)} className="text-sm text-[#006fbd] hover:underline">
                                 {showSnHelp ? "Tutup panduan" : "Cara menemukan nomor seri ›"}
                             </button>
                         </div>
@@ -68,7 +68,7 @@ export default function CheckWarrantyPage() {
                         )}
                     </div>
 
-                    <button type="submit" disabled={loading || !sn} className="w-full rounded-full bg-[#0071e3] py-3.5 font-medium text-white transition-colors hover:bg-[#0077ed] disabled:cursor-not-allowed disabled:bg-gray-300">
+                    <button type="submit" disabled={loading || !sn} className="w-full rounded-full bg-[#006fbd] py-3.5 font-medium text-white transition-colors hover:bg-[#005c9d] disabled:cursor-not-allowed disabled:bg-gray-300">
                         {loading ? "Memeriksa…" : "Cek garansi"}
                     </button>
                 </form>
@@ -119,7 +119,7 @@ export default function CheckWarrantyPage() {
                                 <p className="mt-1 text-sm text-gray-500">
                                     {result?.error || result?.message || "Nomor seri tidak terdaftar. Periksa kembali nomornya lalu coba lagi."}
                                 </p>
-                                <Link href="/hubungi-kami" className="mt-4 inline-block text-sm text-[#0071e3] hover:underline">
+                                <Link href="/hubungi-kami" className="mt-4 inline-block text-sm text-[#006fbd] hover:underline">
                                     Hubungi dukungan MDN ›
                                 </Link>
                             </div>
@@ -134,7 +134,7 @@ export default function CheckWarrantyPage() {
                         "Lihat status dan tanggal akhir garansi.",
                     ].map((step, i) => (
                         <li key={step}>
-                            <span className="text-sm font-semibold text-[#0071e3]">0{i + 1}</span>
+                            <span className="text-sm font-semibold text-[#006fbd]">0{i + 1}</span>
                             <p className="mt-2 text-sm leading-relaxed text-gray-600">{step}</p>
                         </li>
                     ))}

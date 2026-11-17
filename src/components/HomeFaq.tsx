@@ -74,7 +74,7 @@ export default function HomeFaq() {
           type="button"
           onClick={() => setShowAll((v) => !v)}
           aria-expanded={showAll}
-          className="text-[17px] font-medium text-[#0066cc] hover:underline"
+          className="text-[17px] font-medium text-[#006fbd] hover:underline"
         >
           {showAll ? "View less ‹" : "View more ›"}
         </button>

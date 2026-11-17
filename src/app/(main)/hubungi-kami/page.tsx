@@ -49,7 +49,7 @@ export default function HubungiKamiPage() {
                 <c.icon className="text-2xl text-primary-600" aria-hidden="true" />
                 <h2 className="mt-6 text-2xl font-semibold tracking-tight text-gray-900">{c.title}</h2>
                 <p className="mt-2 leading-relaxed text-gray-500">{c.text}</p>
-                <span className="mt-6 inline-flex items-center gap-1.5 font-medium text-[#0071e3]">
+                <span className="mt-6 inline-flex items-center gap-1.5 font-medium text-[#006fbd]">
                   {c.label}
                   <span className="text-lg leading-none transition-transform group-hover:translate-x-0.5">›</span>
                 </span>
@@ -77,7 +77,7 @@ export default function HubungiKamiPage() {
                   href="https://www.google.com/maps/search/?api=1&query=Jl.+Cempaka+Putih+Tengah+XVII+No.F33+Jakarta+Pusat"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-block font-medium text-[#0071e3] hover:underline"
+                  className="mt-3 inline-block font-medium text-[#006fbd] hover:underline"
                 >
                   Buka di Google Maps ›
                 </a>
@@ -98,7 +98,7 @@ export default function HubungiKamiPage() {
             >
               <h3 className="text-lg font-semibold tracking-tight text-gray-900">{s.title}</h3>
               <p className="mt-1.5 leading-relaxed text-gray-500">{s.text}</p>
-              <span className="mt-3 inline-block font-medium text-[#0071e3] group-hover:underline">{s.label} ›</span>
+              <span className="mt-3 inline-block font-medium text-[#006fbd] group-hover:underline">{s.label} ›</span>
             </Link>
           ))}
         </div>

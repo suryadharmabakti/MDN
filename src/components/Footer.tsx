@@ -54,11 +54,11 @@ export default function Footer() {
               type="email"
               placeholder="Email address"
               aria-label="Email address"
-              className="w-full rounded-full border border-line bg-white px-4 py-2.5 outline-none transition focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15 md:w-64"
+              className="w-full rounded-full border border-line bg-white px-4 py-2.5 outline-none transition focus:border-[#006fbd] focus:ring-4 focus:ring-[#006fbd]/15 md:w-64"
             />
             <button
               type="submit"
-              className="shrink-0 rounded-full bg-[#0071e3] px-5 py-2.5 font-medium text-white transition-colors hover:bg-[#0077ed]"
+              className="shrink-0 rounded-full bg-[#006fbd] px-5 py-2.5 font-medium text-white transition-colors hover:bg-[#005c9d]"
             >
               Subscribe
             </button>

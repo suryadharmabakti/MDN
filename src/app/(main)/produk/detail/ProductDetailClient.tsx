@@ -175,7 +175,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                     <button
                                         key={idx}
                                         onClick={() => setSelectedImage(img)}
-                                        className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-[#f5f5f7] ring-2 transition-all ${currentDisplayImage === img ? "ring-[#0071e3]" : "ring-transparent opacity-60 hover:opacity-100"}`}
+                                        className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-[#f5f5f7] ring-2 transition-all ${currentDisplayImage === img ? "ring-[#006fbd]" : "ring-transparent opacity-60 hover:opacity-100"}`}
                                     >
                                         <Image src={toSrc(img)} alt={`${product.name} ${idx + 1}`} fill className="object-contain p-2" />
                                     </button>
@@ -233,7 +233,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                 </div>
                                 <button
                                     onClick={handleAddToCart}
-                                    className={`h-12 flex-1 rounded-full font-medium text-white transition-colors ${isAdding ? "bg-[#248a3d]" : "bg-[#0071e3] hover:bg-[#0077ed]"}`}
+                                    className={`h-12 flex-1 rounded-full font-medium text-white transition-colors ${isAdding ? "bg-[#248a3d]" : "bg-[#006fbd] hover:bg-[#005c9d]"}`}
                                 >
                                     {isAdding ? "Ditambahkan" : "Tambah ke keranjang"}
                                 </button>
@@ -246,7 +246,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                                 </button>
                             </div>
 
-                            <a href={waHref} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-[#0071e3] hover:underline">
+                            <a href={waHref} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-[#006fbd] hover:underline">
                                 <FaWhatsapp aria-hidden="true" /> Tanya tim MDN lewat WhatsApp <span className="text-lg leading-none">›</span>
                             </a>
                         </div>

@@ -25,7 +25,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/produk"
-            className="mt-7 inline-flex rounded-full bg-[#0071e3] px-6 py-3 font-medium text-white transition-colors hover:bg-[#0077ed]"
+            className="mt-7 inline-flex rounded-full bg-[#006fbd] px-6 py-3 font-medium text-white transition-colors hover:bg-[#005c9d]"
           >
             Lihat produk
           </Link>
@@ -96,7 +96,7 @@ export default function CartPage() {
                           <FaPlus className="text-[10px]" />
                         </button>
                       </div>
-                      <button onClick={() => removeItem(item.id)} className="text-sm text-[#0071e3] hover:underline">
+                      <button onClick={() => removeItem(item.id)} className="text-sm text-[#006fbd] hover:underline">
                         Hapus
                       </button>
                     </div>
@@ -106,7 +106,7 @@ export default function CartPage() {
             </ul>
 
             <div className="mt-6 flex items-center justify-between text-sm">
-              <Link href="/produk" className="text-[#0071e3] hover:underline">
+              <Link href="/produk" className="text-[#006fbd] hover:underline">
                 Lanjut belanja ›
               </Link>
               <button onClick={clearCart} className="text-gray-500 hover:text-gray-900">
@@ -135,7 +135,7 @@ export default function CartPage() {
               </dl>
               <Link
                 href="/checkout"
-                className="mt-6 flex w-full items-center justify-center rounded-full bg-[#0071e3] px-6 py-3.5 font-medium text-white transition-colors hover:bg-[#0077ed]"
+                className="mt-6 flex w-full items-center justify-center rounded-full bg-[#006fbd] px-6 py-3.5 font-medium text-white transition-colors hover:bg-[#005c9d]"
               >
                 Checkout
               </Link>

@@ -10,7 +10,7 @@ async function main() {
   // Use upsert to create or update the admin user
   await prisma.user.upsert({
     where: { email: "admin@mdn.tech" },
-    update: {
+    update: {/*  */
       password: hashedPassword,
       name: "Super Admin",
       role: "admin",

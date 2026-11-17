@@ -96,7 +96,7 @@ export default function ProductCard({
         : isBestSeller
           ? "Terlaris"
           : null;
-  const labelColor = isFlashSale || discount > 0 ? "text-[#bf4800]" : "text-[#0071e3]";
+  const labelColor = isFlashSale || discount > 0 ? "text-[#bf4800]" : "text-[#006fbd]";
   const href = `/produk/detail?id=${id}`;
 
   return (
@@ -155,12 +155,12 @@ export default function ProductCard({
               onClick={handleAddToCart}
               disabled={isAdding}
               className={`rounded-full px-5 py-2 text-sm font-medium text-white transition-colors ${
-                isAdding ? "bg-[#248a3d]" : "bg-[#0071e3] hover:bg-[#0077ed]"
+                isAdding ? "bg-[#248a3d]" : "bg-[#006fbd] hover:bg-[#005c9d]"
               }`}
             >
               {isAdding ? "Ditambahkan" : "Beli"}
             </button>
-            <Link href={href} className="inline-flex items-center gap-1 text-sm text-[#0071e3] hover:underline">
+            <Link href={href} className="inline-flex items-center gap-1 text-sm text-[#006fbd] hover:underline">
               Lihat detail <span className="text-base leading-none">›</span>
             </Link>
           </div>

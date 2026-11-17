@@ -58,7 +58,7 @@ export default function LaporanPage() {
     ] as const;
 
     const inputClass =
-        "w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15";
+        "w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#006fbd] focus:ring-4 focus:ring-[#006fbd]/15";
 
     return (
         <main className="apple-v2 bg-white page-report">
@@ -92,7 +92,7 @@ export default function LaporanPage() {
                             <FaBarcode className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
                             <input id="serialNumber" type="text" name="serialNumber" value={formData.serialNumber} onChange={handleChange} required placeholder="Contoh: MDN-123456" className={inputClass} autoComplete="off" />
                         </div>
-                        <Link href="/cek-garansi" className="mt-2 inline-block text-sm text-[#0071e3] hover:underline">Cara menemukan nomor seri ›</Link>
+                        <Link href="/cek-garansi" className="mt-2 inline-block text-sm text-[#006fbd] hover:underline">Cara menemukan nomor seri ›</Link>
                     </div>
 
                     <div>
@@ -105,7 +105,7 @@ export default function LaporanPage() {
                             required
                             rows={6}
                             placeholder="Jelaskan apa yang terjadi, kapan mulai muncul, dan langkah yang sudah dicoba."
-                            className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15"
+                            className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#006fbd] focus:ring-4 focus:ring-[#006fbd]/15"
                         />
                     </div>
 
@@ -118,7 +118,7 @@ export default function LaporanPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full rounded-full bg-[#0071e3] py-3.5 font-medium text-white transition-colors hover:bg-[#0077ed] disabled:cursor-not-allowed disabled:bg-gray-300"
+                        className="w-full rounded-full bg-[#006fbd] py-3.5 font-medium text-white transition-colors hover:bg-[#005c9d] disabled:cursor-not-allowed disabled:bg-gray-300"
                     >
                         {loading ? "Mengirim…" : "Kirim laporan"}
                     </button>
@@ -126,7 +126,7 @@ export default function LaporanPage() {
 
                 <p className="mt-10 border-t border-gray-200 pt-8 text-center text-sm text-gray-500">
                     Butuh jawaban lebih cepat?{" "}
-                    <a href="https://api.whatsapp.com/send/?phone=6282128907619" target="_blank" rel="noopener noreferrer" className="text-[#0071e3] hover:underline">
+                    <a href="https://api.whatsapp.com/send/?phone=6282128907619" target="_blank" rel="noopener noreferrer" className="text-[#006fbd] hover:underline">
                         Hubungi kami lewat WhatsApp ›
                     </a>
                 </p>

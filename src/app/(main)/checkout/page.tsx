@@ -18,7 +18,7 @@ type ShippingOption = {
 
 const rupiah = (n: number) => `Rp ${Math.round(n).toLocaleString("id-ID")}`;
 const inputClass =
-  "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/15";
+  "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#006fbd] focus:ring-4 focus:ring-[#006fbd]/15";
 const labelClass = "mb-2 block text-sm font-medium text-gray-700";
 
 const paymentMethods = [
@@ -163,10 +163,10 @@ export default function CheckoutPage() {
             {rupiah(placedOrder.totalAmount)}. Tim MDN akan segera menghubungi Anda untuk konfirmasi pembayaran.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3">
-            <Link href="/produk" className="rounded-full bg-[#0071e3] px-6 py-3 font-medium text-white hover:bg-[#0077ed]">
+            <Link href="/produk" className="rounded-full bg-[#006fbd] px-6 py-3 font-medium text-white hover:bg-[#005c9d]">
               Lanjut belanja
             </Link>
-            <Link href="/" className="text-[#0071e3] hover:underline">
+            <Link href="/" className="text-[#006fbd] hover:underline">
               Kembali ke beranda ›
             </Link>
           </div>
@@ -180,7 +180,7 @@ export default function CheckoutPage() {
       <div className="flex min-h-[60vh] items-center justify-center bg-white px-4 text-center">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Keranjang Anda kosong.</h1>
-          <Link href="/produk" className="mt-3 inline-block text-[#0071e3] hover:underline">
+          <Link href="/produk" className="mt-3 inline-block text-[#006fbd] hover:underline">
             Lanjut belanja ›
           </Link>
         </div>
@@ -276,8 +276,8 @@ export default function CheckoutPage() {
                       const key = `${o.courier}:${o.service}`;
                       const active = key === selected;
                       return (
-                        <label key={key} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors ${active ? "border-[#0071e3] bg-[#f5f9ff]" : "border-gray-200 hover:border-gray-300"}`}>
-                          <input type="radio" name="shipping" value={key} checked={active} onChange={() => setSelected(key)} className="h-4 w-4 accent-[#0071e3]" />
+                        <label key={key} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors ${active ? "border-[#006fbd] bg-[#f5f9ff]" : "border-gray-200 hover:border-gray-300"}`}>
+                          <input type="radio" name="shipping" value={key} checked={active} onChange={() => setSelected(key)} className="h-4 w-4 accent-[#006fbd]" />
                           <div className="flex-1">
                             <p className="font-medium text-gray-900">
                               {o.courier.toUpperCase()} {o.service}
@@ -303,8 +303,8 @@ export default function CheckoutPage() {
                 {paymentMethods.map((m) => {
                   const active = form.paymentMethod === m.value;
                   return (
-                    <label key={m.value} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors ${active ? "border-[#0071e3] bg-[#f5f9ff]" : "border-gray-200 hover:border-gray-300"}`}>
-                      <input type="radio" name="paymentMethod" value={m.value} checked={active} onChange={() => setForm({ ...form, paymentMethod: m.value })} className="h-4 w-4 accent-[#0071e3]" />
+                    <label key={m.value} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors ${active ? "border-[#006fbd] bg-[#f5f9ff]" : "border-gray-200 hover:border-gray-300"}`}>
+                      <input type="radio" name="paymentMethod" value={m.value} checked={active} onChange={() => setForm({ ...form, paymentMethod: m.value })} className="h-4 w-4 accent-[#006fbd]" />
                       <div>
                         <p className="font-medium text-gray-900">{m.title}</p>
                         <p className="text-sm text-gray-500">{m.text}</p>
@@ -363,7 +363,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={submitting || !chosen}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#0071e3] px-6 py-3.5 font-medium text-white transition-colors hover:bg-[#0077ed] disabled:cursor-not-allowed disabled:bg-gray-300"
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#006fbd] px-6 py-3.5 font-medium text-white transition-colors hover:bg-[#005c9d] disabled:cursor-not-allowed disabled:bg-gray-300"
               >
                 {submitting && <FaSpinner className="animate-spin" />}
                 {submitting ? "Memproses…" : "Buat pesanan"}
